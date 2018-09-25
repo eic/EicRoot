@@ -1,0 +1,28 @@
+
+//AYK, 2013/04/03
+  - SolenoidMap4.{dat,root} are files based on MRS_B1_Bmap_lowRes_03042013.table 
+    from Rick Darienzo ([0..1]m in XY & +/-2m in Z);
+
+//
+// NB: phenix.c file is required to handle BABAR_V11_GridOut_ePHENIX.SF7 map conversion;
+//     should be linked against ayk library (see eg /home/ayk/FairRoot/ayk directory
+//     on my desktop in 2-191);
+//
+
+//AYK, 2013/09/20
+  - SolenoidMap2.{dat,root} - constant 1.5T field in ePHENIX volume;
+  - SolenoidMap3.{dat,root} - ePHENIX field on XYZ grid with 1cm step, converted
+   from BABAR_V11_GridOut_ePHENIX.SF7 ASCII file in the RZ range [0..100, -50..350]cm;
+
+//AYK, 2015/05/30
+  - old SolenoidMap5.dat (what was that, actually) is removed; 
+  - SolenoidMap5.{dat,root} is now ePHENIX field on XYZ grid with 1cm step, converted
+   from BABAR_V11_GridOut_ePHENIX.SF7 ASCII file in the RZ range [0..100, -200..200]cm;
+
+//AYK, 2015/07/16
+  - SolenoidMap1.root is obviously a 3T constant solenoid field (see const-dummy.dat);
+  - SolenoidMap6.root is created using star.C; NB: I guess it can be picked up by 
+    the reconstruction code only if source codes are modified;  
+
+  - check also scripts in macro/field directory (in particular f2root.C) in order to 
+    see, how to create SolenoidMap*.root files;

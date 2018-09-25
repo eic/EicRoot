@@ -1,0 +1,7 @@
+
+  //AYK, 2015/07/20
+
+  root -l vtx-builder.C
+  root -l tpc-builder.C
+
+should be run first to create input geometry files;

@@ -1,0 +1,7 @@
+
+  //AYK, updated 2015/07/16
+
+  NB: config.{124} directories use unified analysis.C script;
+  
+  analysis.C script builds dp/p resolution plot in all cases;
+

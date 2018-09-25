@@ -1,0 +1,1690 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+
+<define>
+<!-- Internal variables - do not change until you know what it is -->
+	<position name="central" x="0" y="0" z="0" unit="mm"/>
+	<rotation name="identity" x="0" y="0" z="0" unit="degree"/>
+	<variable name="DEGtoRAD" value="1.74532925199433E-02"/>
+	<variable name="entrance_width_addend" value="2"/>
+
+<!-- User variables (in mm and deg) -->
+
+<!--	Always check the result visually. Volumes may intersect when you change values.
+	Also use gGeoManager->CheckOverlaps(), gGeoManager->CheckGeometry(), gGeoManager->CheckGeometryFull()
+	Total length of RICH is (RICH_length + 2*RICH_covering_thickness).
+	Positive direction is towards beam axis for mirror and pmt X and Y rotations.
+	Take care when rotating the pipe. The more the angle, the longer the pipe.
+        At some point it may intersect other detectors and/or mirrors (but not covering or gas volumes - this is parametrized).
+	Take care about the position of the small frame.
+	'small_frame_shift' variable is used to shift the small frame so that it does not overlap with anything.
+-->
+
+	<!-- RICH size and position -->
+	<variable name="RICH_trapezoid_angle" value="116"/>
+	<variable name="RICH_entrance_width" value="2551.17"/>
+	<variable name="RICH_exit_width" value="5136"/>
+	<variable name="RICH_height" value="3958"/>
+	<variable name="RICH_length" value="1890"/>
+	<variable name="RICH_covering_thickness" value="5"/>
+
+	<!-- RICH pipe size and position -->
+	<variable name="RICH_pipe_entrance_r" value="32.5"/>
+	<variable name="RICH_pipe_exit_r" value="200.5"/>
+	<variable name="RICH_pipe_thickness" value=".5"/>
+	<variable name="RICH_pipe_angle" value="0"/>
+
+	<!-- RICH PMT size and position -->
+	<variable name="pmt_width" value="1000"/>
+	<variable name="pmt_height" value="600"/>
+	<variable name="pmt_thickness" value="1"/>
+	<variable name="pmt_z_pos" value="300"/>
+	<variable name="pmt_x_pos" value="510"/>
+	<variable name="pmt_y_pos" value="1000"/>
+	<variable name="pmt_x_rot_angle" value="10"/>
+	<variable name="pmt_y_rot_angle" value="10"/>
+
+	<!-- RICH mirrors size and position -->
+	<variable name="RICH_mirror_tilt_angle" value="-1"/>
+	<variable name="RICH_mirror_Y_shift" value="890"/>
+	<variable name="RICH_mirror_position_from_IP" value="3300"/>
+	<variable name="RICH_position_from_IP" value="1600"/>
+	<variable name="RICH_mirror_r" value="3000"/>
+	<variable name="RICH_mirror_thickness" value="6"/>
+
+	<!-- Small frame shift along the beam (tune it by yourself) -->
+	<variable name="small_frame_shift" value="20"/>
+
+</define>
+
+<materials>
+	<material name="vacuum" Z="1.0">
+	<D value="1"/>
+	<atom value="1"/>
+	</material>
+	<material name="aluminium" Z="1.0">
+	<D value="1"/>
+	<atom value="1"/>
+	</material>
+	<material name="RICHgas_CO2_dis" Z="1.0">
+	<D value="1"/>
+	<atom value="1"/>
+	</material>
+	<material name="RICHglass" Z="1.0">
+	<D value="1"/>
+	<atom value="1"/>
+	</material>
+	<material name="CsI" Z="1.0">
+	<D value="1"/>
+	<atom value="1"/>
+	</material>
+</materials>
+
+<solids>
+<cone name="RICH_pipe_vac_PartBody" rmin1="0.000000" rmax1="(RICH_pipe_entrance_r-RICH_pipe_thickness)" rmin2="0.000000" rmax2="(RICH_pipe_exit_r-RICH_pipe_thickness)" z="(((RICH_length/2+RICH_covering_thickness)/cos(DEGtoRAD*RICH_pipe_angle)+(RICH_pipe_entrance_r+RICH_pipe_exit_r)*tan(DEGtoRAD*RICH_pipe_angle)/2))*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<cone name="RICH_pipe_PartBody" rmin1="0.000000" rmax1="(RICH_pipe_entrance_r)" rmin2="0.000000" rmax2="(RICH_pipe_exit_r)" z="(((RICH_length/2+RICH_covering_thickness)/cos(DEGtoRAD*RICH_pipe_angle)+(RICH_pipe_entrance_r+RICH_pipe_exit_r)*tan(DEGtoRAD*RICH_pipe_angle)/2))*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<box name="RICH_covering_entrance_2" x="((RICH_entrance_width/2+RICH_covering_thickness+entrance_width_addend))*2" y="((RICH_height/2+RICH_covering_thickness))*2" z="((RICH_covering_thickness/2))*2" lunit="mm"/>
+<cone name="RICH_covering_entrance_3" rmin1="0.000000" rmax1="(RICH_pipe_entrance_r)" rmin2="0.000000" rmax2="(RICH_pipe_exit_r)" z="(((RICH_length/2+RICH_covering_thickness)/cos(DEGtoRAD*RICH_pipe_angle)+(RICH_pipe_entrance_r+RICH_pipe_exit_r)*tan(DEGtoRAD*RICH_pipe_angle)/2))*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<subtraction name="RICH_covering_entrance_PartBody">
+<first ref="RICH_covering_entrance_2"/>
+<second ref="RICH_covering_entrance_3"/>
+<position name="RICH_covering_entrance__position__3__by__2" x="0.000000" y="0.000000" z="(RICH_length/2+RICH_covering_thickness/2+(RICH_pipe_exit_r-RICH_pipe_entrance_r)*sin(DEGtoRAD*RICH_pipe_angle)-(RICH_pipe_exit_r-RICH_pipe_entrance_r)*sin(DEGtoRAD*RICH_pipe_angle)/2)" unit="mm"/>
+<rotation name="RICH_covering_entrance__rotation__3__by__2" x="0" y="(RICH_pipe_angle)" z="0" unit="degree"/>
+</subtraction>
+<trap name="RICH_covering_sloping_PartBody" z="((((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2))*2" theta="(atan(tan(DEGtoRAD*RICH_trapezoid_angle/2)*(RICH_exit_width-RICH_entrance_width-entrance_width_addend)/(RICH_exit_width-RICH_entrance_width))/DEGtoRAD)" phi="0.000000" y1="((RICH_height/2+RICH_covering_thickness))*2" x1="((RICH_covering_thickness/2+entrance_width_addend/2))*2" x2="((RICH_covering_thickness/2+entrance_width_addend/2))*2" alpha1="0.000000" y2="((RICH_height/2+RICH_covering_thickness))*2" x3="((RICH_covering_thickness/2))*2" x4="((RICH_covering_thickness/2))*2" alpha2="0.000000" lunit="mm" aunit="degree"/>
+<trd name="RICH_covering_top_bottom_1_PartBody" x1="((RICH_entrance_width/2))*2" x2="((RICH_exit_width/2))*2" y1="((RICH_covering_thickness/2))*2" y2="((RICH_covering_thickness/2))*2" z="((((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2))*2" lunit="mm"/>
+<box name="RICH_covering_top_bottom_2_PartBody" x="((RICH_exit_width/2))*2" y="((RICH_covering_thickness/2))*2" z="((RICH_length/2-((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2))*2" lunit="mm"/>
+<box name="RICH_covering_side_PartBody" x="((RICH_covering_thickness/2))*2" y="((RICH_height/2+RICH_covering_thickness))*2" z="((RICH_length/2-((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2))*2" lunit="mm"/>
+<box name="RICH_covering_exit_2" x="((RICH_exit_width/2+RICH_covering_thickness))*2" y="((RICH_height/2+RICH_covering_thickness))*2" z="((RICH_covering_thickness/2))*2" lunit="mm"/>
+<cone name="RICH_covering_exit_3" rmin1="0.000000" rmax1="(RICH_pipe_entrance_r)" rmin2="0.000000" rmax2="(RICH_pipe_exit_r)" z="(((RICH_length/2+RICH_covering_thickness)/cos(DEGtoRAD*RICH_pipe_angle)+(RICH_pipe_entrance_r+RICH_pipe_exit_r)*tan(DEGtoRAD*RICH_pipe_angle)/2))*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<subtraction name="RICH_covering_exit_PartBody">
+<first ref="RICH_covering_exit_2"/>
+<second ref="RICH_covering_exit_3"/>
+<position name="RICH_covering_exit__position__3__by__2" x="0.000000" y="0.000000" z="(-(RICH_length/2+RICH_covering_thickness/2-(RICH_pipe_exit_r-RICH_pipe_entrance_r)*sin(DEGtoRAD*RICH_pipe_angle))-(RICH_pipe_exit_r-RICH_pipe_entrance_r)*sin(DEGtoRAD*RICH_pipe_angle)/2)" unit="mm"/>
+<rotation name="RICH_covering_exit__rotation__3__by__2" x="0" y="(RICH_pipe_angle)" z="0" unit="degree"/>
+</subtraction>
+<box name="RICH_mirror_support_belt_pillar_1_gas_PartBody" x="(12.500000)*2" y="(12.500000)*2" z="(202.500000)*2" lunit="mm"/>
+<box name="RICH_mirror_support_belt_pillar_2_gas_PartBody" x="(12.500000)*2" y="(91.000000)*2" z="(12.500000)*2" lunit="mm"/>
+<box name="RICH_mirror_support_belt_pillar_3_gas_PartBody" x="(12.500000)*2" y="(12.500000)*2" z="(208.000000)*2" lunit="mm"/>
+<box name="RICH_mirror_support_belt_pillar_4_gas_PartBody" x="(12.500000)*2" y="(199.700000)*2" z="(12.500000)*2" lunit="mm"/>
+<box name="RICH_mirror_support_belt_pillar_5_gas_PartBody" x="(12.500000)*2" y="(195.000000)*2" z="(12.500000)*2" lunit="mm"/>
+<box name="RICH_mirror_support_belt_pillar_1_PartBody" x="(15.000000)*2" y="(15.000000)*2" z="(202.500000)*2" lunit="mm"/>
+<box name="RICH_mirror_support_belt_pillar_2_PartBody" x="(15.000000)*2" y="(91.000000)*2" z="(15.000000)*2" lunit="mm"/>
+<box name="RICH_mirror_support_belt_pillar_3_PartBody" x="(15.000000)*2" y="(15.000000)*2" z="(208.000000)*2" lunit="mm"/>
+<box name="RICH_mirror_support_belt_pillar_4_PartBody" x="(15.000000)*2" y="(199.700000)*2" z="(15.000000)*2" lunit="mm"/>
+<box name="RICH_mirror_support_belt_pillar_5_PartBody" x="(15.000000)*2" y="(195.000000)*2" z="(15.000000)*2" lunit="mm"/>
+<sphere name="RICH_mirror_1_PartBody" rmin="(RICH_mirror_r)" rmax="(RICH_mirror_r+RICH_mirror_thickness)" startphi="-4.106000" deltaphi="8.212000" starttheta="98.233000" deltatheta="8.113000" lunit="mm" aunit="degree"/>
+<sphere name="RICH_mirror_2_PartBody" rmin="(RICH_mirror_r)" rmax="(RICH_mirror_r+RICH_mirror_thickness)" startphi="-4.106000" deltaphi="8.212000" starttheta="90.038000" deltatheta="8.118000" lunit="mm" aunit="degree"/>
+<sphere name="RICH_mirror_3_PartBody" rmin="(RICH_mirror_r)" rmax="(RICH_mirror_r+RICH_mirror_thickness)" startphi="-4.106000" deltaphi="8.212000" starttheta="98.233000" deltatheta="4.118000" lunit="mm" aunit="degree"/>
+<box name="RICH_PMT_PartBody" x="((pmt_width/2))*2" y="((pmt_height/2))*2" z="((pmt_thickness/2))*2" lunit="mm"/>
+<box name="RICH_main_frame_trap_pillar_1_gas_PartBody" x="(43.000000)*2" y="((RICH_height/2-100))*2" z="(43.000000)*2" lunit="mm"/>
+<box name="RICH_main_frame_trap_pillar_2_gas_PartBody" x="(1175.000000)*2" y="(43.000000)*2" z="(43.000000)*2" lunit="mm"/>
+<box name="RICH_main_frame_trap_pillar_3_gas_PartBody" x="(43.000000)*2" y="(450.000000)*2" z="(43.000000)*2" lunit="mm"/>
+<box name="RICH_main_frame_trap_pillar_4_gas_PartBody" x="(43.000000)*2" y="(43.000000)*2" z="((((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2))*2" lunit="mm"/>
+<box name="RICH_main_frame_trap_pillar_5_gas_PartBody" x="(250.000000)*2" y="(43.000000)*2" z="(43.000000)*2" lunit="mm"/>
+<trap name="RICH_main_frame_trap_pillar_6_gas_PartBody" z="(35.402405)*2" theta="334.000000" phi="0.000000" y1="(43.000000)*2" x1="(753.455354)*2" x2="(753.455354)*2" alpha1="0.000000" y2="(43.000000)*2" x3="(674.677785)*2" x4="(674.677785)*2" alpha2="0.000000" lunit="mm" aunit="degree"/>
+<trap name="RICH_main_frame_trap_pillar_7_gas_PartBody" z="(43.000000)*2" theta="38.665651" phi="0.000000" y1="(43.000000)*2" x1="(271.392757)*2" x2="(271.392757)*2" alpha1="0.000000" y2="(43.000000)*2" x3="(202.578373)*2" x4="(202.578373)*2" alpha2="0.000000" lunit="mm" aunit="degree"/>
+<trap name="RICH_main_frame_trap_pillar_8_gas_PartBody" z="(47.900000)*2" theta="17.279113" phi="0.000000" y1="(47.900000)*2" x1="(134.592500)*2" x2="(134.592500)*2" alpha1="0.000000" y2="(47.900000)*2" x3="(104.682656)*2" x4="(104.682656)*2" alpha2="0.000000" lunit="mm" aunit="degree"/>
+<box name="RICH_main_frame_trap_pillar_9_gas_PartBody" x="(43.000000)*2" y="((RICH_height/2))*2" z="(43.000000)*2" lunit="mm"/>
+<box name="RICH_main_frame_trap_pillar_10_gas_PartBody" x="((RICH_exit_width/2-100))*2" y="(43.000000)*2" z="(43.000000)*2" lunit="mm"/>
+<box name="RICH_main_frame_trap_pillar_11_gas_PartBody" x="(43.000000)*2" y="(43.000000)*2" z="((RICH_length/2-((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2-100))*2" lunit="mm"/>
+<box name="RICH_main_frame_trap_pillar_1_PartBody" x="(50.000000)*2" y="((RICH_height/2-100))*2" z="(50.000000)*2" lunit="mm"/>
+<box name="RICH_main_frame_trap_pillar_2_PartBody" x="(1175.000000)*2" y="(50.000000)*2" z="(50.000000)*2" lunit="mm"/>
+<box name="RICH_main_frame_trap_pillar_3_PartBody" x="(50.000000)*2" y="(450.000000)*2" z="(50.000000)*2" lunit="mm"/>
+<box name="RICH_main_frame_trap_pillar_4_PartBody" x="(50.000000)*2" y="(50.000000)*2" z="((((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2))*2" lunit="mm"/>
+<box name="RICH_main_frame_trap_pillar_5_PartBody" x="(250.000000)*2" y="(50.000000)*2" z="(50.000000)*2" lunit="mm"/>
+<trap name="RICH_main_frame_trap_pillar_6_PartBody" z="(42.402405)*2" theta="-26.000000" phi="0.000000" y1="(50.000000)*2" x1="(761.243567)*2" x2="(761.243567)*2" alpha1="0.000000" y2="(50.000000)*2" x3="(666.889571)*2" x4="(666.889571)*2" alpha2="0.000000" lunit="mm" aunit="degree"/>
+<trap name="RICH_main_frame_trap_pillar_7_PartBody" z="(50.000000)*2" theta="38.665651" phi="0.000000" y1="(50.000000)*2" x1="(276.993928)*2" x2="(276.993928)*2" alpha1="0.000000" y2="(50.000000)*2" x3="(196.977202)*2" x4="(196.977202)*2" alpha2="0.000000" lunit="mm" aunit="degree"/>
+<trap name="RICH_main_frame_trap_pillar_8_PartBody" z="(50.000000)*2" theta="17.279113" phi="0.000000" y1="(50.000000)*2" x1="(135.248143)*2" x2="(135.248143)*2" alpha1="0.000000" y2="(50.000000)*2" x3="(104.027013)*2" x4="(104.027013)*2" alpha2="0.000000" lunit="mm" aunit="degree"/>
+<box name="RICH_main_frame_trap_pillar_9_PartBody" x="(50.000000)*2" y="((RICH_height/2))*2" z="(50.000000)*2" lunit="mm"/>
+<box name="RICH_main_frame_trap_pillar_10_PartBody" x="((RICH_exit_width/2-100))*2" y="(50.000000)*2" z="(50.000000)*2" lunit="mm"/>
+<box name="RICH_main_frame_trap_pillar_11_PartBody" x="(50.000000)*2" y="(50.000000)*2" z="((RICH_length/2-((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2-100))*2" lunit="mm"/>
+<box name="Part142_PartBody" x="(1956.000000)*2" y="(16.500000)*2" z="(16.500000)*2" lunit="mm"/>
+<box name="Part152_PartBody" x="(16.500000)*2" y="(1819.582000)*2" z="(16.500000)*2" lunit="mm"/>
+<box name="Part162_PartBody" x="(16.500000)*2" y="(16.500000)*2" z="(278.000000)*2" lunit="mm"/>
+<box name="Part172_PartBody" x="(16.500000)*2" y="(899.791000)*2" z="(16.500000)*2" lunit="mm"/>
+<box name="Part182_PartBody" x="(742.980000)*2" y="(16.500000)*2" z="(16.500000)*2" lunit="mm"/>
+<box name="Part192_PartBody" x="(16.500000)*2" y="(899.791000)*2" z="(16.500000)*2" lunit="mm"/>
+<box name="Part202_PartBody" x="(16.500000)*2" y="(785.000000)*2" z="(16.500000)*2" lunit="mm"/>
+<box name="Part212_PartBody" x="(430.040000)*2" y="(16.500000)*2" z="(16.500000)*2" lunit="mm"/>
+<trap name="Part222_PartBody" z="(12.500000)*2" theta="-37.589783" phi="0.000000" y1="(12.500000)*2" x1="(296.769897)*2" x2="(296.769897)*2" alpha1="0.000000" y2="(12.500000)*2" x3="(296.769897)*2" x4="(296.769897)*2" alpha2="0.000000" lunit="mm" aunit="degree"/>
+<trap name="Part232_PartBody" z="(12.500000)*2" theta="-37.589783" phi="0.000000" y1="(12.500000)*2" x1="(268.247962)*2" x2="(268.247962)*2" alpha1="0.000000" y2="(12.500000)*2" x3="(268.247962)*2" x4="(268.247962)*2" alpha2="0.000000" lunit="mm" aunit="degree"/>
+<trap name="Part242_PartBody" z="(12.500000)*2" theta="-37.589783" phi="0.000000" y1="(12.500000)*2" x1="(255.912925)*2" x2="(255.912925)*2" alpha1="0.000000" y2="(12.500000)*2" x3="(255.912925)*2" x4="(255.912925)*2" alpha2="0.000000" lunit="mm" aunit="degree"/>
+<trap name="Part252_PartBody" z="(12.500000)*2" theta="-37.589783" phi="0.000000" y1="(12.500000)*2" x1="(258.102480)*2" x2="(258.102480)*2" alpha1="0.000000" y2="(12.500000)*2" x3="(258.102480)*2" x4="(258.102480)*2" alpha2="0.000000" lunit="mm" aunit="degree"/>
+<box name="Part14_PartBody" x="(1956.000000)*2" y="(20.000000)*2" z="(20.000000)*2" lunit="mm"/>
+<box name="Part15_PartBody" x="(20.000000)*2" y="(1819.582000)*2" z="(20.000000)*2" lunit="mm"/>
+<box name="Part16_PartBody" x="(20.000000)*2" y="(20.000000)*2" z="(278.000000)*2" lunit="mm"/>
+<box name="Part17_PartBody" x="(20.000000)*2" y="(899.791000)*2" z="(20.000000)*2" lunit="mm"/>
+<box name="Part18_PartBody" x="(742.980000)*2" y="(20.000000)*2" z="(20.000000)*2" lunit="mm"/>
+<box name="Part19_PartBody" x="(20.000000)*2" y="(899.791000)*2" z="(20.000000)*2" lunit="mm"/>
+<box name="Part20_PartBody" x="(20.000000)*2" y="(785.000000)*2" z="(20.000000)*2" lunit="mm"/>
+<box name="Part21_PartBody" x="(430.040000)*2" y="(20.000000)*2" z="(20.000000)*2" lunit="mm"/>
+<trap name="Part22_PartBody" z="(15.000000)*2" theta="-37.589783" phi="0.000000" y1="(15.000000)*2" x1="(296.769897)*2" x2="(296.769897)*2" alpha1="0.000000" y2="(15.000000)*2" x3="(296.769897)*2" x4="(296.769897)*2" alpha2="0.000000" lunit="mm" aunit="degree"/>
+<trap name="Part23_PartBody" z="(15.000000)*2" theta="-37.589783" phi="0.000000" y1="(15.000000)*2" x1="(268.247962)*2" x2="(268.247962)*2" alpha1="0.000000" y2="(15.000000)*2" x3="(268.247962)*2" x4="(268.247962)*2" alpha2="0.000000" lunit="mm" aunit="degree"/>
+<trap name="Part24_PartBody" z="(15.000000)*2" theta="-37.589783" phi="0.000000" y1="(15.000000)*2" x1="(255.912925)*2" x2="(255.912925)*2" alpha1="0.000000" y2="(15.000000)*2" x3="(255.912925)*2" x4="(255.912925)*2" alpha2="0.000000" lunit="mm" aunit="degree"/>
+<trap name="Part25_PartBody" z="(15.000000)*2" theta="-37.589783" phi="0.000000" y1="(15.000000)*2" x1="(258.102480)*2" x2="(258.102480)*2" alpha1="0.000000" y2="(15.000000)*2" x3="(258.102480)*2" x4="(258.102480)*2" alpha2="0.000000" lunit="mm" aunit="degree"/>
+<cone name="RICHgas_CO2_dis_1_8" rmin1="0.000000" rmax1="(RICH_pipe_entrance_r)" rmin2="0.000000" rmax2="(RICH_pipe_exit_r)" z="(((RICH_length/2+RICH_covering_thickness)/cos(DEGtoRAD*RICH_pipe_angle)+(RICH_pipe_entrance_r+RICH_pipe_exit_r)*tan(DEGtoRAD*RICH_pipe_angle)/2))*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<trd name="RICHgas_CO2_dis_1_7" x1="((RICH_entrance_width/2))*2" x2="((RICH_exit_width/2))*2" y1="((RICH_height/2))*2" y2="((RICH_height/2))*2" z="((((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2))*2" lunit="mm"/>
+<subtraction name="RICHgas_CO2_dis_1_PartBody">
+<first ref="RICHgas_CO2_dis_1_7"/>
+<second ref="RICHgas_CO2_dis_1_8"/>
+<position name="RICHgas_CO2_dis_1__position__8__by__7" x="0.000000" y="0.000000" z="(RICH_length/2-((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2+(RICH_pipe_exit_r-RICH_pipe_entrance_r)*sin(DEGtoRAD*RICH_pipe_angle)-(RICH_pipe_exit_r-RICH_pipe_entrance_r)*sin(DEGtoRAD*RICH_pipe_angle)/2)" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1__rotation__8__by__7" x="0" y="(RICH_pipe_angle)" z="0" unit="degree"/>
+</subtraction>
+<box name="RICHgas_CO2_dis_2_2" x="((RICH_exit_width/2))*2" y="((RICH_height/2))*2" z="((RICH_length/2-((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2))*2" lunit="mm"/>
+<cone name="RICHgas_CO2_dis_2_3" rmin1="0.000000" rmax1="(RICH_pipe_entrance_r)" rmin2="0.000000" rmax2="(RICH_pipe_exit_r)" z="(((RICH_length/2+RICH_covering_thickness)/cos(DEGtoRAD*RICH_pipe_angle)+(RICH_pipe_entrance_r+RICH_pipe_exit_r)*tan(DEGtoRAD*RICH_pipe_angle)/2))*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<subtraction name="RICHgas_CO2_dis_2_PartBody">
+<first ref="RICHgas_CO2_dis_2_2"/>
+<second ref="RICHgas_CO2_dis_2_3"/>
+<position name="RICHgas_CO2_dis_2__position__3__by__2" x="0.000000" y="0.000000" z="(-((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2+(RICH_pipe_exit_r-RICH_pipe_entrance_r)*sin(DEGtoRAD*RICH_pipe_angle)-(RICH_pipe_exit_r-RICH_pipe_entrance_r)*sin(DEGtoRAD*RICH_pipe_angle)/2)" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2__rotation__3__by__2" x="0" y="(RICH_pipe_angle)" z="0" unit="degree"/>
+</subtraction>
+</solids>
+<structure>
+<volume name="RICH_pipe_vac">
+<materialref ref="vacuum"/>
+<solidref ref="RICH_pipe_vac_PartBody"/>
+</volume>
+<volume name="RICH_pipe">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_pipe_PartBody"/>
+<physvol>
+<volumeref ref="RICH_pipe_vac"/>
+<position name="RICH_pipe_pos_RICH_pipe_vac_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_pipe_rot_RICH_pipe_vac_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="RICH_covering_entrance">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_covering_entrance_PartBody"/>
+</volume>
+<volume name="RICH_covering_sloping">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_covering_sloping_PartBody"/>
+</volume>
+<volume name="RICH_covering_top_bottom_1">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_covering_top_bottom_1_PartBody"/>
+</volume>
+<volume name="RICH_covering_top_bottom_2">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_covering_top_bottom_2_PartBody"/>
+</volume>
+<volume name="RICH_covering_side">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_covering_side_PartBody"/>
+</volume>
+<volume name="RICH_covering_exit">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_covering_exit_PartBody"/>
+</volume>
+<volume name="RICH_mirror_support_belt_pillar_1_gas">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="RICH_mirror_support_belt_pillar_1_gas_PartBody"/>
+</volume>
+<volume name="RICH_mirror_support_belt_pillar_2_gas">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="RICH_mirror_support_belt_pillar_2_gas_PartBody"/>
+</volume>
+<volume name="RICH_mirror_support_belt_pillar_3_gas">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="RICH_mirror_support_belt_pillar_3_gas_PartBody"/>
+</volume>
+<volume name="RICH_mirror_support_belt_pillar_4_gas">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="RICH_mirror_support_belt_pillar_4_gas_PartBody"/>
+</volume>
+<volume name="RICH_mirror_support_belt_pillar_5_gas">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="RICH_mirror_support_belt_pillar_5_gas_PartBody"/>
+</volume>
+<volume name="RICH_mirror_support_belt_pillar_1">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_mirror_support_belt_pillar_1_PartBody"/>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_1_gas"/>
+<position name="RICH_mirror_support_belt_pillar_1_pos_RICH_mirror_support_belt_pillar_1_gas_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_support_belt_pillar_1_rot_RICH_mirror_support_belt_pillar_1_gas_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="RICH_mirror_support_belt_pillar_2">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_mirror_support_belt_pillar_2_PartBody"/>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_2_gas"/>
+<position name="RICH_mirror_support_belt_pillar_2_pos_RICH_mirror_support_belt_pillar_2_gas_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_support_belt_pillar_2_rot_RICH_mirror_support_belt_pillar_2_gas_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="RICH_mirror_support_belt_pillar_3">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_mirror_support_belt_pillar_3_PartBody"/>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_3_gas"/>
+<position name="RICH_mirror_support_belt_pillar_3_pos_RICH_mirror_support_belt_pillar_3_gas_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_support_belt_pillar_3_rot_RICH_mirror_support_belt_pillar_3_gas_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="RICH_mirror_support_belt_pillar_4">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_mirror_support_belt_pillar_4_PartBody"/>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_4_gas"/>
+<position name="RICH_mirror_support_belt_pillar_4_pos_RICH_mirror_support_belt_pillar_4_gas_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_support_belt_pillar_4_rot_RICH_mirror_support_belt_pillar_4_gas_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="RICH_mirror_support_belt_pillar_5">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_mirror_support_belt_pillar_5_PartBody"/>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_5_gas"/>
+<position name="RICH_mirror_support_belt_pillar_5_pos_RICH_mirror_support_belt_pillar_5_gas_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_support_belt_pillar_5_rot_RICH_mirror_support_belt_pillar_5_gas_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="RICH_mirror_1">
+<materialref ref="RICHglass"/>
+<solidref ref="RICH_mirror_1_PartBody"/>
+</volume>
+<volume name="RICH_mirror_2">
+<materialref ref="RICHglass"/>
+<solidref ref="RICH_mirror_2_PartBody"/>
+</volume>
+<volume name="RICH_mirror_3">
+<materialref ref="RICHglass"/>
+<solidref ref="RICH_mirror_3_PartBody"/>
+</volume>
+<assembly name="RICH_mirror_and_support_belt_strip">
+<physvol>
+<volumeref ref="RICH_mirror_1"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_1_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_1_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_1"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_1_2" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_1_2" x="-180.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_2"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_2_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_2_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_2"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_2_2" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_2_2" x="-180.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_1"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_1_1" x="2927.649689" y="0.000000" z="747.214527" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_1_1" x="-90.000000" y="-0.000000" z="-14.317750" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_1"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_1_2" x="2973.173342" y="0.000000" z="538.240214" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_1_2" x="-90.000000" y="-0.000000" z="-10.261250" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_1"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_1_3" x="3004.243275" y="0.000000" z="322.466425" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_1_3" x="-90.000000" y="-0.000000" z="-6.126500" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_1"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_1_4" x="3019.533059" y="0.000000" z="109.006208" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_1_4" x="-90.000000" y="-0.000000" z="-2.067500" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_1"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_1_5" x="3019.533059" y="0.000000" z="-109.006208" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_1_5" x="-90.000000" y="-0.000000" z="2.067500" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_1"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_1_6" x="3004.243275" y="0.000000" z="-322.466425" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_1_6" x="-90.000000" y="-0.000000" z="6.126500" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_1"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_1_7" x="2973.173342" y="0.000000" z="-538.240214" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_1_7" x="-90.000000" y="-0.000000" z="10.261250" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_1"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_1_8" x="2927.649689" y="0.000000" z="-747.214527" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_1_8" x="-90.000000" y="-0.000000" z="14.317750" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_2"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_2_1" x="2952.261113" y="187.500000" z="643.130293" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_2_1" x="-90.000000" y="-0.000000" z="-12.289500" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_2"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_2_2" x="2952.261113" y="-187.500000" z="643.130293" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_2_2" x="-90.000000" y="-0.000000" z="-12.289500" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_2"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_2_3" x="3013.778633" y="187.500000" z="215.871727" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_2_3" x="-90.000000" y="-0.000000" z="-4.097000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_2"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_2_4" x="3013.778633" y="-187.500000" z="215.871727" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_2_4" x="-90.000000" y="-0.000000" z="-4.097000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_2"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_2_5" x="3013.778633" y="-187.500000" z="-215.871727" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_2_5" x="-90.000000" y="-0.000000" z="4.097000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_2"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_2_6" x="3013.778633" y="187.500000" z="-215.871727" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_2_6" x="-90.000000" y="-0.000000" z="4.097000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_2"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_2_7" x="2952.261113" y="-187.500000" z="-643.130293" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_2_7" x="-90.000000" y="-0.000000" z="12.289500" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_2"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_2_8" x="2952.261113" y="187.500000" z="-643.130293" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_2_8" x="-90.000000" y="-0.000000" z="12.289500" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_3"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_3_1" x="2929.637196" y="0.000000" z="848.366606" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_3_1" x="-90.000000" y="-0.000000" z="-16.150000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_3"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_3_2" x="3018.859249" y="0.000000" z="434.728460" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_3_2" x="-90.000000" y="-0.000000" z="-8.194500" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_3"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_3_3" x="3050.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_3_3" x="-90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_3"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_3_4" x="3018.859249" y="0.000000" z="-434.728460" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_3_4" x="-90.000000" y="-0.000000" z="8.194500" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_3"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_3_5" x="2929.637196" y="0.000000" z="-848.366606" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_3_5" x="-90.000000" y="-0.000000" z="16.150000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_4"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_4_1" x="3043.203246" y="80.000000" z="217.979361" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_4_1" x="-90.000000" y="-0.000000" z="-4.097000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_4"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_4_2" x="3043.203246" y="-80.000000" z="217.979361" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_4_2" x="-90.000000" y="-0.000000" z="-4.097000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_4"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_4_3" x="3043.203246" y="80.000000" z="-217.979361" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_4_3" x="-90.000000" y="-0.000000" z="4.097000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_4"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_4_4" x="3043.203246" y="-80.000000" z="-217.979361" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_4_4" x="-90.000000" y="-0.000000" z="4.097000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_5"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_5_1" x="2982.407816" y="80.000000" z="643.307563" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_5_1" x="-90.000000" y="-0.000000" z="-12.172250" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_5"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_5_2" x="2982.407816" y="-80.000000" z="643.307563" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_5_2" x="-90.000000" y="-0.000000" z="-12.172250" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_5"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_5_3" x="2982.407816" y="80.000000" z="-643.307563" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_5_3" x="-90.000000" y="-0.000000" z="12.172250" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_5"/>
+<position name="RICH_mirror_and_support_belt_strip_pos_RICH_mirror_support_belt_pillar_5_4" x="2982.407816" y="-80.000000" z="-643.307563" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_rot_RICH_mirror_support_belt_pillar_5_4" x="-90.000000" y="-0.000000" z="12.172250" unit="degree"/>
+</physvol>
+</assembly>
+<assembly name="RICH_mirror_and_support_belt_strip_cut">
+<physvol>
+<volumeref ref="RICH_mirror_1"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_1_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_1_1" x="-180.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_2"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_2_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_2_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_2"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_2_2" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_2_2" x="-180.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_3"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_3_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_3_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_1"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_1_1" x="2927.649689" y="0.000000" z="747.214527" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_1_1" x="-90.000000" y="-0.000000" z="-14.317750" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_1"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_1_2" x="2973.173342" y="0.000000" z="538.240214" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_1_2" x="-90.000000" y="-0.000000" z="-10.261250" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_1"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_1_3" x="3004.243275" y="0.000000" z="322.466425" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_1_3" x="-90.000000" y="-0.000000" z="-6.126500" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_1"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_1_4" x="3019.533059" y="0.000000" z="109.006208" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_1_4" x="-90.000000" y="-0.000000" z="-2.067500" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_1"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_1_5" x="3019.533059" y="0.000000" z="-109.006208" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_1_5" x="-90.000000" y="-0.000000" z="2.067500" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_1"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_1_6" x="3004.243275" y="0.000000" z="-322.466425" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_1_6" x="-90.000000" y="-0.000000" z="6.126500" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_1"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_1_7" x="2973.173342" y="0.000000" z="-538.240214" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_1_7" x="-90.000000" y="-0.000000" z="10.261250" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_2"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_2_1" x="2952.261113" y="187.500000" z="643.130293" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_2_1" x="-90.000000" y="-0.000000" z="-12.289500" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_2"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_2_2" x="2952.261113" y="-187.500000" z="643.130293" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_2_2" x="-90.000000" y="-0.000000" z="-12.289500" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_2"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_2_3" x="3013.778633" y="187.500000" z="215.871727" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_2_3" x="-90.000000" y="-0.000000" z="-4.097000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_2"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_2_4" x="3013.778633" y="-187.500000" z="215.871727" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_2_4" x="-90.000000" y="-0.000000" z="-4.097000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_2"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_2_5" x="3013.778633" y="-187.500000" z="-215.871727" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_2_5" x="-90.000000" y="-0.000000" z="4.097000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_2"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_2_6" x="3013.778633" y="187.500000" z="-215.871727" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_2_6" x="-90.000000" y="-0.000000" z="4.097000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_3"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_3_1" x="2929.637196" y="0.000000" z="848.366606" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_3_1" x="-90.000000" y="-0.000000" z="-16.150000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_3"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_3_2" x="3018.859249" y="0.000000" z="434.728460" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_3_2" x="-90.000000" y="-0.000000" z="-8.194500" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_3"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_3_3" x="3050.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_3_3" x="-90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_3"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_3_4" x="3018.859249" y="0.000000" z="-434.728460" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_3_4" x="-90.000000" y="-0.000000" z="8.194500" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_4"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_4_1" x="3043.203246" y="80.000000" z="217.979361" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_4_1" x="-90.000000" y="-0.000000" z="-4.097000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_4"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_4_2" x="3043.203246" y="-80.000000" z="217.979361" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_4_2" x="-90.000000" y="-0.000000" z="-4.097000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_4"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_4_3" x="3043.203246" y="80.000000" z="-217.979361" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_4_3" x="-90.000000" y="-0.000000" z="4.097000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_4"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_4_4" x="3043.203246" y="-80.000000" z="-217.979361" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_4_4" x="-90.000000" y="-0.000000" z="4.097000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_5"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_5_1" x="2982.407816" y="80.000000" z="643.307563" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_5_1" x="-90.000000" y="-0.000000" z="-12.172250" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_support_belt_pillar_5"/>
+<position name="RICH_mirror_and_support_belt_strip_cut_pos_RICH_mirror_support_belt_pillar_5_2" x="2982.407816" y="-80.000000" z="643.307563" unit="mm"/>
+<rotation name="RICH_mirror_and_support_belt_strip_cut_rot_RICH_mirror_support_belt_pillar_5_2" x="-90.000000" y="-0.000000" z="-12.172250" unit="degree"/>
+</physvol>
+</assembly>
+<assembly name="RICH_mirror_half_total">
+<physvol>
+<volumeref ref="RICH_mirror_and_support_belt_strip"/>
+<position name="RICH_mirror_half_total_pos_RICH_mirror_and_support_belt_strip_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_half_total_rot_RICH_mirror_and_support_belt_strip_1" x="-0.000000" y="-0.000000" z="-33.160000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_and_support_belt_strip"/>
+<position name="RICH_mirror_half_total_pos_RICH_mirror_and_support_belt_strip_2" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_half_total_rot_RICH_mirror_and_support_belt_strip_2" x="-0.000000" y="-0.000000" z="-24.870000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_and_support_belt_strip"/>
+<position name="RICH_mirror_half_total_pos_RICH_mirror_and_support_belt_strip_3" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_half_total_rot_RICH_mirror_and_support_belt_strip_3" x="-0.000000" y="-0.000000" z="-16.580000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_and_support_belt_strip"/>
+<position name="RICH_mirror_half_total_pos_RICH_mirror_and_support_belt_strip_4" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_half_total_rot_RICH_mirror_and_support_belt_strip_4" x="-0.000000" y="-0.000000" z="-8.290000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_and_support_belt_strip"/>
+<position name="RICH_mirror_half_total_pos_RICH_mirror_and_support_belt_strip_5" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_half_total_rot_RICH_mirror_and_support_belt_strip_5" x="-0.000000" y="-0.000000" z="8.290000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_and_support_belt_strip"/>
+<position name="RICH_mirror_half_total_pos_RICH_mirror_and_support_belt_strip_6" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_half_total_rot_RICH_mirror_and_support_belt_strip_6" x="-0.000000" y="-0.000000" z="16.580000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_and_support_belt_strip"/>
+<position name="RICH_mirror_half_total_pos_RICH_mirror_and_support_belt_strip_7" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_half_total_rot_RICH_mirror_and_support_belt_strip_7" x="-0.000000" y="-0.000000" z="24.870000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_and_support_belt_strip"/>
+<position name="RICH_mirror_half_total_pos_RICH_mirror_and_support_belt_strip_8" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_half_total_rot_RICH_mirror_and_support_belt_strip_8" x="-0.000000" y="-0.000000" z="33.160000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_and_support_belt_strip_cut"/>
+<position name="RICH_mirror_half_total_pos_RICH_mirror_and_support_belt_strip_cut_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_mirror_half_total_rot_RICH_mirror_and_support_belt_strip_cut_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</assembly>
+<volume name="RICH_PMT">
+<materialref ref="CsI"/>
+<solidref ref="RICH_PMT_PartBody"/>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_1_gas">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="RICH_main_frame_trap_pillar_1_gas_PartBody"/>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_2_gas">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="RICH_main_frame_trap_pillar_2_gas_PartBody"/>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_3_gas">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="RICH_main_frame_trap_pillar_3_gas_PartBody"/>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_4_gas">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="RICH_main_frame_trap_pillar_4_gas_PartBody"/>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_5_gas">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="RICH_main_frame_trap_pillar_5_gas_PartBody"/>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_6_gas">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="RICH_main_frame_trap_pillar_6_gas_PartBody"/>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_7_gas">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="RICH_main_frame_trap_pillar_7_gas_PartBody"/>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_8_gas">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="RICH_main_frame_trap_pillar_8_gas_PartBody"/>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_9_gas">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="RICH_main_frame_trap_pillar_9_gas_PartBody"/>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_10_gas">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="RICH_main_frame_trap_pillar_10_gas_PartBody"/>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_11_gas">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="RICH_main_frame_trap_pillar_11_gas_PartBody"/>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_1">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_main_frame_trap_pillar_1_PartBody"/>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_1_gas"/>
+<position name="RICH_main_frame_trap_pillar_1_pos_RICH_main_frame_trap_pillar_1_gas_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_main_frame_trap_pillar_1_rot_RICH_main_frame_trap_pillar_1_gas_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_2">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_main_frame_trap_pillar_2_PartBody"/>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_2_gas"/>
+<position name="RICH_main_frame_trap_pillar_2_pos_RICH_main_frame_trap_pillar_2_gas_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_main_frame_trap_pillar_2_rot_RICH_main_frame_trap_pillar_2_gas_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_3">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_main_frame_trap_pillar_3_PartBody"/>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_3_gas"/>
+<position name="RICH_main_frame_trap_pillar_3_pos_RICH_main_frame_trap_pillar_3_gas_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_main_frame_trap_pillar_3_rot_RICH_main_frame_trap_pillar_3_gas_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_4">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_main_frame_trap_pillar_4_PartBody"/>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_4_gas"/>
+<position name="RICH_main_frame_trap_pillar_4_pos_RICH_main_frame_trap_pillar_4_gas_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_main_frame_trap_pillar_4_rot_RICH_main_frame_trap_pillar_4_gas_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_5">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_main_frame_trap_pillar_5_PartBody"/>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_5_gas"/>
+<position name="RICH_main_frame_trap_pillar_5_pos_RICH_main_frame_trap_pillar_5_gas_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_main_frame_trap_pillar_5_rot_RICH_main_frame_trap_pillar_5_gas_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_6">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_main_frame_trap_pillar_6_PartBody"/>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_6_gas"/>
+<position name="RICH_main_frame_trap_pillar_6_pos_RICH_main_frame_trap_pillar_6_gas_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_main_frame_trap_pillar_6_rot_RICH_main_frame_trap_pillar_6_gas_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_7">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_main_frame_trap_pillar_7_PartBody"/>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_7_gas"/>
+<position name="RICH_main_frame_trap_pillar_7_pos_RICH_main_frame_trap_pillar_7_gas_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_main_frame_trap_pillar_7_rot_RICH_main_frame_trap_pillar_7_gas_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_8">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_main_frame_trap_pillar_8_PartBody"/>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_8_gas"/>
+<position name="RICH_main_frame_trap_pillar_8_pos_RICH_main_frame_trap_pillar_8_gas_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_main_frame_trap_pillar_8_rot_RICH_main_frame_trap_pillar_8_gas_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_9">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_main_frame_trap_pillar_9_PartBody"/>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_9_gas"/>
+<position name="RICH_main_frame_trap_pillar_9_pos_RICH_main_frame_trap_pillar_9_gas_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_main_frame_trap_pillar_9_rot_RICH_main_frame_trap_pillar_9_gas_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_10">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_main_frame_trap_pillar_10_PartBody"/>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_10_gas"/>
+<position name="RICH_main_frame_trap_pillar_10_pos_RICH_main_frame_trap_pillar_10_gas_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_main_frame_trap_pillar_10_rot_RICH_main_frame_trap_pillar_10_gas_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="RICH_main_frame_trap_pillar_11">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_main_frame_trap_pillar_11_PartBody"/>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_11_gas"/>
+<position name="RICH_main_frame_trap_pillar_11_pos_RICH_main_frame_trap_pillar_11_gas_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="RICH_main_frame_trap_pillar_11_rot_RICH_main_frame_trap_pillar_11_gas_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Part142">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="Part142_PartBody"/>
+</volume>
+<volume name="Part152">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="Part152_PartBody"/>
+</volume>
+<volume name="Part162">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="Part162_PartBody"/>
+</volume>
+<volume name="Part172">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="Part172_PartBody"/>
+</volume>
+<volume name="Part182">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="Part182_PartBody"/>
+</volume>
+<volume name="Part192">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="Part192_PartBody"/>
+</volume>
+<volume name="Part202">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="Part202_PartBody"/>
+</volume>
+<volume name="Part212">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="Part212_PartBody"/>
+</volume>
+<volume name="Part222">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="Part222_PartBody"/>
+</volume>
+<volume name="Part232">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="Part232_PartBody"/>
+</volume>
+<volume name="Part242">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="Part242_PartBody"/>
+</volume>
+<volume name="Part252">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="Part252_PartBody"/>
+</volume>
+<volume name="Part14">
+<materialref ref="aluminium"/>
+<solidref ref="Part14_PartBody"/>
+<physvol>
+<volumeref ref="Part142"/>
+<position name="Part14_pos_Part142_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="Part14_rot_Part142_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Part15">
+<materialref ref="aluminium"/>
+<solidref ref="Part15_PartBody"/>
+<physvol>
+<volumeref ref="Part152"/>
+<position name="Part15_pos_Part152_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="Part15_rot_Part152_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Part16">
+<materialref ref="aluminium"/>
+<solidref ref="Part16_PartBody"/>
+<physvol>
+<volumeref ref="Part162"/>
+<position name="Part16_pos_Part162_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="Part16_rot_Part162_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Part17">
+<materialref ref="aluminium"/>
+<solidref ref="Part17_PartBody"/>
+<physvol>
+<volumeref ref="Part172"/>
+<position name="Part17_pos_Part172_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="Part17_rot_Part172_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Part18">
+<materialref ref="aluminium"/>
+<solidref ref="Part18_PartBody"/>
+<physvol>
+<volumeref ref="Part182"/>
+<position name="Part18_pos_Part182_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="Part18_rot_Part182_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Part19">
+<materialref ref="aluminium"/>
+<solidref ref="Part19_PartBody"/>
+<physvol>
+<volumeref ref="Part192"/>
+<position name="Part19_pos_Part192_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="Part19_rot_Part192_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Part20">
+<materialref ref="aluminium"/>
+<solidref ref="Part20_PartBody"/>
+<physvol>
+<volumeref ref="Part202"/>
+<position name="Part20_pos_Part202_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="Part20_rot_Part202_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Part21">
+<materialref ref="aluminium"/>
+<solidref ref="Part21_PartBody"/>
+<physvol>
+<volumeref ref="Part212"/>
+<position name="Part21_pos_Part212_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="Part21_rot_Part212_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Part22">
+<materialref ref="aluminium"/>
+<solidref ref="Part22_PartBody"/>
+<physvol>
+<volumeref ref="Part222"/>
+<position name="Part22_pos_Part222_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="Part22_rot_Part222_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Part23">
+<materialref ref="aluminium"/>
+<solidref ref="Part23_PartBody"/>
+<physvol>
+<volumeref ref="Part232"/>
+<position name="Part23_pos_Part232_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="Part23_rot_Part232_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Part24">
+<materialref ref="aluminium"/>
+<solidref ref="Part24_PartBody"/>
+<physvol>
+<volumeref ref="Part242"/>
+<position name="Part24_pos_Part242_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="Part24_rot_Part242_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Part25">
+<materialref ref="aluminium"/>
+<solidref ref="Part25_PartBody"/>
+<physvol>
+<volumeref ref="Part252"/>
+<position name="Part25_pos_Part252_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="Part25_rot_Part252_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<assembly name="RICH_small_frame_container">
+<physvol>
+<volumeref ref="Part14"/>
+<position name="RICH_small_frame_container_pos_Part14_1" x="0.000000" y="-1838.000000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part14_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part14"/>
+<position name="RICH_small_frame_container_pos_Part14_2" x="0.000000" y="-1838.000000" z="-181.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part14_2" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part14"/>
+<position name="RICH_small_frame_container_pos_Part14_3" x="0.000000" y="1841.164000" z="-181.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part14_3" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part14"/>
+<position name="RICH_small_frame_container_pos_Part14_4" x="0.000000" y="1841.164000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part14_4" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part15"/>
+<position name="RICH_small_frame_container_pos_Part15_1" x="-1943.190000" y="1.582000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part15_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part15"/>
+<position name="RICH_small_frame_container_pos_Part15_2" x="-1943.000000" y="1.582000" z="-181.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part15_2" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part15"/>
+<position name="RICH_small_frame_container_pos_Part15_4" x="1942.810000" y="1.582000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part15_4" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part16"/>
+<position name="RICH_small_frame_container_pos_Part16_1" x="-1936.000000" y="-1838.000000" z="117.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part16_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part16"/>
+<position name="RICH_small_frame_container_pos_Part16_2" x="-1936.000000" y="1841.164000" z="117.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part16_2" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part16"/>
+<position name="RICH_small_frame_container_pos_Part16_3" x="1936.000000" y="-1838.000000" z="117.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part16_3" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part16"/>
+<position name="RICH_small_frame_container_pos_Part16_4" x="1936.000000" y="1841.164000" z="117.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part16_4" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part16"/>
+<position name="RICH_small_frame_container_pos_Part16_5" x="450.040000" y="1841.164000" z="117.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part16_5" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part16"/>
+<position name="RICH_small_frame_container_pos_Part16_6" x="-1.000000" y="1841.164000" z="117.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part16_6" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part16"/>
+<position name="RICH_small_frame_container_pos_Part16_7" x="-1425.680000" y="1841.164000" z="117.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part16_7" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part16"/>
+<position name="RICH_small_frame_container_pos_Part16_8" x="-915.360000" y="1841.164000" z="117.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part16_8" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part16"/>
+<position name="RICH_small_frame_container_pos_Part16_9" x="-450.040000" y="1841.164000" z="117.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part16_9" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part16"/>
+<position name="RICH_small_frame_container_pos_Part16_10" x="1425.680000" y="1841.164000" z="117.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part16_10" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part16"/>
+<position name="RICH_small_frame_container_pos_Part16_11" x="915.360000" y="1841.164000" z="117.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part16_11" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part16"/>
+<position name="RICH_small_frame_container_pos_Part16_12" x="-1425.680000" y="-1838.000000" z="117.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part16_12" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part16"/>
+<position name="RICH_small_frame_container_pos_Part16_13" x="-915.360000" y="-1838.000000" z="117.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part16_13" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part16"/>
+<position name="RICH_small_frame_container_pos_Part16_14" x="-450.040000" y="-1838.000000" z="117.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part16_14" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part16"/>
+<position name="RICH_small_frame_container_pos_Part16_15" x="-1.000000" y="-1838.000000" z="117.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part16_15" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part16"/>
+<position name="RICH_small_frame_container_pos_Part16_16" x="450.040000" y="-1838.000000" z="117.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part16_16" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part16"/>
+<position name="RICH_small_frame_container_pos_Part16_17" x="915.360000" y="-1838.000000" z="117.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part16_17" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part16"/>
+<position name="RICH_small_frame_container_pos_Part16_18" x="1425.680000" y="-1838.000000" z="117.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part16_18" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part15"/>
+<position name="RICH_small_frame_container_pos_Part15_6" x="1942.810000" y="1.582000" z="-181.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part15_6" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part17"/>
+<position name="RICH_small_frame_container_pos_Part17_1" x="1425.680000" y="921.373000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part17_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part17"/>
+<position name="RICH_small_frame_container_pos_Part17_2" x="915.360000" y="921.373000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part17_2" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part17"/>
+<position name="RICH_small_frame_container_pos_Part17_3" x="450.040000" y="921.373000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part17_3" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part17"/>
+<position name="RICH_small_frame_container_pos_Part17_5" x="-450.040000" y="921.373000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part17_5" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part17"/>
+<position name="RICH_small_frame_container_pos_Part17_6" x="-915.360000" y="921.373000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part17_6" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part17"/>
+<position name="RICH_small_frame_container_pos_Part17_7" x="-1425.680000" y="921.373000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part17_7" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part17"/>
+<position name="RICH_small_frame_container_pos_Part17_8" x="1425.680000" y="-918.209000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part17_8" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part17"/>
+<position name="RICH_small_frame_container_pos_Part17_9" x="915.360000" y="-918.209000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part17_9" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part17"/>
+<position name="RICH_small_frame_container_pos_Part17_10" x="450.040000" y="-918.209000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part17_10" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part17"/>
+<position name="RICH_small_frame_container_pos_Part17_12" x="-450.040000" y="-918.209000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part17_12" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part17"/>
+<position name="RICH_small_frame_container_pos_Part17_13" x="-915.360000" y="-918.209000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part17_13" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part17"/>
+<position name="RICH_small_frame_container_pos_Part17_14" x="-1425.680000" y="-918.209000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part17_14" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part16"/>
+<position name="RICH_small_frame_container_pos_Part16_19" x="-1943.000000" y="1.582000" z="117.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part16_19" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part16"/>
+<position name="RICH_small_frame_container_pos_Part16_20" x="1942.810000" y="1.582000" z="117.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part16_20" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part18"/>
+<position name="RICH_small_frame_container_pos_Part18_1" x="-1180.210000" y="1.582000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part18_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part18"/>
+<position name="RICH_small_frame_container_pos_Part18_2" x="1179.830000" y="1.582000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part18_2" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part19"/>
+<position name="RICH_small_frame_container_pos_Part19_1" x="-1943.000000" y="-918.209000" z="225.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part19_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part19"/>
+<position name="RICH_small_frame_container_pos_Part19_2" x="1942.810000" y="-918.209000" z="225.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part19_2" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part19"/>
+<position name="RICH_small_frame_container_pos_Part19_3" x="1942.810000" y="921.373000" z="225.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part19_3" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part19"/>
+<position name="RICH_small_frame_container_pos_Part19_4" x="-1943.000000" y="921.373000" z="225.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part19_4" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part20"/>
+<position name="RICH_small_frame_container_pos_Part20_1" x="-1.000000" y="-1033.000000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part20_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part20"/>
+<position name="RICH_small_frame_container_pos_Part20_2" x="-1.000000" y="1036.164000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part20_2" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part21"/>
+<position name="RICH_small_frame_container_pos_Part21_1" x="0.000000" y="231.164000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part21_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part21"/>
+<position name="RICH_small_frame_container_pos_Part21_2" x="0.000000" y="-228.000000" z="415.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part21_2" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part22"/>
+<position name="RICH_small_frame_container_pos_Part22_1" x="-1680.840001" y="1840.000000" z="119.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part22_1" x="-0.000000" y="-37.589783" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part22"/>
+<position name="RICH_small_frame_container_pos_Part22_2" x="-1170.520001" y="1840.000000" z="119.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part22_2" x="-0.000000" y="-37.589783" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part22"/>
+<position name="RICH_small_frame_container_pos_Part22_3" x="1680.839999" y="1840.000000" z="119.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part22_3" x="-0.000000" y="-37.589783" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part22"/>
+<position name="RICH_small_frame_container_pos_Part22_4" x="1170.519999" y="1840.000000" z="119.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part22_4" x="-0.000000" y="-37.589783" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part22"/>
+<position name="RICH_small_frame_container_pos_Part22_5" x="1680.839999" y="-1838.000000" z="119.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part22_5" x="-0.000000" y="-37.589783" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part22"/>
+<position name="RICH_small_frame_container_pos_Part22_6" x="1170.519999" y="-1838.000000" z="119.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part22_6" x="-0.000000" y="-37.589783" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part22"/>
+<position name="RICH_small_frame_container_pos_Part22_7" x="-1170.520001" y="-1838.000000" z="119.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part22_7" x="-0.000000" y="-37.589783" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part22"/>
+<position name="RICH_small_frame_container_pos_Part22_8" x="-1680.840001" y="-1838.000000" z="119.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part22_8" x="-0.000000" y="-37.589783" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part23"/>
+<position name="RICH_small_frame_container_pos_Part23_1" x="682.642256" y="1840.000000" z="102.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part23_1" x="-0.000000" y="-37.589783" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part23"/>
+<position name="RICH_small_frame_container_pos_Part23_2" x="-682.757744" y="1840.000000" z="102.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part23_2" x="-0.000000" y="-37.589783" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part23"/>
+<position name="RICH_small_frame_container_pos_Part23_3" x="682.642256" y="-1838.000000" z="102.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part23_3" x="-0.000000" y="-37.589783" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part23"/>
+<position name="RICH_small_frame_container_pos_Part23_4" x="-682.757744" y="-1838.000000" z="102.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part23_4" x="-0.000000" y="-37.589783" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part24"/>
+<position name="RICH_small_frame_container_pos_Part24_1" x="227.254999" y="1840.000000" z="94.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part24_1" x="-0.000000" y="-37.589783" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part24"/>
+<position name="RICH_small_frame_container_pos_Part24_2" x="227.254999" y="-1838.000000" z="94.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part24_2" x="-0.000000" y="-37.589783" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part25"/>
+<position name="RICH_small_frame_container_pos_Part25_1" x="-225.520000" y="-1838.000000" z="95.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part25_1" x="-0.000000" y="-37.589783" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Part25"/>
+<position name="RICH_small_frame_container_pos_Part25_2" x="-225.520000" y="1840.000000" z="95.000000" unit="mm"/>
+<rotation name="RICH_small_frame_container_rot_Part25_2" x="-0.000000" y="-37.589783" z="-0.000000" unit="degree"/>
+</physvol>
+</assembly>
+<volume name="RICH_gas_1">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="RICHgas_CO2_dis_1_PartBody"/>
+<physvol>
+<volumeref ref="RICH_PMT"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_PMT_1" x="(pmt_x_pos)" y="(pmt_y_pos)" z="(-(RICH_exit_width-RICH_entrance_width)/(4*tan(DEGtoRAD*RICH_trapezoid_angle/2))-RICH_covering_thickness+pmt_z_pos)" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_PMT_1" x="-(pmt_x_rot_angle)" y="-(pmt_y_rot_angle)" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_PMT"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_PMT_2" x="(-pmt_x_pos)" y="(pmt_y_pos)" z="(-(RICH_exit_width-RICH_entrance_width)/(4*tan(DEGtoRAD*RICH_trapezoid_angle/2))-RICH_covering_thickness+pmt_z_pos)" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_PMT_2" x="-(pmt_x_rot_angle)" y="-(-pmt_y_rot_angle)" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_PMT"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_PMT_3" x="(pmt_x_pos)" y="(-pmt_y_pos)" z="(-(RICH_exit_width-RICH_entrance_width)/(4*tan(DEGtoRAD*RICH_trapezoid_angle/2))-RICH_covering_thickness+pmt_z_pos)" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_PMT_3" x="-(-pmt_x_rot_angle)" y="-(pmt_y_rot_angle)" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_PMT"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_PMT_4" x="(-pmt_x_pos)" y="(-pmt_y_pos)" z="(-(RICH_exit_width-RICH_entrance_width)/(4*tan(DEGtoRAD*RICH_trapezoid_angle/2))-RICH_covering_thickness+pmt_z_pos)" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_PMT_4" x="-(-pmt_x_rot_angle)" y="-(-pmt_y_rot_angle)" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_1"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_1_1" x="1225.000000" y="0.000000" z="(-((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2+50)" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_1_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_1"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_1_2" x="-1225.000000" y="0.000000" z="(-((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2+50)" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_1_2" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_1"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_1_3" x="1520.464428" y="0.000000" z="-191.818692" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_1_3" x="-0.000000" y="-58.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_1"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_1_4" x="2029.293285" y="0.000000" z="126.132866" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_1_4" x="-0.000000" y="-58.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_1"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_1_5" x="-1520.464428" y="0.000000" z="-191.818692" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_1_5" x="-0.000000" y="58.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_1"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_1_6" x="-2029.293285" y="0.000000" z="126.132866" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_1_6" x="-0.000000" y="58.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_2"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_2_1" x="0.000000" y="1929.000000" z="(-((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2+50)" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_2_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_2"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_2_2" x="0.000000" y="-1929.000000" z="(-((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2+50)" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_2_2" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_2"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_2_3" x="0.000000" y="929.000000" z="(-((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2+50)" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_2_3" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_2"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_2_4" x="0.000000" y="-929.000000" z="(-((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2+50)" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_2_4" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_3"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_3_1" x="-775.000000" y="1429.000000" z="-353.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_3_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_3"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_3_2" x="775.000000" y="1429.000000" z="-353.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_3_2" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_3"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_3_3" x="775.000000" y="-1429.000000" z="-353.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_3_3" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_3"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_3_4" x="-775.000000" y="-1429.000000" z="-353.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_3_4" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_4"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_4_1" x="-1225.000000" y="(-RICH_height/2+50)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_4_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_4"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_4_2" x="1225.000000" y="(-RICH_height/2+50)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_4_2" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_4"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_4_3" x="-1225.000000" y="(RICH_height/2-50)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_4_3" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_4"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_4_4" x="1225.000000" y="(RICH_height/2-50)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_4_4" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_5"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_5_1" x="1774.878856" y="0.000000" z="-32.842913" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_5_1" x="-0.000000" y="-148.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_5"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_5_2" x="-1774.878856" y="0.000000" z="-32.842913" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_5_2" x="-0.000000" y="148.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_6"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_6_1" x="1880.562794" y="1929.000000" z="25.397631" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_6_1" x="-0.000000" y="32.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_6"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_6_2" x="-1880.562794" y="1929.000000" z="25.397631" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_6_2" x="-0.000000" y="-32.000000" z="-180.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_6"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_6_3" x="-1880.562794" y="-1929.000000" z="25.397631" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_6_3" x="-0.000000" y="-32.000000" z="-180.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_6"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_6_4" x="1880.562794" y="-1929.000000" z="25.397631" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_6_4" x="-0.000000" y="32.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_7"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_7_1" x="2272.670848" y="781.085000" z="278.212046" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_7_1" x="-0.000000" y="32.000000" z="-180.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_7"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_7_2" x="2272.670848" y="-781.085000" z="278.212046" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_7_2" x="-0.000000" y="32.000000" z="-180.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_7"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_7_3" x="-2272.670848" y="781.085000" z="278.212046" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_7_3" x="-0.000000" y="-32.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_7"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_7_4" x="-2272.670848" y="-781.085000" z="278.212046" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_7_4" x="-0.000000" y="-32.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_8"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_8_1" x="1376.531003" y="781.085000" z="-281.596561" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_8_1" x="-0.000000" y="31.934336" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_8"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_8_2" x="1376.531003" y="-781.085000" z="-281.596561" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_8_2" x="-0.000000" y="31.934336" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_8"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_8_3" x="-1376.531003" y="781.085000" z="-281.596561" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_8_3" x="-0.000000" y="-31.934336" z="-180.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_8"/>
+<position name="RICHgas_CO2_dis_1_pos_RICH_main_frame_trap_pillar_8_4" x="-1376.531003" y="-781.085000" z="-281.596561" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_1_rot_RICH_main_frame_trap_pillar_8_4" x="-0.000000" y="-31.934336" z="-180.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="RICH_gas_2">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="RICHgas_CO2_dis_2_PartBody"/>
+<physvol>
+<volumeref ref="RICH_mirror_half_total"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_mirror_half_total_2" x="0.000000" y="(RICH_mirror_Y_shift-RICH_mirror_r*sin(DEGtoRAD*RICH_mirror_tilt_angle))" z="(RICH_mirror_position_from_IP-RICH_covering_thickness-RICH_length/2-RICH_position_from_IP-RICH_mirror_r*cos(DEGtoRAD*RICH_mirror_tilt_angle)-((RICH_exit_width-RICH_entrance_width)/4)/tan(DEGtoRAD*RICH_trapezoid_angle/2))" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_mirror_half_total_2" x="-(-90-RICH_mirror_tilt_angle)" y="-0.000000" z="90.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_mirror_half_total"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_mirror_half_total_1" x="0.000000" y="(-RICH_mirror_Y_shift+RICH_mirror_r*sin(DEGtoRAD*RICH_mirror_tilt_angle))" z="(RICH_mirror_position_from_IP-RICH_covering_thickness-RICH_length/2-RICH_position_from_IP-RICH_mirror_r*cos(DEGtoRAD*RICH_mirror_tilt_angle)-((RICH_exit_width-RICH_entrance_width)/4)/tan(DEGtoRAD*RICH_trapezoid_angle/2))" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_mirror_half_total_1" x="-(90+RICH_mirror_tilt_angle)" y="-0.000000" z="-90.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_9"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_9_1" x="(RICH_exit_width/2-50)" y="0.000000" z="(-(RICH_length/2-((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2)+50)" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_9_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_9"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_9_2" x="(RICH_exit_width/2-50)" y="0.000000" z="((RICH_length/2-((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2)-50)" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_9_2" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_9"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_9_3" x="(-(RICH_exit_width/2-50))" y="0.000000" z="(-(RICH_length/2-((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2)+50)" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_9_3" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_9"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_9_4" x="(-(RICH_exit_width/2-50))" y="0.000000" z="((RICH_length/2-((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2)-50)" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_9_4" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_10"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_10_1" x="0.000000" y="(RICH_height/2-50)" z="(-(RICH_length/2-((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2)+50)" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_10_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_10"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_10_2" x="0.000000" y="(RICH_height/2-50)" z="((RICH_length/2-((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2)-50)" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_10_2" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_10"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_10_3" x="0.000000" y="(-RICH_height/2+50)" z="(-(RICH_length/2-((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2)+50)" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_10_3" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_10"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_10_4" x="0.000000" y="(-RICH_height/2+50)" z="((RICH_length/2-((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2)-50)" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_10_4" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_11"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_11_1" x="((6/8)*RICH_exit_width/2)" y="(RICH_height/2-50)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_11_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_11"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_11_2" x="(-(6/8)*RICH_exit_width/2)" y="(RICH_height/2-50)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_11_2" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_11"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_11_3" x="((4/8)*RICH_exit_width/2)" y="(RICH_height/2-50)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_11_3" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_11"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_11_4" x="(-(4/8)*RICH_exit_width/2)" y="(RICH_height/2-50)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_11_4" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_11"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_11_5" x="0.000000" y="(RICH_height/2-50)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_11_5" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_11"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_11_6" x="((6/8)*RICH_exit_width/2)" y="(-RICH_height/2+50)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_11_6" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_11"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_11_7" x="(-(6/8)*RICH_exit_width/2)" y="(-RICH_height/2+50)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_11_7" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_11"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_11_8" x="((4/8)*RICH_exit_width/2)" y="(-RICH_height/2+50)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_11_8" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_11"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_11_9" x="(-(4/8)*RICH_exit_width/2)" y="(-RICH_height/2+50)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_11_9" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_11"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_11_10" x="0.000000" y="(-RICH_height/2+50)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_11_10" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_11"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_11_11" x="(RICH_exit_width/2-50)" y="(RICH_height/2-50)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_11_11" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_11"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_11_12" x="(-RICH_exit_width/2+50)" y="(RICH_height/2-50)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_11_12" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_11"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_11_13" x="(RICH_exit_width/2-50)" y="(-RICH_height/2+50)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_11_13" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_11"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_11_14" x="(-RICH_exit_width/2+50)" y="(-RICH_height/2+50)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_11_14" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_11"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_11_15" x="(RICH_exit_width/2-50)" y="((3/7)*RICH_height/2)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_11_15" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_11"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_11_16" x="(RICH_exit_width/2-50)" y="(-(3/7)*RICH_height/2)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_11_16" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_11"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_11_17" x="(-RICH_exit_width/2+50)" y="((3/7)*RICH_height/2)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_11_17" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_main_frame_trap_pillar_11"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_main_frame_trap_pillar_11_18" x="(-RICH_exit_width/2+50)" y="(-(3/7)*RICH_height/2)" z="0.000000" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_main_frame_trap_pillar_11_18" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_small_frame_container"/>
+<position name="RICHgas_CO2_dis_2_pos_RICH_small_frame_container_1" x="0.000000" y="0.000000" z="(small_frame_shift)" unit="mm"/>
+<rotation name="RICHgas_CO2_dis_2_rot_RICH_small_frame_container_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<assembly name="rich_v13a_f">
+<physvol>
+<volumeref ref="RICH_gas_1"/>
+<position name="rich_v13a_pos_RICHgas_CO2_dis_1_1" x="0.000000" y="0.000000" z="(RICH_position_from_IP+RICH_covering_thickness+((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2)" unit="mm"/>
+<rotation name="rich_v13a_rot_RICHgas_CO2_dis_1_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_gas_2"/>
+<position name="rich_v13a_pos_RICHgas_CO2_dis_2_1" x="0.000000" y="0.000000" z="(RICH_position_from_IP+RICH_covering_thickness+RICH_length/2+((RICH_exit_width-RICH_entrance_width)/2)/(2*tan(DEGtoRAD*RICH_trapezoid_angle/2)))" unit="mm"/>
+<rotation name="rich_v13a_rot_RICHgas_CO2_dis_2_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_covering_top_bottom_1"/>
+<position name="rich_v13a_pos_RICH_covering_top_bottom_1_1" x="0.000000" y="(RICH_height/2+RICH_covering_thickness/2)" z="(RICH_position_from_IP+RICH_covering_thickness+((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2)" unit="mm"/>
+<rotation name="rich_v13a_rot_RICH_covering_top_bottom_1_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_covering_top_bottom_1"/>
+<position name="rich_v13a_pos_RICH_covering_top_bottom_1_2" x="0.000000" y="(-RICH_height/2-RICH_covering_thickness/2)" z="(RICH_position_from_IP+RICH_covering_thickness+((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2)" unit="mm"/>
+<rotation name="rich_v13a_rot_RICH_covering_top_bottom_1_2" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_covering_top_bottom_2"/>
+<position name="rich_v13a_pos_RICH_covering_top_bottom_2_1" x="0.000000" y="(RICH_height/2+RICH_covering_thickness/2)" z="(RICH_position_from_IP+RICH_covering_thickness+RICH_length/2+((RICH_exit_width-RICH_entrance_width)/2)/(2*tan(DEGtoRAD*RICH_trapezoid_angle/2)))" unit="mm"/>
+<rotation name="rich_v13a_rot_RICH_covering_top_bottom_2_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_covering_top_bottom_2"/>
+<position name="rich_v13a_pos_RICH_covering_top_bottom_2_2" x="0.000000" y="(-RICH_height/2-RICH_covering_thickness/2)" z="(RICH_position_from_IP+RICH_covering_thickness+RICH_length/2+((RICH_exit_width-RICH_entrance_width)/2)/(2*tan(DEGtoRAD*RICH_trapezoid_angle/2)))" unit="mm"/>
+<rotation name="rich_v13a_rot_RICH_covering_top_bottom_2_2" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_covering_side"/>
+<position name="rich_v13a_pos_RICH_covering_side_1" x="(-RICH_exit_width/2-RICH_covering_thickness/2)" y="0.000000" z="(RICH_position_from_IP+RICH_covering_thickness+RICH_length/2+((RICH_exit_width-RICH_entrance_width)/2)/(2*tan(DEGtoRAD*RICH_trapezoid_angle/2)))" unit="mm"/>
+<rotation name="rich_v13a_rot_RICH_covering_side_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_covering_side"/>
+<position name="rich_v13a_pos_RICH_covering_side_2" x="(RICH_exit_width/2+RICH_covering_thickness/2)" y="0.000000" z="(RICH_position_from_IP+RICH_covering_thickness+RICH_length/2+((RICH_exit_width-RICH_entrance_width)/2)/(2*tan(DEGtoRAD*RICH_trapezoid_angle/2)))" unit="mm"/>
+<rotation name="rich_v13a_rot_RICH_covering_side_2" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_covering_entrance"/>
+<position name="rich_v13a_pos_RICH_covering_entrance_1" x="0.000000" y="0.000000" z="(RICH_position_from_IP+RICH_covering_thickness/2)" unit="mm"/>
+<rotation name="rich_v13a_rot_RICH_covering_entrance_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_covering_exit"/>
+<position name="rich_v13a_pos_RICH_covering_exit_1" x="0.000000" y="0.000000" z="(RICH_position_from_IP+(3/2)*RICH_covering_thickness+RICH_length)" unit="mm"/>
+<rotation name="rich_v13a_rot_RICH_covering_exit_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_covering_sloping"/>
+<position name="rich_v13a_pos_RICH_covering_sloping_1" x="((RICH_entrance_width+RICH_exit_width+2*RICH_covering_thickness+entrance_width_addend)/4)" y="0.000000" z="(RICH_position_from_IP+RICH_covering_thickness+((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2)" unit="mm"/>
+<rotation name="rich_v13a_rot_RICH_covering_sloping_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_covering_sloping"/>
+<position name="rich_v13a_pos_RICH_covering_sloping_2" x="(-(RICH_entrance_width+RICH_exit_width+2*RICH_covering_thickness+entrance_width_addend)/4)" y="0.000000" z="(RICH_position_from_IP+RICH_covering_thickness+((RICH_exit_width-RICH_entrance_width)/2)/tan(DEGtoRAD*RICH_trapezoid_angle/2)/2)" unit="mm"/>
+<rotation name="rich_v13a_rot_RICH_covering_sloping_2" x="-0.000000" y="-0.000000" z="-180.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_pipe"/>
+<position name="rich_v13a_pos_RICH_pipe_1" x="0.000000" y="0.000000" z="(RICH_position_from_IP+(RICH_length/2+RICH_covering_thickness)+(RICH_pipe_exit_r-RICH_pipe_entrance_r)*tan(DEGtoRAD*RICH_pipe_angle)/2)" unit="mm"/>
+<rotation name="rich_v13a_rot_RICH_pipe_1" x="-0.000000" y="-(RICH_pipe_angle)" z="-0.000000" unit="degree"/>
+</physvol>
+</assembly>
+</structure>
+
+<setup name="FAIRGeom" version="1.0">
+	<world ref="rich_v13a_f"/>
+</setup>
+
+</gdml>

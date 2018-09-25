@@ -1,0 +1,7 @@
+
+  //AYK, 2015/07/20
+
+  root -l tracker.C    
+
+should be run first to create input geometry file;
+

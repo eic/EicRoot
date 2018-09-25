@@ -1,0 +1,14 @@
+
+  //AYK, 2015/07/17
+
+  root -l calorimeter.C -> !!! run it first to produce calorimeter.root input file !!!
+  ------------------------------------------------------------------------------------
+
+  Script used to create a custom calorimeter geometry ("flat" NxN crystal matrix
+in this case; see geometry/FEMC, geometry/BEMC, geometry/CEMC for more 
+advanced cases). Pay attention to the logical mapping table creation, which 
+establishes a one-to-one relationship between multi-dimensional node indices in 
+GEANT tree and XY-indices on the map (which is trivial in this simple example, 
+but may look like {quadrant#1,alveole#33,crystal#2} -> {X=2,Y=31} for BEMC 
+implementation).
+   

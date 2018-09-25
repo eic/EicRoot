@@ -1,0 +1,55 @@
+
+  //AYK, 2015/07/17
+
+   A collection of working example scripts, which are supposed to illustrate the 
+EicRoot usage scheme. Typically the flow of actions is
+
+  0) Do not forget to declare environment variables:
+
+    .      <eicroot_build_directory>/config.sh    (bash)
+    source <eicroot_build_directory>/config.csh   (C-shell)
+
+  1) Run whatever scripts needed to create local TGeo geometry files (optional; see 
+README in respective directories);
+
+  2)  root -l simulation.C
+ 
+    - run GEANT simulation (typically 1000 events with a single pion or electron track);
+    - produce simulation.root file with the MC hits;
+
+  2a) root -l eventDisplay.C
+
+    - browse generated events using ROOT event display;
+
+  3)  root -l digitization.C
+
+    - import simulation.root;
+    - digitize MC hits;
+    - produce digitization.root file with the digitized (say smeared) hits;
+
+  4)  root -l reconstruction.C
+
+    - import simulation.root & digitization.root;
+    - depending on the example, reconstruct tracks, calorimeter clusters, etc;
+    - produce reconstruction.root with reconstructed objects;
+
+  5) root -l analysis.C
+
+    - import simulation.root & reconstruction.root;
+    - produce some trivial histograms for reconstructed data inspection;
+
+-------------------------------------------------------------------------
+
+  calorimetry -> few calorimeter applications:
+    config.1 - basic simplified crystal calorimeter geometry; electron energy reconstruction;
+    config.2 - realistic HCal geometry; pion energy reconstruction; 
+
+  physics     -> few examples with PYTHIA input file analysis; tracking only for now; 
+    config.1 - X_bj smearing plot construction on PYTHIA input file events;
+    config.2 - kinematic variable smearing and {x,Q^2} migration plots on PYTHIA events;
+
+  tracking    -> several tracking examples;
+    config.1 - a simplistic forward detector (silicon disks in magnetic field);
+    config.2 - a more advanced silicon vertex + TPC tracker;
+    config.3 - a complete BeAST tracker simulation;
+    config.4 - simplified ePHENIX forward tracker setup;

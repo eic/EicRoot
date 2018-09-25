@@ -1,0 +1,4 @@
+
+ -> see header comments in the analysis.C 
+
+ -> suitable for RACF batch execution (see condor.sh & script.sh);
