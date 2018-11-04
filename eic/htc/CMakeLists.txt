@@ -34,19 +34,19 @@ SensitiveVolume.cxx
 KalmanNode.cxx
 TrKalmanFilter.cxx
 
-geant.cc
-KalmanFilter.cc
-MediaLayer.cc
-MediaSlice.cc
-MediaBank.cc
-MediaSliceArray.cc
-misc.cc
-runge-kutta.cc
-RungeKuttaRequest.cc
-TrKalmanNode.cc
+geant.cxx
+KalmanFilter.cxx
+MediaLayer.cxx
+MediaSlice.cxx
+MediaBank.cxx
+MediaSliceArray.cxx
+misc.cxx
+runge-kutta.cxx
+RungeKuttaRequest.cxx
+TrKalmanNode.cxx
 TrKalmanNodeLocation.cxx
 )
 
-SET(DEPENDENCIES eicbase ayk field tracking)
+SET(DEPENDENCIES eicbase ayk field tracking ${SIMPATH}/lib/libgeant321.so)
 GENERATE_EICROOT_LIBRARY(htc eichtcLinkDef.h)
 	 

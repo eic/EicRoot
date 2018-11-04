@@ -20,6 +20,7 @@ set( SOURCES
 GeaneTrackRep/GeaneTrackRep.cxx
 )
 
-SET(DEPENDENCIES genfit Geane TrkBase)
+#@@SET(DEPENDENCIES genfit Geane TrkBase)
+SET(DEPENDENCIES Geane TrkBase)
 GENERATE_EICROOT_LIBRARY(trackrep trackrepLinkDef.h)
 	 

@@ -140,6 +140,7 @@ GeaneTrackRep::extrapolate(const GFDetPlane& pl,
 			   TMatrixT<double>& statePred,
 			   TMatrixT<double>& covPred)
 {
+  //printf("@@@ Geane-1\n");
   if(fabs(getMom(fRefPlane).Theta()/TMath::Pi()*180.) < THETACUT){
     GFException exc("GEANE propagation not possible for p.theta<THETACUT",__LINE__,__FILE__);
     exc.setFatal();
@@ -180,8 +181,10 @@ GeaneTrackRep::extrapolate(const GFDetPlane& pl,
     throw exc;
   }
 
+  //printf("@@@ Geane-2\n");
   checkState();
   
+  //printf("@@@ Geane-3\n");
   
   FairTrackParP par(fState[3][0],fState[4][0],fState[1][0],fState[2][0],fState[0][0],cova,ofrom,ufrom,vfrom,_spu);
   bool backprop=_backw<0;
@@ -198,14 +201,17 @@ GeaneTrackRep::extrapolate(const GFDetPlane& pl,
     //std::cout<<"GEANETRACKREP: USING BACKPROPAGATION!" << std::endl;
   }
 
+  //printf("@@@ Geane-3a %d %d\n", _backw, backprop);
   Bool_t prop = kTRUE;
   prop = _geane->Propagate(&par,&result,_pdg);   //211
+  //printf("@@@ Geane-3b: %d\n", prop);
   if (prop==kFALSE){
     GFException exc("GEANE propagation failed",__LINE__,__FILE__);
     //exc.setFatal();
     throw exc;
   }
   
+  //printf("@@@ Geane-4\n");
 
   double l=_geane->GetLengthAtPCA();
  

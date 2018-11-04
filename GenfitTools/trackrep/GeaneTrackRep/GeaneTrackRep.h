@@ -115,7 +115,9 @@ private:
   void checkState(); // checks if state vector is inside numerical limits
 
   // Private Data Members ------------
+ public:
   FairGeanePro* _geane; //!
+ private:
   double _spu; // sign of z-component of momentum
   int _pdg; // pdg code of the particle to be tracked
   int _backw; // (-1,0,1) -> (backward prop,decide myself,forward)

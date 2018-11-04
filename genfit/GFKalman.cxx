@@ -310,6 +310,7 @@ GFKalman::processHit(GFTrack* tr, int ihit, int irep,int direction){
 	  }
   }
   
+  //state.Print();
 #ifdef DEBUG
   std::cerr<<"GFKalman::processHit - state and cov prediction "<<std::endl;
   state.Print();
@@ -378,6 +379,13 @@ GFKalman::processHit(GFTrack* tr, int ihit, int irep,int direction){
   //rep->setState(state);
   //rep->setCov(cov);
   //rep->setReferencePlane(pl);
+
+  {
+    //printf("--> %d\n", repDim);
+    //    printf("@@@ %7.2f %7.2f %7.2f -> %10.5f %10.5f %10.5f %10.5f %10.5f\n", 
+    //	   pl.getO().X(), pl.getO().Y(), pl.getO().Z(),
+    //	   state[0][0], state[1][0], state[2][0], state[3][0], state[4][0]);
+  }
 
   rep->setData(state,pl,&cov);
   tr->setRepAtHit(irep,ihit);
