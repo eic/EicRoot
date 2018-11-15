@@ -258,11 +258,28 @@ class PndPidCandidate : public FairRecoCandidate  //FairMultiLinkedData
 	  
   //TODO: workaround
   void	SetElectronPidLH(Double_t val)  { return; }
-	void	SetMuonPidLH(Double_t val)  { return; }
-	void	SetPionPidLH(Double_t val) { return; }
-	void	SetKaonPidLH(Double_t val)  { return; }
-	void	SetProtonPidLH(Double_t val) { return; }
-
+  void	SetMuonPidLH(Double_t val)  { return; }
+  void	SetPionPidLH(Double_t val) { return; }
+  void	SetKaonPidLH(Double_t val)  { return; }
+  void	SetProtonPidLH(Double_t val) { return; }
+  
+  // FIXME: not the best style, agreed;
+  unsigned GetSmoothedValuesCount( void )   const { return mSmoothedPositions.size(); };
+  const TVector3 &GetSmoothedPosition(unsigned iq) const { return mSmoothedPositions[iq]; };
+  const TVector3 &GetSmoothedMomentum(unsigned iq) const { return mSmoothedMomenta[iq]; };
+#if 0
+  void PrintMe( void ) {
+    for(unsigned iq=0; iq<mSmoothedValues.size(); iq++) {
+      TVector3 &pos = mSmoothedValues[iq];//.first;
+      //TVector3 &mom = mSmoothedValues[iq].second;
+      
+      printf("%10.4f %10.4f %10.4f\n",// -> %10.4f %10.4f %10.4f\n", 
+	     pos.X(), pos.Y(), pos.Z());//, mom.X(), mom.Y(), mom.Z());
+    } //for iq
+  };
+#endif
+  //std::vector<std::pair<TVector3, TVector3> > mSmoothedValues;
+  std::vector<TVector3> mSmoothedPositions, mSmoothedMomenta;
   
   void SetDefault();
  protected:
@@ -369,7 +386,7 @@ class PndPidCandidate : public FairRecoCandidate  //FairMultiLinkedData
   Float_t 	fChiSquared;
   
 
-  ClassDef(PndPidCandidate,4) // Abstract base class for MicroDST candidates
+  ClassDef(PndPidCandidate,6) // Abstract base class for MicroDST candidates
     };
 
 //std::ostream&  operator << (std::ostream& o, const VAbsMicroCandidate&);

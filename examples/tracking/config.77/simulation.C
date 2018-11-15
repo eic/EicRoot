@@ -3,7 +3,7 @@
 //  Tracker simulation script; all parameters hardcoded for simplicity;
 //
 
-void simulation(Int_t nEvents  = 1)
+void simulation(Int_t nEvents  = 1000)
 {
   // Load basic libraries;
   gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");
@@ -27,7 +27,7 @@ void simulation(Int_t nEvents  = 1)
   // Create and set up (Box) Event Generator;
   {
     int PDG = 211;                              // pion
-    double pmin = 5.0, pmax = 5.0, theta = 3.0; // [9..11] GeV/c @ 5 degrees
+    double pmin = 5.0, pmax = 5.0, theta = 6.8; // [9..11] GeV/c @ 5 degrees
  
     EicBoxGenerator* boxGen = new EicBoxGenerator(PDG); 
     boxGen->SetMomentumRange(pmin, pmax);

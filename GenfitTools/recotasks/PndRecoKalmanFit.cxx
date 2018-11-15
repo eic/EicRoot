@@ -203,32 +203,42 @@ PndTrack* PndRecoKalmanFit::Fit(PndTrack *tBefore, Int_t PDG)
 
       fGenFitter.processTrack(trk);
 
+#if _OFF_
       {
-	printf("@@@ %d\n", fTrackRep);//trk->getNumReps());
+	//printf("@@@ %d\n", fTrackRep);//trk->getNumReps());
 
-	GFAbsTrackRep* rep = trk->getTrackRep(0);
+	//GFAbsTrackRep* rep = trk->getTrackRep(0);
 	//printf("@@@ %d\n", trk->getNumReps());
-	TMatrixT<double> mtx(rep->getDim(), 1);
+	//TMatrixT<double> mtx(rep->getDim(), 1);
 
 	//std::vector< std::string > keys = trk->getBK(0)->getMatrixKeys();
 	//printf("@@@ %d\n", keys.size());
 	//for(unsigned iq=0; iq<keys.size(); iq++)
 	//printf("%2d -> %s\n", iq, keys[iq].c_str());
+	{
+	  std::vector<PndTrackCandHit> hits = tBefore->GetTrackCandPtr()->GetSortedHits();
+	  //printf("%d\n", hits.size());
+	  for(unsigned iq=0; iq<hits.size(); iq++) {
+	    PndTrackCandHit &hit = hits[iq];
 
-	//printf("%d\n", trk->getBK(0)->getMatrix("fUpSt", 0, mtx));
-	for(unsigned iq=0; iq<10; iq++) {
-	  TVector3 pos = GFTools::getSmoothedPosXYZ(trk, 0, iq);
-	  TVector3 mom = GFTools::getSmoothedMomXYZ(trk, 0, iq);
-	  printf("%10.4f %10.4f %10.4f -> %10.4f %10.4f %10.4f\n", 
-		 pos.X(), pos.Y(), pos.Z(), mom.X(), mom.Y(), mom.Z());
-	} //for iq
+	    printf("%2d %2d\n", hit.GetDetId(), hit.GetHitId());
+	  } //for iq
+
+	  //printf("%d\n", trk->getBK(0)->getMatrix("fUpSt", 0, mtx));
+	  for(unsigned iq=0; iq<hits.size(); iq++) {
+	    TVector3 pos = GFTools::getSmoothedPosXYZ(trk, 0, iq);
+	    TVector3 mom = GFTools::getSmoothedMomXYZ(trk, 0, iq);
+	    printf("%10.4f %10.4f %10.4f -> %10.4f %10.4f %10.4f\n", 
+		   pos.X(), pos.Y(), pos.Z(), mom.X(), mom.Y(), mom.Z());
+	  } //for iq
+	}
 	//TMatrixT<double> pos = GFTools::getSmoothedPos(trk, 0, 5);
 	//GFDetPlane pl = GFTools::getSmoothingPlane(trk, 0, 9);
 	{
-	  TMatrixT<double> smoothed_state;
-	  TMatrixT<double> smoothed_cov;
-	  TMatrixT<double> pos;
-	  GFDetPlane plane;
+	  //TMatrixT<double> smoothed_state;
+	  //TMatrixT<double> smoothed_cov;
+	  //TMatrixT<double> pos;
+	  //GFDetPlane plane;
 
 	  //dynamic_cast<GeaneTrackRep*>(rep)->setPropDir(-1);
 #if 0
@@ -242,6 +252,7 @@ PndTrack* PndRecoKalmanFit::Fit(PndTrack *tBefore, Int_t PDG)
 #endif
 	}
       }
+#endif
     }
   catch (GFException e)
     {
@@ -263,6 +274,17 @@ PndTrack* PndRecoKalmanFit::Fit(PndTrack *tBefore, Int_t PDG)
     } 
 
   if (fVerbose>0) std::cout<<"Fitting done"<<std::endl;
+
+  {
+    std::vector<PndTrackCandHit> hits = tBefore->GetTrackCandPtr()->GetSortedHits();
+    
+    for(unsigned iq=0; iq<hits.size(); iq++) {
+      TVector3 pos = GFTools::getSmoothedPosXYZ(trk, 0, iq);
+      TVector3 mom = GFTools::getSmoothedMomXYZ(trk, 0, iq);
+
+      tAfter->mSmoothedValues.push_back(std::pair<TVector3, TVector3>(pos, mom));
+    } //for iq
+  }
 
   return tAfter;
 }

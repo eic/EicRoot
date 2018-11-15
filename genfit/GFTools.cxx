@@ -58,7 +58,6 @@ TVector3 GFTools::getSmoothedPosXYZ(const GFTrack* trk, unsigned int irep, unsig
 TVector3 GFTools::getSmoothedMomXYZ(const GFTrack* trk, unsigned int irep, unsigned int ihit){
 
   std::auto_ptr<GFAbsTrackRep> rep(trk->getTrackRep(irep)->clone());
-  //GeaneTrackRep *rep = dynamic_cast<GeaneTrackRep*>(trk->getTrackRep(irep)->clone());
 
   TMatrixT<double> smoothed_state, smoothed_cov, auxInfo;
   GFDetPlane smoothing_plane;
@@ -171,11 +170,9 @@ bool GFTools::getSmoothedData(const GFTrack* trk, unsigned int irep, unsigned in
 		return false;
 	}
 
-	//printf("Here-1!\n");
 	//std::auto_ptr<GFAbsTrackRep> rep(trk->getTrackRep(irep)->clone());
 	GeaneTrackRep *rep = dynamic_cast<GeaneTrackRep*>(trk->getTrackRep(irep)->clone());
 
-	//printf("Here-2!\n");
 	TMatrixT<double> fUpSt;
 	TMatrixT<double> fUpCov;
 	TMatrixT<double> fAuxInfo;
@@ -199,9 +196,7 @@ bool GFTools::getSmoothedData(const GFTrack* trk, unsigned int irep, unsigned in
 
 	if(!(trk->getSmoothingFast())) {
 		if(ihit == 0) {
-		  //printf("Here-3!\n");
-	rep->setPropDir(-1);
-	//dynamic_cast<GeaneTrackRep*>(trk->getTrackRep(irep))->setPropDir(1);
+		  rep->setPropDir(-1);
 			trk->getBK(irep)->getMatrix("bUpSt",ihit+1,bUpSt);
 			trk->getBK(irep)->getMatrix("bUpCov",ihit+1,bUpCov);
 			trk->getBK(irep)->getDetPlane("fPl",ihit,smoothing_plane);
@@ -212,18 +207,14 @@ bool GFTools::getSmoothedData(const GFTrack* trk, unsigned int irep, unsigned in
 			} else {
 				bAuxInfoP = NULL;
 			}
-			//printf("Here-3a: %d!\n", bUpSt.GetNrows());
 			if(bUpSt.GetNrows() == 0) return false;
 			rep->setData(bUpSt,bPl,&bUpCov,bAuxInfoP);
-			//printf("Here-3b!\n");
 			rep->extrapolate(smoothing_plane,smoothed_state,smoothed_cov);
-			//printf("Here-3c!\n");
 			return true;
-			//printf("Here-4!\n");
 		}
 
 		if(ihit == trk->getNumHits()-1) {
-	rep->setPropDir(1);
+		  rep->setPropDir(1);
 			trk->getBK(irep)->getMatrix("fUpSt",ihit-1,fUpSt);
 			trk->getBK(irep)->getMatrix("fUpCov",ihit-1,fUpCov);
 			trk->getBK(irep)->getDetPlane("fPl",ihit-1,fPl);
@@ -258,10 +249,10 @@ bool GFTools::getSmoothedData(const GFTrack* trk, unsigned int irep, unsigned in
 
 		if(fUpSt.GetNrows() == 0 || bUpSt.GetNrows() == 0) return false;
 
-	rep->setPropDir(1);
+		rep->setPropDir(1);
 		rep->setData(fUpSt,fPl,&fUpCov,fAuxInfoP);
 		rep->extrapolate(smoothing_plane,fSt,fCov);
-	rep->setPropDir(-1);
+		rep->setPropDir(-1);
 		rep->setData(bUpSt,bPl,&bUpCov,bAuxInfoP);
 		rep->extrapolate(smoothing_plane,bSt,bCov);
 
@@ -396,7 +387,8 @@ bool GFTools::getBiasedSmoothedData(const GFTrack* trk, unsigned int irep, unsig
 			return false;
 		}
 
-	rep->setPropDir(-1);
+		
+		rep->setPropDir(-1);
 		rep->setData(bUpSt,bPl,&bUpCov,bAuxInfoP);
 		rep->extrapolate(smoothing_plane,bSt,bCov);
 

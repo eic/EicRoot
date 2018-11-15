@@ -742,6 +742,7 @@ void PndPidCorrelator::ConstructChargedCandidate() {
   Int_t nTracks = fTrack->GetEntriesFast();
   for (Int_t i = 0; i < nTracks; i++) {
     PndTrack* track = (PndTrack*) fTrack->At(i);
+
     Int_t ierr = 0;
     FairTrackParP par = track->GetParamLast();
     cout << par.GetMomentum().Mag() << endl;
@@ -749,6 +750,10 @@ void PndPidCorrelator::ConstructChargedCandidate() {
     FairTrackParH *helix = new FairTrackParH(&par, ierr);
     
     PndPidCandidate* pidCand = 	new PndPidCandidate();
+
+    //for(unsigned iq=0; iq<track->mSmoothedValues.size(); iq++)
+    //pidCand->mSmoothedValues.push_back(track->mSmoothedValues[iq]);
+
     if (fTrackIDBranch!="")
       {
 	PndTrackID* trackID = (PndTrackID*) fTrackID->At(i);
@@ -798,7 +803,21 @@ void PndPidCorrelator::ConstructChargedCandidate() {
 	if ( (fDskMode>0)  && (fDskParticle->GetEntriesFast()>0)) GetDskInfo(helix, pidCand); 
       }
 #endif
-    AddChargedCandidate(pidCand);
+#if 0
+    for(unsigned iq=0; iq<track->mSmoothedValues.size(); iq++) {
+      TVector3 &pos = track->mSmoothedValues[iq].first;
+      TVector3 &mom = track->mSmoothedValues[iq].second;
+      
+      printf("%10.4f %10.4f %10.4f -> %10.4f %10.4f %10.4f\n", 
+	     pos.X(), pos.Y(), pos.Z(), mom.X(), mom.Y(), mom.Z());
+    } //for iq
+#endif
+    PndPidCandidate *cand = AddChargedCandidate(pidCand);
+    for(unsigned iq=0; iq<track->mSmoothedValues.size(); iq++) {
+      cand->mSmoothedPositions.push_back(track->mSmoothedValues[iq].first);
+      cand->mSmoothedMomenta.push_back  (track->mSmoothedValues[iq].second);
+    } //for iq
+    //cand->PrintMe();
   } 
   
 #if _TODAY_

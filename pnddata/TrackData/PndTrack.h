@@ -63,7 +63,9 @@ private:
         Int_t fRefIndex;
 
 public:
-	ClassDef(PndTrack,3)
+	std::vector<std::pair<TVector3, TVector3> > mSmoothedValues;
+
+	ClassDef(PndTrack,4)
 
 };
 
