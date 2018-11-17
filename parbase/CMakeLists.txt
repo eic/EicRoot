@@ -14,7 +14,7 @@ ${CMAKE_SOURCE_DIR}/dbase/dbValidation
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES
+set( CXXSOURCES
 FairContFact.cxx       
 FairDetParAsciiFileIo.cxx    
 FairDetParIo.cxx         

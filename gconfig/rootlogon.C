@@ -104,10 +104,11 @@ void rootlogon()
   // EIC-specific libraries;
   if(isLibraryLocal("libeicsmear"))       gSystem->Load("libeicsmear");
 
+  //if(isLibraryLocal("libevent"))          gSystem->Load("libevent");
   if(isLibraryLocal("libeicbase"))        gSystem->Load("libeicbase");
   if(isLibraryLocal("libhtc"))            gSystem->Load("libhtc");
   if(isLibraryLocal("libhtree"))          gSystem->Load("libhtree");
-  //if(isLibraryLocal("libcad"))         gSystem->Load("libcad");
+  if(isLibraryLocal("libcad"))         gSystem->Load("libcad");
   //+if(isLibraryLocal("libtracking"))       gSystem->Load("libtracking");
   if(isLibraryLocal("libcalorimetry"))    gSystem->Load("libcalorimetry");
   if(isLibraryLocal("libsit"))            gSystem->Load("libsit");

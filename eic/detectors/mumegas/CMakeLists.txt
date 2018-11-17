@@ -24,7 +24,7 @@ ${CMAKE_SOURCE_DIR}/eic/detectors/mumegas
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES EicMuMegas.cxx MuMegasGeoParData.cxx)
+set( CXXSOURCES EicMuMegas.cxx MuMegasGeoParData.cxx)
 
 SET(DEPENDENCIES eicbase)
 GENERATE_EICROOT_LIBRARY(mumegas mumegasLinkDef.h)

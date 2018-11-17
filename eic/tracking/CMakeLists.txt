@@ -35,7 +35,7 @@ ${CMAKE_SOURCE_DIR}/eic/tracking
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES 
+set( CXXSOURCES 
 EicTrackingDigiHit.cxx 
 EicTrackingDigiHitProducer.cxx
 

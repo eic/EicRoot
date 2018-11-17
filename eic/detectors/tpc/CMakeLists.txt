@@ -27,7 +27,7 @@ ${CMAKE_SOURCE_DIR}/eic/detectors/tpc
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES
+set( CXXSOURCES
 EicTpc.cxx 
 #EicToFopiMoCaConverter.cxx 
 #FopiToEicDigiConverter.cxx 

@@ -29,7 +29,7 @@ ${CMAKE_SOURCE_DIR}/GenfitTools/recotasks
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES
+set( CXXSOURCES
 PidCorr/PndPidCorrelator.cxx
 PidCorr/PndPidTrackInfo.cxx
 )

@@ -10,7 +10,7 @@ ${CMAKE_SOURCE_DIR}/trackbase
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES
+set( CXXSOURCES
 PndStack.cxx 
 PndMCTrack.cxx
 

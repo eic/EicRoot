@@ -18,7 +18,7 @@ ${CMAKE_SOURCE_DIR}/eic/ayk
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES 
+set( CXXSOURCES 
 3d.cxx
 Keyword.cxx
 Splitter.cxx

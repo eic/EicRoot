@@ -24,7 +24,7 @@ ${CMAKE_SOURCE_DIR}/eic/detectors/maps
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES EicMaps.cxx MapsGeoParData.cxx VstGeoParData.cxx FstGeoParData.cxx MapsMimosaAssembly.cxx)
+set( CXXSOURCES EicMaps.cxx MapsGeoParData.cxx VstGeoParData.cxx FstGeoParData.cxx MapsMimosaAssembly.cxx)
 
 SET(DEPENDENCIES eicbase)
 GENERATE_EICROOT_LIBRARY(maps mapsLinkDef.h)

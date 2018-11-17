@@ -8,7 +8,7 @@ ${CMAKE_SOURCE_DIR}/geobase
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES
+set( CXXSOURCES
 FairGeoAssembly.cxx
 FairGeoCone.cxx	
 FairGeoCons.cxx 

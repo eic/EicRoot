@@ -12,7 +12,7 @@ ${CMAKE_SOURCE_DIR}/GenfitTools/trackrep/GeaneTrackRep
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES GFAbsRecoHit.cxx GFAbsTrackRep.cxx GFBookkeeping.cxx
+set( CXXSOURCES GFAbsRecoHit.cxx GFAbsTrackRep.cxx GFBookkeeping.cxx
 GFDetPlane.cxx GFException.cxx GFKalman.cxx GFPlanarHitPolicy.cxx GFPseudoSpacepointWireHitPolicy.cxx
 GFRecoHitFactory.cxx GFRecoHitProducer.cxx GFSpacepointHitPolicy.cxx
 GFTools.cxx GFTrackCand.cxx GFTrack.cxx GFWireHitPolicy.cxx

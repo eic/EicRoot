@@ -16,7 +16,7 @@ ${GEANT3_INCLUDE_DIR}
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES
+set( CXXSOURCES
 GeaneTrackRep/GeaneTrackRep.cxx
 )
 

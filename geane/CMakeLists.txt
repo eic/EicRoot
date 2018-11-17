@@ -13,7 +13,7 @@ ${CMAKE_SOURCE_DIR}/geane
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES
+set( CXXSOURCES
 FairGeane.cxx       
 FairGeanePro.cxx
 )

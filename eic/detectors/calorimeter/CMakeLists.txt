@@ -24,7 +24,7 @@ ${CMAKE_SOURCE_DIR}/eic/detectors/calorimeter
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES EicCalorimeter.cxx FemcGeoParData.cxx CemcGeoParData.cxx BemcGeoParData.cxx HcalGeoParData.cxx)
+set( CXXSOURCES EicCalorimeter.cxx FemcGeoParData.cxx CemcGeoParData.cxx BemcGeoParData.cxx HcalGeoParData.cxx)
 
 SET(DEPENDENCIES eicbase calorimetry)
 GENERATE_EICROOT_LIBRARY(calorimeter calorimeterLinkDef.h)

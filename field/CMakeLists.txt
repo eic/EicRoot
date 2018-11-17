@@ -12,7 +12,7 @@ ${CMAKE_SOURCE_DIR}/eic/field
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES
+set( CXXSOURCES
 PndConstField.cxx       
 PndFieldContFact.cxx 
 PndFieldMap.cxx      

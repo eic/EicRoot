@@ -4,13 +4,17 @@
 # crashes in digitization.C scripts;
 #
 
+#
+# cmake -DCMAKE_INSTALL_PREFIX=. -DCMAKE_C_COMPILER=/DATA00/ayk/local/bin/gcc -DCMAKE_CXX_COMPILER=/DATA00/ayk/local/bin/g++ -Wno-dev -DROOT5=yes -DCAD2ROOT=yes -DELMER=/DATA00/ayk/elmer -DEICSMEAR=/DATA00/ayk/FAIRROOT.FRESH/eic-smear ..
+#
+
 PROJECT(EICROOT)
 
 # Should suffice?;
 cmake_minimum_required(VERSION 2.8.10)
 
 # Very few command line options left;
-SET(VARS EICSMEAR CBMROOT)
+SET(VARS EICSMEAR CBMROOT CAD2ROOT ELMER)
 foreach (var ${VARS})
   IF(DEFINED ${var})
     message("-> " ${var} " is defined to " ${${var}})
@@ -62,7 +66,7 @@ SET(LD_LIBRARY_PATH ${EICLIBDIR} ${LD_LIBRARY_PATH})
 # Basically just a simplified GENERATE_LIBRARY() macro;
 include(eicroot)
 
-SET( CMAKE_CXX_FLAGS "-g -Wall -Wno-deprecated-declarations -Wno-parentheses -Wno-comment -Wno-unused -Wno-sign-compare -Wno-reorder -Wno-format -std=c++11 -Wno-narrowing" )
+SET( CMAKE_CXX_FLAGS "-g -Wall -Wno-deprecated-declarations -Wno-parentheses -Wno-comment -Wno-unused -Wno-sign-compare -Wno-reorder -Wno-format -std=c++11 -Wno-narrowing -Wno-address" )
 #if (NOT ROOT5)
 #SET( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-narrowing")
 #endif (ROOT5)
@@ -105,11 +109,17 @@ endif()
 
 # EicRoot, eventually;
 add_subdirectory(eic/ayk)
+if (DEFINED EICSMEAR) 
+  # Well, this is only needed to disable part of the codes in FluxMonitorGrid::FillOutHistograms();
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_EICSMEAR_")
+
+  add_subdirectory(eic/event) 
+endif()
 add_subdirectory(eic/base)
 add_subdirectory(eic/field)
-#@@if (DEFINED CAD2ROOT)
-#@@  ###add_subdirectory(eic/cad)
-#@@endif()
+if (DEFINED CAD2ROOT)
+  add_subdirectory(eic/cad)
+endif()
 add_subdirectory(eic/tracking)
 add_subdirectory(eic/htc)
 add_subdirectory(eic/calorimetry)

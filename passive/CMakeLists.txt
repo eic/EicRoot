@@ -8,7 +8,7 @@ ${CMAKE_SOURCE_DIR}/passive
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES
+set( CXXSOURCES
 PndCave.cxx            
 PndGeoCave.cxx        
 PndGeoMagnet.cxx      

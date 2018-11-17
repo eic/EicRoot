@@ -23,7 +23,7 @@ ${CMAKE_SOURCE_DIR}/eic/detectors/lqst
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES EicLowQ2Tagger.cxx LqstGeoParData.cxx )
+set( CXXSOURCES EicLowQ2Tagger.cxx LqstGeoParData.cxx )
 
 SET(DEPENDENCIES eicbase)
 GENERATE_EICROOT_LIBRARY(lqst lqstLinkDef.h)

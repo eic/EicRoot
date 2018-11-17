@@ -12,7 +12,7 @@ ${CMAKE_SOURCE_DIR}/PndTools/generalTools
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES
+set( CXXSOURCES
 PndFileNameCreator.cxx
 PndStringSeparator.cxx
 PndGeoHandling.cxx

@@ -10,7 +10,7 @@ ${CMAKE_SOURCE_DIR}/base
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES
+set( CXXSOURCES
 FairBaseContFact.cxx 
 FairBaseParSet.cxx
 FairLink.cxx

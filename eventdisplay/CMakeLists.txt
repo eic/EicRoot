@@ -14,7 +14,7 @@ ${CMAKE_SOURCE_DIR}/eventdisplay
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES
+set( CXXSOURCES
 FairEventManager.cxx  
 FairMCTracks.cxx
 FairEventManagerEditor.cxx

@@ -23,7 +23,7 @@ ${CMAKE_SOURCE_DIR}/eic/infrastructure
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES BeamPipeGeoParData.cxx)
+set( CXXSOURCES BeamPipeGeoParData.cxx)
 
 SET(DEPENDENCIES eicbase)
 GENERATE_EICROOT_LIBRARY(infrastructure infrastructureLinkDef.h)

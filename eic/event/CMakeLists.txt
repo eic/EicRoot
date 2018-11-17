@@ -37,58 +37,25 @@ ${EICSMEAR}/include
 #@${PROTOBUF}/include/google/protobuf/io
 #@${EICMC}/include
 
-${CMAKE_SOURCE_DIR}/eic/field
-${CMAKE_SOURCE_DIR}/eic/event
 ${CMAKE_SOURCE_DIR}/eic/base
+${CMAKE_SOURCE_DIR}/eic/event
 ${CMAKE_SOURCE_DIR}/eic/calorimetry
 )
 
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( CXXSOURCES
-EicLibrary.cxx
+set( CXXSOURCES 
+    EicSmearTask.cxx 
+    EicEventGenerator.cxx
 
-EicDetName.cxx
-EicNamePatternHub.cxx 
-EicContFact.cxx
-
-EicGeo.cxx
-EicGeoPar.cxx
-EicGeoMap.cxx
-EicGeoParData.cxx
-
-EicRunSim.cxx
-EicMCApplication.cxx
-EicRunAna.cxx
-EicRunDigi.cxx
-
-EicBlackHole.cxx
-EicEnergyMonitor.cxx
-EicFieldMapDetector.cxx
-EicDetector.cxx
-EicFieldGradDetector.cxx
-
-EicMoCaPoint.cxx
-#EicFakeMoCaPoint.cxx
-#EicFakeMoCaPointGenerator.cxx
-#EicFakeMoCaPointDatabase.cxx
-#EicFakeMoCaPointDbEntry.cxx
-#EicFakeMoCaPointDbHit.cxx
-
-EicDigiHitProducer.cxx
-EicDigiParData.cxx
-
-EicFileNameExpansion.cxx
-
-EicEventManager.cxx
-#EicFlatDisEventGenerator.cxx 
-EicBoxGenerator.cxx	 
-EicAsciiBoxGenerator.cxx
+    EicRcEvent.cxx
+    EicRcParticle.cxx
+    EicRcVertex.cxx
+    EicEventAssembler.cxx
+    EicRootManager.cxx
 )
 
-SET(EXTRA_HEADERS EicUnits.h)
-
-SET(DEPENDENCIES Base Field EventDisplay PndData Passive Eve event)
-GENERATE_EICROOT_LIBRARY(eicbase eicbaseLinkDef.h)
+SET(DEPENDENCIES ${EICSMEAR}/build/.libs/libeicsmear.so)
+GENERATE_EICROOT_LIBRARY(event eicsmearLinkDef.h)
 

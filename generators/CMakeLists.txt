@@ -12,7 +12,7 @@ ${CMAKE_SOURCE_DIR}/generators
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES
+set( CXXSOURCES
 FairAsciiGenerator.cxx    
 FairBoxGenerator.cxx      
 FairIonGenerator.cxx      

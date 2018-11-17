@@ -13,7 +13,7 @@ ${CMAKE_SOURCE_DIR}/dbase/dbUtils
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES
+set( CXXSOURCES
 dbValidation/Experiment.cxx
 dbValidation/Detector.cxx
 dbValidation/SimFlag.cxx

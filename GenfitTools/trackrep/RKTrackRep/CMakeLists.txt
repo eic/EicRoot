@@ -9,7 +9,7 @@ ${CMAKE_SOURCE_DIR}/GenfitTools/trackrep/RKTrackRep
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES RKTrackRep.cxx GFMaterialEffects.cxx GFPointPath.h RKTools.cxx)
+set( CXXSOURCES RKTrackRep.cxx GFMaterialEffects.cxx GFPointPath.h RKTools.cxx)
 
 SET(DEPENDENCIES genfit)
 GENERATE_EICROOT_LIBRARY(genfitRK genfitRKLinkDef.h)

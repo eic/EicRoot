@@ -8,7 +8,7 @@ ${CMAKE_SOURCE_DIR}/GenfitTools/trackrep/LSLtrackRep
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES LSLTrackRep.cxx VirtSpacePointRecoHit.cxx LSLEQM.cxx Nystrom.cxx)
+set( CXXSOURCES LSLTrackRep.cxx VirtSpacePointRecoHit.cxx LSLEQM.cxx Nystrom.cxx)
 
 SET(DEPENDENCIES genfit)
 GENERATE_EICROOT_LIBRARY(genfitLSL genfitLSLLinkDef.h)

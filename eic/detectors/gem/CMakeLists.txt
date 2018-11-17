@@ -24,7 +24,7 @@ ${CMAKE_SOURCE_DIR}/eic/detectors/gem
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES EicGem.cxx GemGeoParData.cxx )
+set( CXXSOURCES EicGem.cxx GemGeoParData.cxx )
 
 SET(DEPENDENCIES eicbase)
 GENERATE_EICROOT_LIBRARY(gem gemLinkDef.h)
