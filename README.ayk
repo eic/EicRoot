@@ -26,3 +26,5 @@
 #
 # make -j4 install
 #
+# cmake -DCMAKE_INSTALL_PREFIX=. -DCMAKE_C_COMPILER=/DATA00/ayk/local/bin/gcc -DCMAKE_CXX_COMPILER=/DATA00/ayk/local/bin/g++ -Wno-dev -DROOT5=yes -DCAD2ROOT=yes -DEICSMEAR=/DATA00/ayk/FAIRROOT.FRESH/eic-smear -DOPENCASCADE=/DATA00/ayk/oce/install ..
+#

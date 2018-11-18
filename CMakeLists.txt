@@ -14,7 +14,7 @@ PROJECT(EICROOT)
 cmake_minimum_required(VERSION 2.8.10)
 
 # Very few command line options left;
-SET(VARS EICSMEAR CBMROOT CAD2ROOT ELMER)
+SET(VARS EICSMEAR CBMROOT CAD2ROOT OPENCASCADE)
 foreach (var ${VARS})
   IF(DEFINED ${var})
     message("-> " ${var} " is defined to " ${${var}})
@@ -118,6 +118,14 @@ endif()
 add_subdirectory(eic/base)
 add_subdirectory(eic/field)
 if (DEFINED CAD2ROOT)
+  # Well, OpenCascade is not needed to import either STL or COMSOL .mphtxt or already
+  # converted ROOT TGeo files -> optional;
+  if(DEFINED OPENCASCADE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_OPENCASCADE_")
+
+    add_subdirectory(eic/cad/wizard)
+  endif()
+
   add_subdirectory(eic/cad)
 endif()
 add_subdirectory(eic/tracking)

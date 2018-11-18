@@ -1,0 +1,7 @@
+## -----------------------------------------------------------
+## 
+##
+##   name    center_x center_y center_z rin(z-in) rin(z-out)  dout   length   angle      B      gradient
+##             [m]      [m]      [m]      [m]        [m]      [m]      [m]   [mrad]     [T]      [T/m]
+##
+

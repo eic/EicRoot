@@ -1,0 +1,32 @@
+#
+# Radii; units are [cm] in this file; if outer radius is 0.0, the 
+# default value will be takes;
+#
+#       inner(Zin)   inner(Zout)   outer   
+
+# Well, I guess I have to assume very large bore with the const field for B0?;
+YO5_HB0   20.0         20.0        25.0 
+
+YO5_HQ1    4.2          4.2        12.8 
+YO5_HQ2   10.5         10.5        21.5
+YO5_HB1   13.5         13.5        29.5
+YO5_HB2A   9.0          9.0        18.0
+
+HQE1       2.2          2.2         5.0 
+HQE2       4.85         4.85       14.7 
+
+# FIXME: outer ones are fake;
+#HQE1N      6.75         9.30       25.0 
+#HQE2N     11.40        13.30       25.0 
+# FIXME: for now just swap Rmin & Rmax (since they are ordered along -Z direction);
+HQE1N      9.30         6.75       15.0 
+HQE2N     13.30        11.40       20.0 
+
+# FIXME: completely fake;
+HQE3N     10.00        10.00       25.0 
+
+DB1       11.06         9.64       20.0
+DB2       17.07        14.04       20.0
+
+# FIXME: completely fake;
+DB3       10.00        10.00       20.0

@@ -79,7 +79,7 @@ void EicStlFactory::ImportBinaryStlFile(FILE *fin, unsigned trCount, double scal
   __u16 attr;
   float fnn[3], fvCoord1[3], fvCoord2[3], fvCoord3[3];
 	  
-  printf("trCount: %d\n", trCount);
+  //printf("trCount: %d\n", trCount);
 
   // Assume I'm right past 80-byte header and 4-byte triangle count;
   for(unsigned itr=0; itr<trCount; itr++)
@@ -473,8 +473,8 @@ void EicStlFactory::_ConstructGeometry(TGeoVolume *mother, TVector3 shift, bool 
   for (gEntry::iterator it=mGroups.begin(); it!=mGroups.end(); it++) {
     EicStlMediaGroup *mgroup = &it->second;
 
-    printf("vtx count: %d; buffered facet count: %d\n",
-    	   mgroup->vertices()->size(), mgroup->mFbuffer.size()); 
+    //printf("vtx count: %d; buffered facet count: %d\n",
+    //	   mgroup->vertices()->size(), mgroup->mFbuffer.size()); 
 
 #if _DOES_NOT_WORK_
     // May want to build just a wireframe model for vizualization purposes;
@@ -611,7 +611,7 @@ void EicStlFactory::_ConstructGeometry(TGeoVolume *mother, TVector3 shift, bool 
 		     "support is not compiled in! \033[0m"); 
       
 #endif
-      //unlink(stlActualFileName.Data());
+      unlink(stlActualFileName.Data());
     } //for ass
   } //for it
 } // EicStlFactory::ConstructGeometry()
@@ -623,8 +623,8 @@ int EicStlFactory::CreateRootFile(TGeoVolume *mother, const char *bname)
   for (gEntry::iterator it=mGroups.begin(); it!=mGroups.end(); it++) {
     EicStlMediaGroup *mgroup = &it->second;
 
-    printf("vtx count: %d; buffered facet count: %d\n",
-    	   mgroup->vertices()->size(), mgroup->mFbuffer.size()); 
+    //printf("vtx count: %d; buffered facet count: %d\n",
+    //	   mgroup->vertices()->size(), mgroup->mFbuffer.size()); 
 
     if (mgroup->SplitIntoAssemblies(mConfig->GetStlVertexMergingTolerance())) assert(0);
 

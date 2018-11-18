@@ -1,0 +1,6 @@
+//AYK, 2017/10/01
+
+  After all considered to make the orientation handling more robust and input-independent:
+
+   - ignore vertex order and normal pointers in facet definitions upon input;
+   - store vertices in edge class and in facet class in their mKey order;
