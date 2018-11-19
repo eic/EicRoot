@@ -16,7 +16,7 @@ void analysis()
   cbmsim->SetBranchAddress("PidChargedCand", &rcTrackArray);
 
   // Book 1D dp/p histogram;
-  TH1D *dp = new TH1D("dp", "dp", 100, -20., 20.);
+  TH1D *dp = new TH1D("dp", "dp", 100, -5., 5.);
 
   // Loop through all events; NB: for box-generated events without secondaries 
   // could simply use cbmsim->Project() as well; in general EicEventAssembler 
@@ -28,14 +28,34 @@ void analysis()
     // Loop through all reconstructed tracks;
     for(unsigned rc=0; rc<rcTrackArray->GetEntriesFast(); rc++) {
       PndPidCandidate *rctrack = rcTrackArray->At(rc);
+#if 0
       {
 	for(unsigned iq=0; iq<rctrack->GetSmoothedValuesCount(); iq++) {
 	  const TVector3 &pos = rctrack->GetSmoothedPosition(iq);
 	  const TVector3 &mom = rctrack->GetSmoothedMomentum(iq);
 	  
-	  printf("%10.4f %10.4f %10.4f -> %10.4f %10.4f %10.4f\n", 
-	  	 pos.X(), pos.Y(), pos.Z(), mom.X(), mom.Y(), mom.Z());
+	  if (rctrack->GetSmoothedValuesCount() != 10)
+	    printf("%10.4f %10.4f %10.4f -> %10.4f %10.4f %10.4f\n", 
+		   pos.X(), pos.Y(), pos.Z(), mom.X(), mom.Y(), mom.Z());
 	} //for iq
+      }
+#endif
+      {
+	TVector3 plxx(0.0, 0.0, 111.0), plnx(0.0, 0.0, 1.0);  
+	NaiveTrackParam param = rctrack->GetNearestParameterization(plxx, plnx);
+
+	if (param.IsValid()) {
+	  const TVector3 &pos = param.GetPosition();
+	  const TVector3 &mom = param.GetMomentum();
+	  
+	  if (rctrack->GetSmoothedValuesCount() != 10)
+	    printf(" %10.4f %10.4f %10.4f -> %10.4f %10.4f %10.4f -> %10.4f\n", 
+		   pos.X(), pos.Y(), pos.Z(), mom.X(), mom.Y(), mom.Z(),
+		   param.DistanceToPlane(plxx, plnx));
+	} 
+	else
+	  // Can hardly happen (fitter would not be started on such a track);
+	  printf("  ---> No hits!\n");
       }
 
       int mcTrackId = rctrack->GetMcIndex();

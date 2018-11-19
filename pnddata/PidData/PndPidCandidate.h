@@ -21,12 +21,38 @@
 #include "TVector3.h"
 #include "TLorentzVector.h"
 
+#include "FairTrackParam.h"
+
 //class VAbsPidInfo;
 
 //  ========================================================================
 //  ===== PndPidCandidate - Class definig the AOD interface           ====
 //  ========================================================================
 
+class NaiveTrackParam: public TObject 
+{
+ public:
+ NaiveTrackParam(): mValid(false) {};
+  ~NaiveTrackParam() {};
+
+  bool IsValid( void ) const { return mValid; };
+  TVector3 GetPosition( void ) const { return mPosition; };
+  TVector3 GetMomentum( void ) const { return mMomentum; };
+  double DistanceToPlane(const TVector3 &x0, const TVector3 &n0) {
+    return fabs((x0 - mPosition).Dot(n0.Unit()));
+  };
+
+  void SetValid( void )                      { mValid    = true; };
+  void SetPosition(const TVector3 &position) { mPosition = position; };
+  void SetMomentum(const TVector3 &momentum) { mMomentum = momentum; };
+
+ private:
+  bool mValid;
+  TVector3 mPosition, mMomentum;
+
+  ClassDef(NaiveTrackParam, 1);
+};
+  
 class PndPidCandidate : public FairRecoCandidate  //FairMultiLinkedData
 {
 
@@ -68,6 +94,7 @@ class PndPidCandidate : public FairRecoCandidate  //FairMultiLinkedData
   // detector specific stuff
   // ************************
 	
+#if _OLD_
   // MVD
   Float_t		GetMvdDEDX()     const { return fMvdDEDX; }
   Int_t		        GetMvdHits()     const { return fMvdHits; }
@@ -135,20 +162,21 @@ class PndPidCandidate : public FairRecoCandidate  //FairMultiLinkedData
   Int_t                 GetMuoModule()    const { return fMuoModule; }
   Int_t                 GetMuoHits()    const { return fMuoHits; }
   Int_t                 GetMuoIndex()     const { return fMuoIndex; }
+#endif
 
   // Tracking
  
   Int_t    	GetDegreesOfFreedom() const{return fDegreesOfFreedom;}
   Int_t    	GetFitStatus() const{return fFitStatus;}
   Float_t  	GetChiSquared() const{return fChiSquared;}
-  
+ 
   //TODO: PID values workaround
 	Float_t		GetElectronPidLH() const { return -1; }
 	Float_t		GetMuonPidLH() const { return -1; }
 	Float_t		GetPionPidLH() const { return -1; } 
 	Float_t		GetKaonPidLH() const { return -1; }
 	Float_t		GetProtonPidLH() const { return -1; }
-  
+
 	    
   
   // ************************
@@ -185,7 +213,8 @@ class PndPidCandidate : public FairRecoCandidate  //FairMultiLinkedData
   // ************************
   // detector specific stuff
   // ************************
-	
+
+#if _OLD_	
   // MVD
   void 	SetMvdDEDX(Double_t val)    { fMvdDEDX = (Float_t) val; }
   void	SetMvdHits(Int_t val)       { fMvdHits = val; }
@@ -250,6 +279,7 @@ class PndPidCandidate : public FairRecoCandidate  //FairMultiLinkedData
   void  SetMuoModule(Int_t val)         { fMuoModule = val; } 
   void  SetMuoHits(Int_t val)           { fMuoHits = val; }
   void  SetMuoIndex(Int_t val)          { fMuoIndex = val; }
+#endif
 
   // Tracking
   void   	SetDegreesOfFreedom(Int_t val) { fDegreesOfFreedom=val;}
@@ -267,6 +297,7 @@ class PndPidCandidate : public FairRecoCandidate  //FairMultiLinkedData
   unsigned GetSmoothedValuesCount( void )   const { return mSmoothedPositions.size(); };
   const TVector3 &GetSmoothedPosition(unsigned iq) const { return mSmoothedPositions[iq]; };
   const TVector3 &GetSmoothedMomentum(unsigned iq) const { return mSmoothedMomenta[iq]; };
+  NaiveTrackParam GetNearestParameterization(const TVector3 &x0, const TVector3 &n0);
 #if 0
   void PrintMe( void ) {
     for(unsigned iq=0; iq<mSmoothedValues.size(); iq++) {
@@ -311,7 +342,8 @@ class PndPidCandidate : public FairRecoCandidate  //FairMultiLinkedData
   Float_t	fErrP7[28];  // The symmetric 7*7 error matrix
   Float_t	fParams[5];  // The helix fit parameters
   Float_t	fCov[15];    // The helix error matrix
-		
+
+#if _OLD_		
   // detector quantities
   // MVD
   Float_t 	fMvdDEDX;
@@ -379,6 +411,7 @@ class PndPidCandidate : public FairRecoCandidate  //FairMultiLinkedData
   Int_t         fMuoModule;
   Int_t         fMuoHits;
   Int_t         fMuoIndex;
+#endif
   
   // Tracking
   Int_t	        fDegreesOfFreedom;
@@ -386,7 +419,7 @@ class PndPidCandidate : public FairRecoCandidate  //FairMultiLinkedData
   Float_t 	fChiSquared;
   
 
-  ClassDef(PndPidCandidate,6) // Abstract base class for MicroDST candidates
+  ClassDef(PndPidCandidate,7) // Abstract base class for MicroDST candidates
     };
 
 //std::ostream&  operator << (std::ostream& o, const VAbsMicroCandidate&);

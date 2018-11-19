@@ -16,6 +16,7 @@
 #pragma link C++ class PndTrackCandHit+;
 #pragma link C++ class PndVertex+;
 
+#pragma link C++ class NaiveTrackParam+;
 #pragma link C++ class PndPidCandidate+;
 #pragma link C++ class PndPidProbability+;
 

@@ -36,6 +36,7 @@ PndPidCandidate::PndPidCandidate():
   fMcIndex(-1),
   fTrackIndex(-1), 
   fTrackBranch(-1),
+#if _OLD_
   fMvdDEDX(0.),
   fMvdHits(0),
   fSttMeanDEDX(0.),
@@ -82,6 +83,7 @@ PndPidCandidate::PndPidCandidate():
   fMuoModule(0), 
   fMuoHits(0),
   fMuoIndex(-1),
+#endif
   fDegreesOfFreedom(0),
   fFitStatus(-1),
   fChiSquared(0.)		
@@ -108,6 +110,7 @@ PndPidCandidate::PndPidCandidate(Int_t charge, TVector3 &pos, TLorentzVector &p4
   fMcIndex(-1),
   fTrackIndex(-1),
   fTrackBranch(-1),
+#if _OLD_
   fMvdDEDX(0.),
   fMvdHits(0),
   fSttMeanDEDX(0.),
@@ -154,6 +157,7 @@ PndPidCandidate::PndPidCandidate(Int_t charge, TVector3 &pos, TLorentzVector &p4
   fMuoModule(0), 
   fMuoHits(0),
   fMuoIndex(-1),
+#endif
   fDegreesOfFreedom(0),
   fFitStatus(-1),
   fChiSquared(0.)
@@ -184,6 +188,7 @@ PndPidCandidate::PndPidCandidate(Int_t charge, TVector3 &pos, TLorentzVector &p4
   fMcIndex(-1),
   fTrackIndex(-1),
   fTrackBranch(-1),
+#if _OLD_
   fMvdDEDX(0.),
   fMvdHits(0),
   fSttMeanDEDX(0.),
@@ -230,6 +235,7 @@ PndPidCandidate::PndPidCandidate(Int_t charge, TVector3 &pos, TLorentzVector &p4
   fMuoModule(0),
   fMuoHits(0),
   fMuoIndex(-1),
+#endif
   fDegreesOfFreedom(0),
   fFitStatus(-1),
   fChiSquared(0.)
@@ -360,6 +366,7 @@ void PndPidCandidate::SetDefault()
   fMcIndex = -1;
   fTrackIndex = -1;
   fTrackBranch = -1;
+#if _OLD_
   fMvdDEDX = 0.;
   fMvdHits = 0;
   fSttMeanDEDX = 0.;
@@ -406,6 +413,7 @@ void PndPidCandidate::SetDefault()
   fMuoModule = 0; 
   fMuoHits = 0;
   fMuoIndex = -1;
+#endif
   fDegreesOfFreedom = 0;
   fFitStatus = 0;
   fChiSquared = 0.;  
@@ -416,3 +424,29 @@ void PndPidCandidate::SetDefault()
   for (i=0; i<15;i++) fCov[i] = 0;
 }
 
+
+NaiveTrackParam PndPidCandidate::GetNearestParameterization(const TVector3 &x0, const TVector3 &n0)
+{
+  NaiveTrackParam param;
+  int best_hit = -1;
+  double best_dist = 0.0;
+
+  for(unsigned iq=0; iq<mSmoothedPositions.size(); iq++) {
+    const TVector3 &pos = mSmoothedPositions[iq];
+    double dist = fabs((x0 - pos).Dot(n0.Unit()));
+    if (best_hit == -1 || dist < best_dist) {
+      best_hit  = iq;
+      best_dist = dist;
+    } //if
+  } //for iq
+
+  // This will always be true if at least one hit was recorded in mSmoothedPositions;
+  if (best_hit != -1) {
+    param.SetPosition(mSmoothedPositions[best_hit]);
+    param.SetMomentum(mSmoothedMomenta[best_hit]);
+
+    param.SetValid();
+  } //if
+
+  return param;
+} // PndPidCandidate::GetNearestParameterization()

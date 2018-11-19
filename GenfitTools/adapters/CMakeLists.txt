@@ -20,7 +20,7 @@ ${CMAKE_SOURCE_DIR}/GenfitTools/adapters
 #include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
-set( SOURCES
+set( CXXSOURCES
 PndGenfitAdapters.cxx
 PndGenfitField.cxx
 )
