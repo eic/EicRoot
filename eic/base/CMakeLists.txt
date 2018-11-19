@@ -89,6 +89,11 @@ EicAsciiBoxGenerator.cxx
 
 SET(EXTRA_HEADERS EicUnits.h)
 
+if (DEFINED EICSMEAR) 
 SET(DEPENDENCIES Base Field EventDisplay PndData Passive Eve event)
+else (DEFINED EICSMEAR)
+SET(DEPENDENCIES Base Field EventDisplay PndData Passive Eve)
+endif (DEFINED EICSMEAR)
+
 GENERATE_EICROOT_LIBRARY(eicbase eicbaseLinkDef.h)
 
