@@ -45,6 +45,6 @@ EicIdealTrackingCode.cxx
 EicRecoKalmanTask.cxx
 )
 
-SET(DEPENDENCIES eicbase field genfit RecoTasks)
+SET(DEPENDENCIES eicbase qfield genfit RecoTasks)
 GENERATE_EICROOT_LIBRARY(tracking trackingLinkDef.h)
 	 

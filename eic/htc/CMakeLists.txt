@@ -47,6 +47,6 @@ TrKalmanNode.cxx
 TrKalmanNodeLocation.cxx
 )
 
-SET(DEPENDENCIES eicbase ayk field tracking ${SIMPATH}/lib/libgeant321.so)
+SET(DEPENDENCIES eicbase ayk qfield tracking ${SIMPATH}/lib/libgeant321.so)
 GENERATE_EICROOT_LIBRARY(htc eichtcLinkDef.h)
 	 

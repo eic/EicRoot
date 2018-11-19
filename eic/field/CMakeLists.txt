@@ -50,5 +50,5 @@ EicBeamLineElementGrad.cxx
 )
 
 SET(DEPENDENCIES ayk eicbase ${ROOT_LIBRARIES} -lcrypto)
-GENERATE_EICROOT_LIBRARY(field qfieldLinkDef.h)
+GENERATE_EICROOT_LIBRARY(qfield qfieldLinkDef.h)
 	 
