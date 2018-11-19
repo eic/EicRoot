@@ -102,7 +102,7 @@ void simulation(Int_t nEvents = 10)
 
   // Event generator;
   {
-    TString evFile = "/data/eD.10x100.1M.root";
+    TString evFile = "../../data/eD.10x100.1M.root";
 
     EicEventGenerator* evtGen = new EicEventGenerator(evFile.Data());
 

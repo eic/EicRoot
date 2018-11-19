@@ -29,7 +29,7 @@ void simulation(Int_t nEvents = 10)
 
   // Event Generator;
   {
-    TString evFile = "/data/pythia.ep.18x275.5Mevents.1.RadCor=0.Q2.all.1M-lines.txt";
+    TString evFile = "../../data/pythia.ep.18x275.5Mevents.1.RadCor=0.Q2.all.1M-lines.txt";
 
     EicEventGenerator* evtGen = new EicEventGenerator(evFile.Data());
 

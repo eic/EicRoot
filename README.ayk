@@ -1,4 +1,11 @@
 #
+# RACF:
+#
+# cd EicRoot && mkdir build && cd build
+# cmake -DCMAKE_INSTALL_PREFIX=. -Wno-dev -DROOT5=yes -DEICSMEAR=/afs/rhic.bnl.gov/eic/restructured/env/EIC2018a/PACKAGES/EicRoot/eic-smear -DCAD2ROOT=yes ..
+# make -j8 install
+#
+# --------------------------------------
 # (Memo for my desktop)
 #
 # Assuming that gcc accepts -std=c++11 for both ROOT5 & ROOT6 cases; otherwise 
@@ -26,5 +33,6 @@
 #
 # make -j4 install
 #
+# For the CAD wizard OpenCascade is required;
 # cmake -DCMAKE_INSTALL_PREFIX=. -DCMAKE_C_COMPILER=/DATA00/ayk/local/bin/gcc -DCMAKE_CXX_COMPILER=/DATA00/ayk/local/bin/g++ -Wno-dev -DROOT5=yes -DCAD2ROOT=yes -DEICSMEAR=/DATA00/ayk/FAIRROOT.FRESH/eic-smear -DOPENCASCADE=/DATA00/ayk/oce/install ..
 #
