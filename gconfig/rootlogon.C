@@ -40,7 +40,7 @@ void rootlogon()
   if(isLibraryLocal("libbuffers"))gSystem->Load("libbuffers");
 
   // NB: this EicRoot-specific library should be loaded before PandaRoot-specific libField; 
-  if(isLibraryLocal("libfield"))          gSystem->Load("libfield");
+  if(isLibraryLocal("libqfield"))          gSystem->Load("libqfield");
   //+if(isLibraryLocal("libField"))gSystem->Load("libField");
 
   if(isLibraryLocal("libPassive"))gSystem->Load("libPassive");
