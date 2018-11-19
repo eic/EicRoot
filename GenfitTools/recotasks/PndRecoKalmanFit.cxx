@@ -75,6 +75,8 @@ Bool_t PndRecoKalmanFit::Init()
   // STT map loading
   //FairRuntimeDb* rtdb = FairRunAna::Instance()->GetRuntimeDb();
 
+  //fVerbose = 2;
+
   // Build hit factory -----------------------------
   fTheRecoHitFactory = new GFRecoHitFactory();
   if (fVerbose<2) GFException::quiet(true);
@@ -276,13 +278,17 @@ PndTrack* PndRecoKalmanFit::Fit(PndTrack *tBefore, Int_t PDG)
   if (fVerbose>0) std::cout<<"Fitting done"<<std::endl;
 
   {
-    std::vector<PndTrackCandHit> hits = tBefore->GetTrackCandPtr()->GetSortedHits();
+    //std::vector<PndTrackCandHit> hits = tBefore->GetTrackCandPtr()->GetSortedHits();
     
-    for(unsigned iq=0; iq<hits.size(); iq++) {
-      TVector3 pos = GFTools::getSmoothedPosXYZ(trk, 0, iq);
+    //printf("%2d vs %2d hits total\n", hits.size(), trk->getNumHits());
+    for(unsigned iq=0; iq</*hits.size()*/trk->getNumHits(); iq++) {
+      bool ret;
+
+      TVector3 pos = GFTools::getSmoothedPosXYZ(trk, 0, iq, &ret);
       TVector3 mom = GFTools::getSmoothedMomXYZ(trk, 0, iq);
 
-      tAfter->mSmoothedValues.push_back(std::pair<TVector3, TVector3>(pos, mom));
+      if (ret)
+	tAfter->mSmoothedValues.push_back(std::pair<TVector3, TVector3>(pos, mom));
     } //for iq
   }
 

@@ -49,7 +49,7 @@ namespace GFTools {
 
 	 /** @brief Get smoothed track position in global coordinates
 	   */
-	TVector3 getSmoothedPosXYZ(const GFTrack* trk, unsigned int irep, unsigned int ihit);
+	TVector3 getSmoothedPosXYZ(const GFTrack* trk, unsigned int irep, unsigned int ihit, bool *ret = 0);
 
   /** @brief Get smoothed momentum in global coordinates
      */

@@ -24,7 +24,7 @@ TMatrixT<double> GFTools::getSmoothedPos(const GFTrack* trk, unsigned int irep, 
 }
 
 
-TVector3 GFTools::getSmoothedPosXYZ(const GFTrack* trk, unsigned int irep, unsigned int ihit){
+TVector3 GFTools::getSmoothedPosXYZ(const GFTrack* trk, unsigned int irep, unsigned int ihit, bool *ret){
 
   TMatrixT<double> smoothed_state;
   TMatrixT<double> smoothed_cov;
@@ -37,8 +37,10 @@ TVector3 GFTools::getSmoothedPosXYZ(const GFTrack* trk, unsigned int irep, unsig
     TMatrixT<double> pos_tmp(H * smoothed_state);
     pos.ResizeTo(pos_tmp);
     pos = pos_tmp;
-
-  }
+  } else {
+    if (ret) *ret = false;
+    return TVector3();
+  } //if
 
   // check dimension
   if (pos.GetNrows() != 2 || pos.GetNcols() != 1){
@@ -51,6 +53,7 @@ TVector3 GFTools::getSmoothedPosXYZ(const GFTrack* trk, unsigned int irep, unsig
   pos3D += pos(0,0) * plane.getU();
   pos3D += pos(1,0) * plane.getV();
 
+  if (ret) *ret = true;
   return pos3D;
 }
 
@@ -207,7 +210,7 @@ bool GFTools::getSmoothedData(const GFTrack* trk, unsigned int irep, unsigned in
 			} else {
 				bAuxInfoP = NULL;
 			}
-			if(bUpSt.GetNrows() == 0) return false;
+			if(bUpSt.GetNrows() == 0) { printf("Ku-0\n"); return false; };
 			rep->setData(bUpSt,bPl,&bUpCov,bAuxInfoP);
 			rep->extrapolate(smoothing_plane,smoothed_state,smoothed_cov);
 			return true;
@@ -225,7 +228,7 @@ bool GFTools::getSmoothedData(const GFTrack* trk, unsigned int irep, unsigned in
 			} else {
 				fAuxInfoP = NULL;
 			}
-			if(fUpSt.GetNrows() == 0) return false;
+			if(fUpSt.GetNrows() == 0) { printf("Ku-1\n"); return false; };
 			rep->setData(fUpSt,fPl,&fUpCov,fAuxInfoP);
 			rep->extrapolate(smoothing_plane,smoothed_state,smoothed_cov);
 			return true;
@@ -247,7 +250,7 @@ bool GFTools::getSmoothedData(const GFTrack* trk, unsigned int irep, unsigned in
 		trk->getBK(irep)->getDetPlane("fPl",ihit,smoothing_plane);
 		trk->getBK(irep)->getDetPlane("bPl",ihit+1,bPl);
 
-		if(fUpSt.GetNrows() == 0 || bUpSt.GetNrows() == 0) return false;
+		if(fUpSt.GetNrows() == 0 || bUpSt.GetNrows() == 0) { printf("Ku-2\n"); return false; };
 
 		rep->setPropDir(1);
 		rep->setData(fUpSt,fPl,&fUpCov,fAuxInfoP);
