@@ -1,5 +1,5 @@
 
-void simulation(Int_t nEvents = 10)
+void simulation(Int_t nEvents = 10000)
 {
   // Load basic libraries;
   gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");
@@ -102,7 +102,7 @@ void simulation(Int_t nEvents = 10)
 
   // Event generator;
   {
-    TString evFile = "../../data/eD.10x100.1M.root";
+    TString evFile = "../../data/asc_5x41_dvcs-1M-lines.out";
 
     EicEventGenerator* evtGen = new EicEventGenerator(evFile.Data());
 
@@ -118,10 +118,10 @@ void simulation(Int_t nEvents = 10)
   {
     EicMagneticField *fField = new EicMagneticField();
 
-    fField->AddBeamLineElementGrads("IR/pCDR-2018/madx/H.H-GOING", (2*100.)/275., kBlue);
+    fField->AddBeamLineElementGrads("IR/pCDR-2018/madx/H.H-GOING", 41./275., kBlue);
     fField->SuppressYokeCreation("YO5_HB0");    
 
-    fField->AddBeamLineElementGrads("IR/pCDR-2018/madx/E.H-GOING",           1.8, kGreen);
+    fField->AddBeamLineElementGrads("IR/pCDR-2018/madx/E.H-GOING",  5./10.,  kGreen);
 
     fField->CreateYokeVolumes(kTRUE);
 

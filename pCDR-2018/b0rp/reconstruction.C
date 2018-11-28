@@ -31,7 +31,7 @@ void reconstruction()
   fRun->AddTask(idealTracker);
 
   // Invoke and configure PandaRoot Kalman filter code wrapper;
-  //fRun->AddTask(new EicRecoKalmanTask(idealTracker));
+  fRun->AddTask(new EicRecoKalmanTask(idealTracker));
 
 #if _LATER_
   EicHtcTask *htc = new EicHtcTask(idealTracker, TrKalmanFilter::WithField);  
@@ -44,7 +44,7 @@ void reconstruction()
 #endif
 
   // This call here just performs track backward propagation to the beam line; 
-  //fRun->AddTask(new PndPidCorrelator());
+  fRun->AddTask(new PndPidCorrelator());
 
   // Initialize and run the reconstruction; exit at the end;
   fRun->Run();
