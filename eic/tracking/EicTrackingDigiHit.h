@@ -134,7 +134,7 @@ class EicTrackingDigiHitOrth2D : public EicTrackingDigiHit
   virtual ~EicTrackingDigiHitOrth2D() {}; 
 
   unsigned GetMdim()                             const { return 2; };
-  double _GetCoord(unsigned id)                   const { assert(0); return (id < 2 ? mLocalCoord[id] : 0.0); };
+  double _GetCoord(unsigned id)                   const { /*assert(0);*/ return (id < 2 ? mLocalCoord[id] : 0.0); };
   // check! double _GetCoord(unsigned id)                   const { /*assert(0);*/ return (id < 2 ? mLocalCoord[id] : 0.0); };
   double GetCovariance(unsigned ip, unsigned iq) const { 
     return ((ip != iq || ip >= 2) ? 0.0 : mSigma[ip]*mSigma[ip]); 

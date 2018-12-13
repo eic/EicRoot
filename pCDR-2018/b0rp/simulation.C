@@ -92,17 +92,39 @@ void simulation(Int_t nEvents = 10000)
   } 
 
   // Hadron-going direction detectors;
+  fRun->AddModule(new EicDetector("IPPT",      "../geometry/ip-point.root",  qDUMMY, qMergeStepsInOneHit));
   fRun->AddModule(new EicDetector("B0TRACKER", "../geometry/b0tracker.root", qDUMMY, qMergeStepsInOneHit));
-  fRun->AddModule(new EicDetector("RP",        "../geometry/rp.root",qDUMMY, qMergeStepsInOneHit));
-  {
-    EicDetector *zdc = new EicDetector("ZDC",  "../geometry/zdc.root",qDUMMY, qMergeStepsInOneHit);
-    zdc->AddKillerVolume("ZdcBox");
-    fRun->AddModule(zdc);
-  }
+  fRun->AddModule(new EicDetector("RP",        "../geometry/rp.root",        qDUMMY, qMergeStepsInOneHit));
+  //{
+  //EicDetector *zdc = new EicDetector("ZDC",  "../geometry/zdc.root",qDUMMY, qMergeStepsInOneHit);
+  //zdc->AddKillerVolume("ZdcBox");
+  //fRun->AddModule(zdc);
+  //}
 
   // Event generator;
+#if 0
   {
+    // Box generator; 
+    int PDG = 2212;     
+    EicBoxGenerator* boxGen = new EicBoxGenerator(PDG); 
+
+    boxGen->SetMomentum(100.);    
+    boxGen->SetThetaRange(0.003 * TMath::RadToDeg(), 0.010 * TMath::RadToDeg()); //boxGen->SetPhi(45.0);
+    //boxGen->SetTheta(0.003 * TMath::RadToDeg()); //boxGen->SetPhi(45.0);
+    //boxGen->SetTheta(0.013 * TMath::RadToDeg()); //boxGen->SetPhi(45.0);
+    
+    boxGen->SetVertex(0.000, 0.000, -1.0); // may want to offset in Z in order to get IPPT "hit";  
+    boxGen->SetVertexSmearing(0.010, 0.002, 0.0); // H:100um and V:20um for now; 
+
+    boxGen->SetNaiveHorizontalBeamRotation(0.022);
+    fRun->AddGenerator(boxGen);
+  }
+#else
+  {
+    // Physics generator;
     TString evFile = "../../data/asc_5x41_dvcs-1M-lines.out";
+    //TString evFile = "../../data/ePb_18x110_Q2_1_10_y_0.01_0.95_tau_7_noquench_kt=ptfrag=0.32_Shd3_ShdFac=1.32_Jpsidiffnodecay_fixpfUS3_seqnp_40k.a.root";
+    //TString evFile = "../../data/asc_10x100_dvcs-1M-lines.out";
 
     EicEventGenerator* evtGen = new EicEventGenerator(evFile.Data());
 
@@ -113,15 +135,19 @@ void simulation(Int_t nEvents = 10000)
 
     fRun->AddGenerator(evtGen);
   }
+#endif
 
   // Magnetic field; NB: rescale properly!;
   {
     EicMagneticField *fField = new EicMagneticField();
 
     fField->AddBeamLineElementGrads("IR/pCDR-2018/madx/H.H-GOING", 41./275., kBlue);
+    //fField->AddBeamLineElementGrads("IR/pCDR-2018/madx/H.H-GOING", 100./275., kBlue);
+    //fField->AddBeamLineElementGrads("IR/pCDR-2018/madx/H.H-GOING", 275./275., kBlue);
     fField->SuppressYokeCreation("YO5_HB0");    
 
     fField->AddBeamLineElementGrads("IR/pCDR-2018/madx/E.H-GOING",  5./10.,  kGreen);
+    //fField->AddBeamLineElementGrads("IR/pCDR-2018/madx/E.H-GOING",  10./10.,  kGreen);
 
     fField->CreateYokeVolumes(kTRUE);
 

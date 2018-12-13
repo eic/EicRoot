@@ -13,14 +13,12 @@ void digitization()
   fRun->SetInputFile ("simulation.root");
   fRun->SetOutputFile("digitization.root");
 
-#if _LATER_
   EicTrackingDigiHitProducer *ippt = 
     new EicTrackingDigiHitProducer("IPPT", EicDigiHitProducer::Smear);
   // pCDR table 3.3, 275x18 GeV, first column;
   ippt->DefineKfNodeTemplateXY(100 * eic::um, 20 * eic::um);
   //ippt->DefineKfNodeTemplateXY(10 * eic::mm, 10 * eic::mm);
   fRun->AddTask(ippt);
-#endif
 
   EicTrackingDigiHitProducer *b0tracker = 
     new EicTrackingDigiHitProducer("B0TRACKER", EicDigiHitProducer::Smear);

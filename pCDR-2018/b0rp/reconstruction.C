@@ -18,7 +18,7 @@ void reconstruction()
 
   // Call "ideal" hit-to-track associator routine; 
   EicIdealTrackingCode* idealTracker = new EicIdealTrackingCode();
-  //idealTracker->AddDetectorGroup("IPPT");
+  idealTracker->AddDetectorGroup("IPPT");
   idealTracker->AddDetectorGroup("B0TRACKER");
   //idealTracker->AddDetectorGroup("RP");
   // Add a bit of fairness to the reconstruction procedure; smear "ideal"

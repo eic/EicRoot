@@ -18,7 +18,6 @@ void analysis()
   // Book 1D dp/p histogram;
   //TH1D *dp = new TH1D("dp", "dp", 100, -50., 50.);
   TH1D *dp = new TH1D("dp", "dp", 200, -1., 1.);
-  //TH1D *dp = new TH1D("dp", "dp", 100, -.2, .2);
 
   // Loop through all events; NB: for box-generated events without secondaries 
   // could simply use cbmsim->Project() as well; in general EicEventAssembler 
@@ -42,7 +41,6 @@ void analysis()
       // Well, for plotting select primary pi-minus tracks only (see simulation.C);
       if (mctrack->GetPdgCode() == 2212 && mctrack->GetMotherID() == -1)
 	//dp->Fill(100.*(rctrack->GetMomentum().Mag() - mctrack->GetMomentum().Mag())/mctrack->GetMomentum().Mag());
-	//dp->Fill(1000.*(rctrack->GetMomentum().Theta() - mctrack->GetMomentum().Theta()));
 	dp->Fill(rctrack->GetMomentum().Pt() - mctrack->GetMomentum().Pt());
     } //for rc
   } //for ev
