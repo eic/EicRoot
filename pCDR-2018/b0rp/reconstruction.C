@@ -31,7 +31,9 @@ void reconstruction()
   fRun->AddTask(idealTracker);
 
   // Invoke and configure PandaRoot Kalman filter code wrapper;
-  fRun->AddTask(new EicRecoKalmanTask(idealTracker));
+  EicRecoKalmanTask *kftask = new EicRecoKalmanTask(idealTracker);
+  //kftask->StoreTrackParameterization();
+  fRun->AddTask(kftask);
 
 #if _LATER_
   EicHtcTask *htc = new EicHtcTask(idealTracker, TrKalmanFilter::WithField);  

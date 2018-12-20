@@ -47,7 +47,7 @@ class PndRecoKalmanFit : public TNamed
   void SetCentralTrackerBranchName(const TString& name)  { fCentralTrackerBranchName = name; }
   // Operations ---------------------- 
   Bool_t Init();
-  PndTrack*  Fit(PndTrack *tBefore, Int_t PDG);
+  PndTrack*  Fit(PndTrack *tBefore, Int_t PDG, bool store_track_parameterization = false);
 
   GFRecoHitFactory* GetRecoHitFactory() { return fTheRecoHitFactory;};
   

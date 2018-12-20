@@ -64,6 +64,8 @@ public:
   void SetParContainers();
   virtual void Exec(Option_t* opt);
   
+  void StoreTrackParameterization( void )          { mStoreTrackParameterization = true; };
+
 protected:
   
   // Private Data Members ------------
@@ -95,8 +97,12 @@ protected:
   Int_t fNumIt;                  //! Number of iterations
   Int_t fPDGHyp;                 //! Hypothesis
   Int_t fBusyCut;                 //! Skip too busy events with more tracks
+
+  // May want to instruct Kalman filter to record track parameterization (state
+  // vector) at the hit locations;
+  bool mStoreTrackParameterization;
   
-  ClassDef(PndRecoKalmanTask,1);
+  ClassDef(PndRecoKalmanTask,2);
 
 };
 

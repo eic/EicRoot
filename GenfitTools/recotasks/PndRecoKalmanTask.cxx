@@ -41,7 +41,7 @@ fTrackOutBranchName(""), fMvdBranchName(""), fCentralTrackerBranchName(""),
 fFitTrackArray(), fFitter(), fDafFitter(), fPDGHyp(-13),
 fUseGeane(kTRUE), fIdealHyp(kFALSE), fDaf(kFALSE), fPersistence(kTRUE),
 fPropagateToIP(kTRUE), fPerpPlane(kFALSE),
-  fNumIt(1), fBusyCut(20), fTrackRep(0)
+  fNumIt(1), fBusyCut(20), fTrackRep(0), mStoreTrackParameterization(false)
 {
   fFitTrackArray = new TClonesArray("PndTrack");  
   fFitter = new PndRecoKalmanFit(); 
@@ -220,7 +220,7 @@ void PndRecoKalmanTask::Exec(Option_t* opt)
     if (PDGCode!=0)
       {
 	if (fDaf) fitTrack = fDafFitter->Fit(prefitTrack, PDGCode);
-	else fitTrack = fFitter->Fit(prefitTrack, PDGCode);
+	else fitTrack = fFitter->Fit(prefitTrack, PDGCode, mStoreTrackParameterization);
 
 #if _OFF_
 	{
