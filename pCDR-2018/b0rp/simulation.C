@@ -1,5 +1,5 @@
 
-void simulation(Int_t nEvents = 10000)
+void simulation(Int_t nEvents = 1000)
 {
   // Load basic libraries;
   gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");
@@ -7,7 +7,8 @@ void simulation(Int_t nEvents = 10000)
   // Create the simulation run manager; 
   EicRunSim *fRun = new EicRunSim("TGeant3");
 
-  fRun->SetCaveFileName("cave-120m-vacuum.geo");
+  //fRun->SetCaveFileName("cave-120m-vacuum.geo");
+  fRun->SetCaveFileName("cave-120m-thin-air.geo");
   fRun->SetOutputFile("simulation.root");
 
   // Well, do not need secondaries in this simulation; 
@@ -17,6 +18,7 @@ void simulation(Int_t nEvents = 10000)
   fRun->AddModule(new EicMaps(           "VST",   "../geometry/vst-v02.0-ns.root", qVST));
 
   // Relevant part of the vacuum system;
+#if 1//_RETURN_BACK_
   {
     fRun->AddModule(new EicDummyDetector("VP.CENTER",        "pCDR-2018/geometry/vacuum.system/vp.center.root"));
     fRun->AddModule(new EicDummyDetector("VP.H-GOING",       "pCDR-2018/geometry/vacuum.system/vp.h-going.root"));
@@ -90,6 +92,7 @@ void simulation(Int_t nEvents = 10000)
       //fRun->AddModule(cad);
     }
   } 
+#endif
 
   // Hadron-going direction detectors;
   fRun->AddModule(new EicDetector("IPPT",      "../geometry/ip-point.root",  qDUMMY, qMergeStepsInOneHit));
@@ -102,19 +105,19 @@ void simulation(Int_t nEvents = 10000)
   //}
 
   // Event generator;
-#if 0
+#if 1
   {
     // Box generator; 
     int PDG = 2212;     
     EicBoxGenerator* boxGen = new EicBoxGenerator(PDG); 
 
-    boxGen->SetMomentum(100.);    
-    boxGen->SetThetaRange(0.003 * TMath::RadToDeg(), 0.010 * TMath::RadToDeg()); //boxGen->SetPhi(45.0);
+    boxGen->SetMomentum(275.);    
+    boxGen->SetTheta(0.0);//Range(0.003 * TMath::RadToDeg(), 0.010 * TMath::RadToDeg()); //boxGen->SetPhi(45.0);
     //boxGen->SetTheta(0.003 * TMath::RadToDeg()); //boxGen->SetPhi(45.0);
     //boxGen->SetTheta(0.013 * TMath::RadToDeg()); //boxGen->SetPhi(45.0);
     
     boxGen->SetVertex(0.000, 0.000, -1.0); // may want to offset in Z in order to get IPPT "hit";  
-    boxGen->SetVertexSmearing(0.010, 0.002, 0.0); // H:100um and V:20um for now; 
+    //boxGen->SetVertexSmearing(0.010, 0.002, 0.0); // H:100um and V:20um for now; 
 
     boxGen->SetNaiveHorizontalBeamRotation(0.022);
     fRun->AddGenerator(boxGen);
@@ -141,7 +144,7 @@ void simulation(Int_t nEvents = 10000)
   {
     EicMagneticField *fField = new EicMagneticField();
 
-    fField->AddBeamLineElementGrads("IR/pCDR-2018/madx/H.H-GOING", 41./275., kBlue);
+    fField->AddBeamLineElementGrads("IR/pCDR-2018/madx/H.H-GOING",275./275., kBlue);
     //fField->AddBeamLineElementGrads("IR/pCDR-2018/madx/H.H-GOING", 100./275., kBlue);
     //fField->AddBeamLineElementGrads("IR/pCDR-2018/madx/H.H-GOING", 275./275., kBlue);
     fField->SuppressYokeCreation("YO5_HB0");    

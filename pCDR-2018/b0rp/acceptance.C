@@ -53,7 +53,7 @@
   // Load basic libraries;
   gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");  
 
-  gStyle->SetOptStat(0);
+  //+gStyle->SetOptStat(0);
   gStyle->SetPadLeftMargin(0.13);
   gStyle->SetPadBottomMargin(0.13);
 
@@ -87,6 +87,9 @@
   TH1D *pt2 = new TH1D("pt2", "", 150,    0.,  1.5); pt2->SetLineWidth(3); pt2->SetLineColor(kRed);
   TH1D *pt3 = new TH1D("pt3", "", 150,    0.,  1.5); pt3->SetLineWidth(3); pt3->SetLineColor(kBlue);
 
+  // For test purposes only;
+  TH1D *tst = new TH1D("tst", "", 10000,  -300., 300.); 
+  
   //TH1D *hq2d = new TH1D("hq2d", "hq2d", 100,    0.,  100.);
   //TH1D *phi= new TH1D("phi","phi",100,  -3.14159, 3.14159);
   //TH2D *acc= new TH2D("acc","acc",100,  -10.,  10., 100,  -10.,  10.);
@@ -167,6 +170,8 @@
 	    //if (fabs(theta)< 1.) xx->Fill(xl);
 	    //if (fabs(theta)< 1.) yy->Fill(yl);
 	    //xy->Fill(xl, yl);
+
+	    tst->Fill(10.*rphit->_GetCoord(0));
 	  } //if
 	} //for iq
 
@@ -289,6 +294,8 @@
   pt2->Draw("SAME");
   pt3->Draw("SAME");
 #endif
+
+  tst->Draw();
 
   gPad->SetGrid();
 } // acceptance()
