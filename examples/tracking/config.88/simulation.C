@@ -3,7 +3,7 @@
 //  Simulation for BeAST detector tracker reslution estimates;
 //
 
-void simulation(Int_t nEvents = 100)//000)
+void simulation(Int_t nEvents = 1000)
 {
   // Load basic libraries;
   gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");

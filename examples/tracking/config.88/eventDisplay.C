@@ -1,6 +1,4 @@
 
-#include <simulation.C>
-
 void eventDisplay()
 {
   // Load basic libraries;
@@ -15,12 +13,8 @@ void eventDisplay()
   fMan->AddTask(new FairMCPointDraw ("VstMoCaPoint", kRed,   kFullSquare));
   fMan->AddTask(new FairMCPointDraw ("FstMoCaPoint", kRed,   kFullSquare));
   fMan->AddTask(new FairMCPointDraw ("FgtMoCaPoint", kBlue,  kFullSquare));
-  fMan->AddTask(new FairMCPointDraw ("BstMoCaPoint", kRed,   kFullSquare));
-  fMan->AddTask(new FairMCPointDraw ("BgtMoCaPoint", kBlue,  kFullSquare));
+  fMan->AddTask(new FairMCPointDraw ("FfgMoCaPoint", kBlue,  kFullSquare));
   fMan->AddTask(new FairMCPointDraw ("TpcMoCaPoint", kGreen, kFullSquare));
-#ifdef _WITH_MUMEGAS_
-  fMan->AddTask(new FairMCPointDraw ("MmtMoCaPoint", kBlue,  kFullSquare));
-#endif
 
   // Initialize and run visualization manager;
   fMan->Run();                       
