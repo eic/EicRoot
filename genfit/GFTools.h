@@ -50,10 +50,12 @@ namespace GFTools {
 	 /** @brief Get smoothed track position in global coordinates
 	   */
 	TVector3 getSmoothedPosXYZ(const GFTrack* trk, unsigned int irep, unsigned int ihit, bool *ret = 0);
+	TVector3 getBiasedSmoothedPosXYZ(const GFTrack* trk, unsigned int irep, unsigned int ihit, bool *ret = 0);
 
   /** @brief Get smoothed momentum in global coordinates
      */
-  TVector3 getSmoothedMomXYZ(const GFTrack* trk, unsigned int irep, unsigned int ihit);
+  //TVector3 getSmoothedMomXYZ(const GFTrack* trk, unsigned int irep, unsigned int ihit);
+	TVector3 getBiasedSmoothedMomXYZ(const GFTrack* trk, unsigned int irep, unsigned int ihit, bool *ret = 0);
 
 	/** @brief Get smoothed track covariance in plane coordinates
 	 */
@@ -100,7 +102,7 @@ namespace GFTools {
 	 * The smoothed data returned by this function includes the detector plane in 
 	 * which the data is calculated.
 	 */
-	bool getBiasedSmoothedData(const GFTrack* trk, unsigned int irep, unsigned int ihit, TMatrixT<double>& smoothed_state, TMatrixT<double>& smoothed_cov, GFDetPlane& smoothing_plane);
+	bool getBiasedSmoothedData(const GFTrack* trk, unsigned int irep, unsigned int ihit, TMatrixT<double>& smoothed_state, TMatrixT<double>& smoothed_cov, GFDetPlane& smoothing_plane, bool extrapolation_allowed = true);
 
 	/** @brief Get biased smoothed state vector, state covariance and smoothing plane.
 	 *
@@ -108,7 +110,7 @@ namespace GFTools {
 	 * which the data is calculated as well as the auxillary information for this
 	 * plane.
 	 */
-	bool getBiasedSmoothedData(const GFTrack* trk, unsigned int irep, unsigned int ihit, TMatrixT<double>& smoothed_state, TMatrixT<double>& smoothed_cov, GFDetPlane& smoothing_plane, TMatrixT<double>& auxInfo);
+	bool getBiasedSmoothedData(const GFTrack* trk, unsigned int irep, unsigned int ihit, TMatrixT<double>& smoothed_state, TMatrixT<double>& smoothed_cov, GFDetPlane& smoothing_plane, TMatrixT<double>& auxInfo, bool extrapolation_allowed = true);
 
 	/** @brief Get biased smoothed track position in plane coordinates
 	 */

@@ -6,6 +6,8 @@ using namespace std;
 #include "PndTrackID.h"
 #include "PndMCTrack.h"
 
+//#include <EicIdealTrackingCode.h>
+
 #if _TODAY_
 #include "PndTrack.h"
 
@@ -54,7 +56,7 @@ PndPidCorrelator::~PndPidCorrelator()
 }
 
 //___________________________________________________________
-PndPidCorrelator::PndPidCorrelator() : 
+PndPidCorrelator::PndPidCorrelator(/*EicIdealTrackingCode *ideal*/) : 
   FairTask(),
   fTrackBranch("EicIdealGenTrack"),
   fTrackIDBranch("EicIdealGenTrackID"), 
@@ -64,7 +66,8 @@ PndPidCorrelator::PndPidCorrelator() :
   fCorrErrorProp(kTRUE),
   fGeanePro(kTRUE),
   fMcTrack(new TClonesArray()),
-  fPidHyp(0)
+  fPidHyp(0)/*, 
+	      fIdeal(ideal)*/
 
 
 #if _TODAY_
@@ -803,21 +806,10 @@ void PndPidCorrelator::ConstructChargedCandidate() {
 	if ( (fDskMode>0)  && (fDskParticle->GetEntriesFast()>0)) GetDskInfo(helix, pidCand); 
       }
 #endif
-#if 0
-    for(unsigned iq=0; iq<track->mSmoothedValues.size(); iq++) {
-      TVector3 &pos = track->mSmoothedValues[iq].first;
-      TVector3 &mom = track->mSmoothedValues[iq].second;
-      
-      printf("%10.4f %10.4f %10.4f -> %10.4f %10.4f %10.4f\n", 
-	     pos.X(), pos.Y(), pos.Z(), mom.X(), mom.Y(), mom.Z());
-    } //for iq
-#endif
+
+    // Add charged track candidate and copy over parameterizations at the hit locations;
     PndPidCandidate *cand = AddChargedCandidate(pidCand);
-    for(unsigned iq=0; iq<track->mSmoothedValues.size(); iq++) {
-      cand->mSmoothedPositions.push_back(track->mSmoothedValues[iq].first);
-      cand->mSmoothedMomenta.push_back  (track->mSmoothedValues[iq].second);
-    } //for iq
-    //cand->PrintMe();
+    cand->mParameterizations = track->mParameterizations;
   } 
   
 #if _TODAY_

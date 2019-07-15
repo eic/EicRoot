@@ -24,6 +24,7 @@ Bool_t EicBoxGenerator::ReadEvent(FairPrimaryGenerator *primGen)
 
     // Vertex; as of 2015/11/06 the same for all mMult tracks; after all, what is the 
   // purpose to generate N tracks?; they should originate from the same primary vertex, or?; 
+#if _OLD_
   double vtx[3];
   for(unsigned iq=0; iq<3; iq++) {
     vtx[iq] = mCoord[iq] + 
@@ -31,6 +32,8 @@ Bool_t EicBoxGenerator::ReadEvent(FairPrimaryGenerator *primGen)
        (mCoordSigma[iq] ? gRandom->Gaus(0.0, mCoordSigma[iq]) : 0.0) :
        (mCoordRange[iq] ? gRandom->Uniform(-mCoordRange[iq]/2, mCoordRange[iq]/2) : 0.0));
   } //for iq
+#endif
+  TVector3 vtx = GetSimulatedPrimaryVertex();
 
   // At some point may want to introduce parameter range check and respective 
   // flag (like 'done') in order to perform this only once;
@@ -64,6 +67,20 @@ Bool_t EicBoxGenerator::ReadEvent(FairPrimaryGenerator *primGen)
 
 // ---------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------
+
+TVector3 EicProtoGenerator::GetSimulatedPrimaryVertex( void )
+{
+  double vtx[3];
+
+  for(unsigned iq=0; iq<3; iq++) {
+    vtx[iq] = mCoord[iq] + 
+      (mGaussianCoordinateSmearing ? 
+       (mCoordSigma[iq] ? gRandom->Gaus(0.0, mCoordSigma[iq]) : 0.0) :
+       (mCoordRange[iq] ? gRandom->Uniform(-mCoordRange[iq]/2, mCoordRange[iq]/2) : 0.0));
+  } //for iq
+
+  return TVector3(vtx);
+} // EicProtoGenerator::GetSimulatedPrimaryVertex()
 
 #include <TGeoMatrix.h>
 

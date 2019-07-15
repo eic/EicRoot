@@ -211,6 +211,8 @@ Bool_t FairGeanePro::Propagate(FairTrackParP* TStart, FairTrackParP* TEnd, Int_t
   Double_t fCov[15], fCovOut[15];
   TStart->GetCovQ(fCov);
 
+  //printf("FairGeanePro::Propagate() #1\n");
+
   Init(TStart);
   Double_t Q = TStart->GetQ() ;
   if (Q!=0) { ch= int (Q/TMath::Abs(Q)); }
@@ -290,8 +292,10 @@ Bool_t FairGeanePro::Propagate(FairTrackParP* TStart, FairTrackParP* TEnd, Int_t
       }
     }
   }
+  //printf("FairGeanePro::Propagate() #2\n");
   //Propagate
   if(Propagate(PDG)==kFALSE) { return kFALSE; }
+  //printf("FairGeanePro::Propagate() #3\n");
 
   for(Int_t i=0; i<15; i++) {
     fCovOut[i]=afErtrio->errout[i];
@@ -339,13 +343,16 @@ Bool_t FairGeanePro::Propagate(Int_t PDG)
 {
   // main propagate call to fortran ERTRAK
 
+  //printf("FairGeanePro::Propagate(PDG) #1\n");
   GeantCode=fdbPDG->ConvertPdgToGeant3(PDG);
   //cout <<  " FairGeanePro::Propagate ---------------------------"<< "  " << x1[0]<< " "<< x1[1]<< "  "<<  x1[2] << endl;
   //fApp->GeanePreTrack(x1, p1, PDG);
   gMC3->Ertrak(x1,p1,x2,p2,GeantCode, fPropOption.Data());
   if(x2[0]<-1.E29) { return kFALSE; }
+  //printf("FairGeanePro::Propagate(PDG) #2\n");
   if(gMC3->IsTrackOut()) { return kFALSE; }
 
+  //printf("FairGeanePro::Propagate(PDG) #3\n");
   ftrklength=gMC3->TrackLength();
 
   Double_t trasp[25];

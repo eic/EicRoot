@@ -244,8 +244,8 @@ void PndRecoKalmanTask::Exec(Option_t* opt)
     PndTrack* pndTrack = new(trkRef[size]) PndTrack(fitTrack->GetParamFirst(), fitTrack->GetParamLast(), fitTrack->GetTrackCand(),
                                                     fitTrack->GetFlag(), fitTrack->GetChi2(), fitTrack->GetNDF(), fitTrack->GetPidHypo(), itr, FairRootManager::Instance()->GetBranchId(fTrackInBranchName));
 
-    for(unsigned iq=0; iq<fitTrack->mSmoothedValues.size(); iq++)
-      pndTrack->mSmoothedValues.push_back(fitTrack->mSmoothedValues[iq]);
+    // Yes, copy over by hand, sorry;
+    pndTrack->mParameterizations = fitTrack->mParameterizations;
   }
   
   if (fVerbose>0) std::cout<<"Fitting done"<<std::endl;

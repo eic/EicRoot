@@ -232,6 +232,17 @@ class FairRootManager : public TObject
     Int_t GetEntryNr() {return fEntryNr;}
     void SetEntryNr(Int_t val) {fEntryNr = val;}
 
+    void AddMoCaLookupEntry(unsigned id, TClonesArray *ptr) { mMoCaLookup[id] = ptr; };
+    void AddDigiLookupEntry(unsigned id, TClonesArray *ptr) { mDigiLookup[id] = ptr; };
+    TClonesArray *GetMoCaLookup(unsigned id) { 
+      if (mMoCaLookup.find(id) == mMoCaLookup.end()) return 0;
+      return mMoCaLookup[id];
+    };
+    TClonesArray *GetDigiLookup(unsigned id) { 
+      if (mDigiLookup.find(id) == mDigiLookup.end()) return 0;
+      return mDigiLookup[id];
+    };
+
   private:
     /**private methods*/
     FairRootManager(const FairRootManager&);
@@ -383,6 +394,9 @@ class FairRootManager : public TObject
     Bool_t  fFillLastData; //!
     Int_t fEntryNr; //!
 
+    // Lookup tables, which allow one to access MC point and digi hit arrays
+    // by using digitized hits branch ID;  
+    std::map<unsigned, TClonesArray*> mMoCaLookup, mDigiLookup; //!
 
     ClassDef(FairRootManager,7) // Root IO manager
 };

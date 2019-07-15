@@ -18,6 +18,9 @@ ${CMAKE_SOURCE_DIR}/GenfitTools/adapters
 ${CMAKE_SOURCE_DIR}/GenfitTools/recohits
 ${CMAKE_SOURCE_DIR}/GenfitTools/recotasks
 ${GEANT3_INCLUDE_DIR}
+
+# Need EicMoCaPoint.h (which has no extra dependencies);
+${CMAKE_SOURCE_DIR}/eic/base
 )
 
 #include_directories( ${INCLUDE_DIRECTORIES} )

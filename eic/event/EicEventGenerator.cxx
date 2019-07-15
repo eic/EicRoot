@@ -321,6 +321,9 @@ Bool_t EicEventGenerator::ReadEvent(FairPrimaryGenerator* primGen)
 
     } 
 
+    // Will be the same for all tracks;
+    TVector3 vtx = GetSimulatedPrimaryVertex();
+
     //printf("%d\n", mGeneratorEvent->GetNTracks()); fflush(stdout);
     // Loop through all the particles and feed them to the FairRoot primary generator;
     for(unsigned iq=0; iq<mGeneratorEvent->GetNTracks(); iq++) { 
@@ -355,7 +358,8 @@ Bool_t EicEventGenerator::ReadEvent(FairPrimaryGenerator* primGen)
 	if (mParticleCountHist) mParticleCountHist->Fill(vp->GetEta());
       } //if
 
-      TVector3 vtx = vp->GetVertex();
+      // Indeed some of the tracks may originate from a secondary vertex -> calculate a sum;
+      TVector3 pvtx = vtx + vp->GetVertex();
       
       // FIXME: at some point check that vtx units match;
       {
@@ -363,7 +367,7 @@ Bool_t EicEventGenerator::ReadEvent(FairPrimaryGenerator* primGen)
 	//primGen->AddTrack(vp->Id(), vp->GetPx(), vp->GetPy(), vp->GetPz(), vtx[0], vtx[1], vtx[2]);
 	printf("%7.3f %7.3f %7.3f ... %4d  %2d\n", pvect[0], pvect[1], pvect[2], vp->GetParentIndex(), vp->GetStatus());
 	//printf("%7.3f %7.3f %7.3f\n", vp->GetPx(), vp->GetPy(), vp->GetPz());//pvect[0], pvect[1], pvect[2]);
-	primGen->AddTrack(vp->Id(), pvect[0], pvect[1], pvect[2], vtx[0], vtx[1], vtx[2]);
+	primGen->AddTrack(vp->Id(), pvect[0], pvect[1], pvect[2], pvtx[0], pvtx[1], pvtx[2]);
       }
     } /*for iq*/
     //printf("stat: %3d -> %3d\n", mGeneratorEvent->GetNTracks(), mMappingTable->mData.size());

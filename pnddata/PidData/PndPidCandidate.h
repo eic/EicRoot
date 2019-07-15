@@ -25,33 +25,11 @@
 
 //class VAbsPidInfo;
 
+#include <PndTrack.h>
+
 //  ========================================================================
 //  ===== PndPidCandidate - Class definig the AOD interface           ====
 //  ========================================================================
-
-class NaiveTrackParam: public TObject 
-{
- public:
- NaiveTrackParam(): mValid(false) {};
-  ~NaiveTrackParam() {};
-
-  bool IsValid( void ) const { return mValid; };
-  TVector3 GetPosition( void ) const { return mPosition; };
-  TVector3 GetMomentum( void ) const { return mMomentum; };
-  double DistanceToPlane(const TVector3 &x0, const TVector3 &n0) {
-    return fabs((x0 - mPosition).Dot(n0.Unit()));
-  };
-
-  void SetValid( void )                      { mValid    = true; };
-  void SetPosition(const TVector3 &position) { mPosition = position; };
-  void SetMomentum(const TVector3 &momentum) { mMomentum = momentum; };
-
- private:
-  bool mValid;
-  TVector3 mPosition, mMomentum;
-
-  ClassDef(NaiveTrackParam, 1);
-};
   
 class PndPidCandidate : public FairRecoCandidate  //FairMultiLinkedData
 {
@@ -294,23 +272,13 @@ class PndPidCandidate : public FairRecoCandidate  //FairMultiLinkedData
   void	SetProtonPidLH(Double_t val) { return; }
   
   // FIXME: not the best style, agreed;
-  unsigned GetSmoothedValuesCount( void )   const { return mSmoothedPositions.size(); };
-  const TVector3 &GetSmoothedPosition(unsigned iq) const { return mSmoothedPositions[iq]; };
-  const TVector3 &GetSmoothedMomentum(unsigned iq) const { return mSmoothedMomenta[iq]; };
-  NaiveTrackParam GetNearestParameterization(const TVector3 &x0, const TVector3 &n0);
-#if 0
-  void PrintMe( void ) {
-    for(unsigned iq=0; iq<mSmoothedValues.size(); iq++) {
-      TVector3 &pos = mSmoothedValues[iq];//.first;
-      //TVector3 &mom = mSmoothedValues[iq].second;
-      
-      printf("%10.4f %10.4f %10.4f\n",// -> %10.4f %10.4f %10.4f\n", 
-	     pos.X(), pos.Y(), pos.Z());//, mom.X(), mom.Y(), mom.Z());
-    } //for iq
+  unsigned GetParameterizationCount( void )   const { return mParameterizations.size(); };
+  const NaiveTrackParameterization *GetParameterization(unsigned ih) const {
+    return (ih < mParameterizations.size() ? &mParameterizations[ih] : 0);
   };
-#endif
-  //std::vector<std::pair<TVector3, TVector3> > mSmoothedValues;
-  std::vector<TVector3> mSmoothedPositions, mSmoothedMomenta;
+  const NaiveTrackParameterization *GetNearestParameterization(const TVector3 &x0, const TVector3 &n0);
+  const NaiveTrackParameterization *GetNearestParameterization(double r);
+  std::vector<NaiveTrackParameterization> mParameterizations;
   
   void SetDefault();
  protected:
@@ -419,7 +387,7 @@ class PndPidCandidate : public FairRecoCandidate  //FairMultiLinkedData
   Float_t 	fChiSquared;
   
 
-  ClassDef(PndPidCandidate,7) // Abstract base class for MicroDST candidates
+  ClassDef(PndPidCandidate,8) // Abstract base class for MicroDST candidates
     };
 
 //std::ostream&  operator << (std::ostream& o, const VAbsMicroCandidate&);

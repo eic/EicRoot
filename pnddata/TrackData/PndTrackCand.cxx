@@ -101,7 +101,7 @@ void PndTrackCand::Sort()
 	sorted = true;
 }
 
-std::vector<PndTrackCandHit> PndTrackCand::GetSortedHits()
+std::vector<PndTrackCandHit> &PndTrackCand::_GetSortedHits()
 {
 	if (sorted == false)
 		Sort();

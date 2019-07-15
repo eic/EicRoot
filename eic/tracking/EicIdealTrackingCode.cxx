@@ -99,7 +99,12 @@ InitStatus EicIdealTrackingCode::Init()
     }
 
     //it->_fBranchID = FairRootManager::Instance()->GetBranchId(it->dname->Name() + "DigiHit");
-    it->_fBranchID = FairRootManager::Instance()->GetBranchId(it->dname->Name() + "TrackingDigiHit");
+    it->_fBranchID = fManager->GetBranchId(it->dname->Name() + "TrackingDigiHit");
+
+    // And create direct access lookup table entries; yes, all this looks like back 
+    // doors into the original FairRoot codes;
+    fManager->AddMoCaLookupEntry(it->_fBranchID, it->_fMCPoints);
+    fManager->AddDigiLookupEntry(it->_fBranchID, it->_fHits);
   } //for it
   
   if(fVerbose>3) Info("Init","Fetched all arrays.");

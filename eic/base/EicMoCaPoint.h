@@ -32,7 +32,11 @@ public:
   // Make life a bit easier; yes, this call is not much efficient;
   TVector3 GetPosIn()            const { TVector3 vv; Position(vv); return vv;}
   const TVector3 &GetPosOut()    const { return mPosOut;}
-
+  TVector3 GetPosAvg()           const { return 0.5*(GetPosIn() + GetPosOut()); };
+  TVector3 GetMomAvg()           const { 
+    return 0.5*(TVector3(fPx, fPy, fPz) + mMomOut); 
+  };
+  
   Int_t GetPrimaryMotherID()     const { return mPrimaryMotherID; };
   Int_t GetSecondaryMotherID()   const { return mSecondaryMotherID; };
 

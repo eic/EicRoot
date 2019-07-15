@@ -15,6 +15,37 @@
 #include "FairTimeStamp.h"
 #include "TRef.h"
 
+class NaiveTrackParameterization: public TObject 
+{
+ public:
+ NaiveTrackParameterization(bool valid = false): mValid(valid) {};
+  ~NaiveTrackParameterization() {};
+
+  bool IsValid            ( void ) const { return mValid; };
+  TVector3 GetMoCaPosition( void ) const { return mMoCaPosition; };
+  TVector3 GetMoCaMomentum( void ) const { return mMoCaMomentum; };
+  TVector3 GetRecoPosition( void ) const { return mRecoPosition; };
+  TVector3 GetRecoMomentum( void ) const { return mRecoMomentum; };
+
+  double DistanceToPlane(const TVector3 &x0, const TVector3 &n0) const {
+    // Use MC position here;
+    return fabs((x0 - mMoCaPosition).Dot(n0.Unit()));
+  };
+
+  void SetValid( void )                          { mValid        = true; };
+  void SetMoCaPosition(const TVector3 &position) { mMoCaPosition = position; };
+  void SetMoCaMomentum(const TVector3 &momentum) { mMoCaMomentum = momentum; };
+  void SetRecoPosition(const TVector3 &position) { mRecoPosition = position; };
+  void SetRecoMomentum(const TVector3 &momentum) { mRecoMomentum = momentum; };
+
+ private:
+  bool mValid;
+
+  // Simulated and reconstructed 3D positions and momenta at this hit location;
+  TVector3 mMoCaPosition, mMoCaMomentum, mRecoPosition, mRecoMomentum;
+
+  ClassDef(NaiveTrackParameterization, 1);
+};
 
 class PndTrack : public FairTimeStamp{
 public:
@@ -63,9 +94,10 @@ private:
         Int_t fRefIndex;
 
 public:
-	std::vector<std::pair<TVector3, TVector3> > mSmoothedValues;
+	// Parameterizations at the hit locations;
+	std::vector<NaiveTrackParameterization> mParameterizations;
 
-	ClassDef(PndTrack,4)
+	ClassDef(PndTrack,6)
 
 };
 

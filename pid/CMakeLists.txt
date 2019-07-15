@@ -24,6 +24,8 @@ ${CMAKE_SOURCE_DIR}/pid/PidData
 ${CMAKE_SOURCE_DIR}/pid/PidCorr
 ${CMAKE_SOURCE_DIR}/pid/PidClassifier
 ${CMAKE_SOURCE_DIR}/GenfitTools/recotasks
+
+${CMAKE_SOURCE_DIR}/eic/tracking
 )
 
 #include_directories( ${INCLUDE_DIRECTORIES} )

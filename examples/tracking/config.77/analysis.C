@@ -44,18 +44,20 @@ void analysis()
 	TVector3 plxx(0.0, 0.0, 111.0), plnx(0.0, 0.0, 1.0);  
 	NaiveTrackParam param = rctrack->GetNearestParameterization(plxx, plnx);
 
+#if 1
 	if (param.IsValid()) {
 	  const TVector3 &pos = param.GetPosition();
 	  const TVector3 &mom = param.GetMomentum();
 	  
-	  if (rctrack->GetSmoothedValuesCount() != 10)
-	    printf(" %10.4f %10.4f %10.4f -> %10.4f %10.4f %10.4f -> %10.4f\n", 
-		   pos.X(), pos.Y(), pos.Z(), mom.X(), mom.Y(), mom.Z(),
-		   param.DistanceToPlane(plxx, plnx));
+	  //if (rctrack->GetSmoothedValuesCount() != 10)
+	  printf(" %10.4f %10.4f %10.4f -> %10.4f %10.4f %10.4f -> %10.4f\n", 
+		 pos.X(), pos.Y(), pos.Z(), mom.X(), mom.Y(), mom.Z(),
+		 param.DistanceToPlane(plxx, plnx));
 	} 
 	else
 	  // Can hardly happen (fitter would not be started on such a track);
 	  printf("  ---> No hits!\n");
+#endif
       }
 
       int mcTrackId = rctrack->GetMcIndex();

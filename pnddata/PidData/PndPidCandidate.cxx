@@ -425,28 +425,38 @@ void PndPidCandidate::SetDefault()
 }
 
 
-NaiveTrackParam PndPidCandidate::GetNearestParameterization(const TVector3 &x0, const TVector3 &n0)
+const NaiveTrackParameterization *PndPidCandidate::GetNearestParameterization(const TVector3 &x0, const TVector3 &n0)
 {
-  NaiveTrackParam param;
   int best_hit = -1;
   double best_dist = 0.0;
 
-  for(unsigned iq=0; iq<mSmoothedPositions.size(); iq++) {
-    const TVector3 &pos = mSmoothedPositions[iq];
-    double dist = fabs((x0 - pos).Dot(n0.Unit()));
+  for(unsigned iq=0; iq<mParameterizations.size(); iq++) {
+    const NaiveTrackParameterization &param = mParameterizations[iq];
+    double dist = param.DistanceToPlane(x0, n0);
     if (best_hit == -1 || dist < best_dist) {
       best_hit  = iq;
       best_dist = dist;
     } //if
   } //for iq
 
-  // This will always be true if at least one hit was recorded in mSmoothedPositions;
-  if (best_hit != -1) {
-    param.SetPosition(mSmoothedPositions[best_hit]);
-    param.SetMomentum(mSmoothedMomenta[best_hit]);
+  return (best_hit == -1 ? 0 : &mParameterizations[best_hit]);
+} // PndPidCandidate::GetNearestParameterization()
 
-    param.SetValid();
-  } //if
+// FIXME: unify these two calls;
+const NaiveTrackParameterization *PndPidCandidate::GetNearestParameterization(double r)
+{
+  int best_hit = -1;
+  double best_dist = 0.0;
 
-  return param;
+  for(unsigned iq=0; iq<mParameterizations.size(); iq++) {
+    const NaiveTrackParameterization &param = mParameterizations[iq];
+    const TVector3 &pos = param.GetMoCaPosition();
+    double x = pos.X(), y = pos.Y(), dist = fabs(sqrt(x*x+y*y) - r);
+    if (best_hit == -1 || dist < best_dist) {
+      best_hit  = iq;
+      best_dist = dist;
+    } //if
+  } //for iq
+
+  return (best_hit == -1 ? 0 : &mParameterizations[best_hit]);
 } // PndPidCandidate::GetNearestParameterization()

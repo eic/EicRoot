@@ -30,8 +30,6 @@
 #include <vector>
 #include <map>
 
-
-
 typedef std::multimap<Double_t, std::pair<Int_t, Int_t> >::const_iterator mapIter;
 
 class PndTrackCand : public FairTimeStamp {
@@ -59,7 +57,7 @@ public:
   double getChargeSeed() const {return fChargeSeed;}
   
   UInt_t GetNHitsDet(UInt_t detId);
-  std::vector<PndTrackCandHit>GetSortedHits();
+  std::vector<PndTrackCandHit> &_GetSortedHits();
   void Sort();
   
   // Modifiers -----------------------

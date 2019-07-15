@@ -100,4 +100,12 @@ InitStatus EicRecoKalmanTask::Init()
 
 // ---------------------------------------------------------------------------------------
 
+void EicRecoKalmanTask::Exec(Option_t* opt)
+{
+  // Call original PandaRoot Exec();
+  PndRecoKalmanTask::Exec(opt);
+} // EicRecoKalmanTask::Exec()
+
+// ---------------------------------------------------------------------------------------
+
 ClassImp(EicRecoKalmanTask)

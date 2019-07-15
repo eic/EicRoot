@@ -22,6 +22,8 @@ class EicRecoKalmanTask:  public PndRecoKalmanTask {
 
   // Want to propagate detector group names to the Kalman filter initialization;
   InitStatus Init();
+  // This one is not really needed;
+  void Exec(Option_t* opt);
 
   void SetNumIterations(Int_t numIt) { fNumIt = numIt;};
 

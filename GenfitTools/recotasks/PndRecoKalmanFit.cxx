@@ -104,6 +104,8 @@ Bool_t PndRecoKalmanFit::Init()
 
 PndRecoKalmanFit::~PndRecoKalmanFit() { }
 
+#include <FairHit.h>
+#include <EicMoCaPoint.h>
 #include <GFTools.h>
 
 PndTrack* PndRecoKalmanFit::Fit(PndTrack *tBefore, Int_t PDG, bool store_track_parameterization)
@@ -201,7 +203,8 @@ PndTrack* PndRecoKalmanFit::Fit(PndTrack *tBefore, Int_t PDG, bool store_track_p
   // Start Fitter
   try
     {
-      if (store_track_parameterization) trk->setSmoothing();
+      // NB: want fast smoothing turned on;
+      if (store_track_parameterization) trk->setSmoothing(true, true);
 
       fGenFitter.processTrack(trk);
     }
@@ -225,18 +228,46 @@ PndTrack* PndRecoKalmanFit::Fit(PndTrack *tBefore, Int_t PDG, bool store_track_p
     } 
 
   if (fVerbose>0) std::cout<<"Fitting done"<<std::endl;
-
   if (store_track_parameterization) {    
-    //printf("%2d vs %2d hits total\n", hits.size(), trk->getNumHits());
-    for(unsigned iq=0; iq</*hits.size()*/trk->getNumHits(); iq++) {
+    PndTrackCand *cand = tAfter->GetTrackCandPtr(); 
+    std::vector<PndTrackCandHit> &ptchits = cand->_GetSortedHits();
+
+    //printf("%2d hits total\n", trk->getNumHits());
+    for(unsigned ih=0; ih<trk->getNumHits(); ih++) {
       bool ret;
 
-      TVector3 pos = GFTools::getSmoothedPosXYZ(trk, 0, iq, &ret);
-      TVector3 mom = GFTools::getSmoothedMomXYZ(trk, 0, iq);
+      TVector3 rcpos = GFTools::getBiasedSmoothedPosXYZ(trk, 0, ih, &ret);
+      if (ret) {
+	TVector3 rcmom = GFTools::getBiasedSmoothedMomXYZ(trk, 0, ih, &ret);
 
-      if (ret)
-	tAfter->mSmoothedValues.push_back(std::pair<TVector3, TVector3>(pos, mom));
-    } //for iq
+	if (ret) {
+	  NaiveTrackParameterization param(true);
+	  param.SetRecoPosition(rcpos); param.SetRecoMomentum(rcmom); 
+
+	  // Pull out the original {pos,mom} values at this location;
+	  {
+	    PndTrackCandHit *ptchit = &ptchits[ih];
+
+	    TClonesArray *dghits = FairRootManager::Instance()->GetDigiLookup(ptchit->GetDetId());
+	    FairHit *dghit = (FairHit*) dghits->At(ptchit->GetHitId()); assert(dghit);
+
+	    TClonesArray *mchits = FairRootManager::Instance()->GetMoCaLookup(ptchit->GetDetId());
+	    EicMoCaPoint *mchit = (EicMoCaPoint*) mchits->At(dghit->GetRefIndex()); assert(mchit);
+	    TVector3 mcpos = mchit->GetPosAvg(), mcmom = mchit->GetMomAvg();
+
+	    param.SetMoCaPosition(mcpos); param.SetMoCaMomentum(mcmom); 
+
+	    // Perform some massaging, per default; have no idea why momentum 
+	    // direction gets flipped at a fraction of nodes; have no desire to 
+	    // debug this s*it;
+	    if (mcmom.Dot(rcmom) < 0.0) param.SetRecoMomentum(-rcmom);
+
+	    // Eventually push back;
+	    tAfter->mParameterizations.push_back(param);
+	  }
+	} //if
+      } //if
+    } //for ih
   } //if
 
   return tAfter;
