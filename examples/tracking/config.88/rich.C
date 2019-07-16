@@ -89,6 +89,9 @@ void rich()
   rich->GetColorTable()->AddPatternMatch("richVolume", kMagenta);
   rich->GetTransparencyTable()->AddPatternMatch("richVolume", 50);
 
+  rich->GetColorTable()->AddPatternMatch("richProfiler", kCyan);
+  rich->GetTransparencyTable()->AddPatternMatch("richProfiler", 50);
+
   rich->GetColorTable()->AddPatternMatch("richWndEx", kRed);
   rich->GetTransparencyTable()->AddPatternMatch("richWndEx", 50);
  
