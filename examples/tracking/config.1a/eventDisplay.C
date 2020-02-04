@@ -12,7 +12,7 @@ void eventDisplay()
   EicEventManager *fMan = new EicEventManager();
   fMan->SetInputFile("simulation.root");
  
-  // Define objects to be displayed;
+  // Define objects to be displayed: tracks and hits;
   fMan->AddTask(new FairMCTracks   ("Monte-Carlo Tracks"));    
   fMan->AddTask(new FairMCPointDraw("FwdstMoCaPoint",kRed, kFullSquare));
 

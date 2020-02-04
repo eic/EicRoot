@@ -4,12 +4,12 @@ void analysis()
   // Load basic libraries;
   gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");  
 
-  // Input simulated & reconstructed files;
+  // Import simulated & reconstructed files in a "coherent" way;
   TFile *ff = new TFile("simulation.root");
   TTree *cbmsim = ff->Get("cbmsim"); 
   cbmsim->AddFriend("cbmsim", "reconstruction.root");
 
-  // Branches of interest;
+  // Define branches of interest: simulated and reconstructed tracks;
   TClonesArray *mcTrackArray = new TClonesArray("PndMCTrack");
   cbmsim->SetBranchAddress("MCTrack", &mcTrackArray);
   TClonesArray *rcTrackArray = new TClonesArray("PndPidCandidate");
@@ -20,28 +20,31 @@ void analysis()
 
   // Loop through all events; NB: for box-generated events without secondaries 
   // could simply use cbmsim->Project() as well; in general EicEventAssembler 
-  // should be used for "true" physics events;
+  // in the reconstruction.C script should be used for "true" physics events
+  // for multi-particle physics events;
   int nEvents = cbmsim->GetEntries();
   for(unsigned ev=0; ev<nEvents; ev++) {
     cbmsim->GetEntry(ev);
 
-    // Loop through all reconstructed tracks;
+    // Loop through all reconstructed tracks of a given event;
     for(unsigned rc=0; rc<rcTrackArray->GetEntriesFast(); rc++) {
       PndPidCandidate *rctrack = rcTrackArray->At(rc);
       int mcTrackId = rctrack->GetMcIndex();
 
-      // Select only correctly rc->mc identified tracks;
+      // Select only the correctly rc->mc identified tracks;
       if (mcTrackId < 0 || mcTrackId >= mcTrackArray->GetEntriesFast()) continue;
 
       // Find MC track associated with this reconstructed track;
       PndMCTrack *mctrack = mcTrackArray->At(mcTrackId);
 
-      // Well, for plotting select primary pi-minus tracks only (see simulation.C);
+      // Well, for plotting select primary pi- tracks only (see simulation.C);
       if (mctrack->GetPdgCode() == 211 && mctrack->GetMotherID() == -1)
+	// This is just a dp/p in [%] units; 
 	dp->Fill(100.*(rctrack->GetMomentum().Mag() - mctrack->GetMomentum().Mag())/mctrack->GetMomentum().Mag());
     } //for rc
   } //for ev
 
+  // ROOT plotting magic;
   gStyle->SetOptStat(0);
 
   dp->SetTitle("Momentum resolution");
