@@ -19,7 +19,7 @@ using namespace std;
 
 // ---------------------------------------------------------------------------------------
 
-int VstGeoParData::ConstructGeometry()
+int VstGeoParData::ConstructGeometry(bool root, bool gdml, bool check)
 {
   // FIXME: may want to put these into MapsGeoParData?!;
   unsigned staveGlobalCounter = 0, chipGlobalCounter = 0;
@@ -112,7 +112,7 @@ int VstGeoParData::ConstructGeometry()
   printf("%5d chip(s) and %5d stave(s) total\n", chipGlobalCounter, staveGlobalCounter);
 
   // Place this stuff as a whole into the top volume and write out;
-  FinalizeOutput();
+  FinalizeOutput(root, gdml, check);
 
   return 0;
 } // VstGeoParData::ConstructGeometry()

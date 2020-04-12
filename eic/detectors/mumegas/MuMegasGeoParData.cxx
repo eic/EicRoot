@@ -14,7 +14,7 @@ using namespace std;
 
 // ---------------------------------------------------------------------------------------
 
-int MuMegasGeoParData::ConstructGeometry()
+int MuMegasGeoParData::ConstructGeometry(bool root, bool gdml, bool check)
 {
   const char *detName = mDetName->Name().Data();
 
@@ -229,7 +229,7 @@ int MuMegasGeoParData::ConstructGeometry()
   } //for bl
 
   // Place this stuff as a whole into the top volume and write out;
-  FinalizeOutput();
+  FinalizeOutput(root, gdml, check);
 
   return 0;
 } // MuMegasGeoParData::ConstructGeometry()

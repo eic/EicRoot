@@ -62,7 +62,7 @@ class VstGeoParData: public MapsGeoParData
   Double_t mMountingRingRadialOffset;    // mounting ring radial offset wrt the layer TRD1 volume center
   
   //void Print(const char *option = 0) const;
-  int ConstructGeometry();
+  int ConstructGeometry(bool root = true, bool gdml = false, bool check = false);
 
  private:
   std::vector <VstBarrelLayer*> mBarrel; // VST barrel layers

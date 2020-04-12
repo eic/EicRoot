@@ -21,7 +21,7 @@
 
 // ---------------------------------------------------------------------------------------
 
-int FstGeoParData::ConstructGeometry()
+int FstGeoParData::ConstructGeometry(bool root, bool gdml, bool check)
 {
   // Running variables used to give unique indices to all staves; and to count chips;
   // FIXME: may want to put these into MapsGeoParData?!;
@@ -258,7 +258,7 @@ int FstGeoParData::ConstructGeometry()
   printf("%5d chip(s) and %5d stave(s) total\n", chipGlobalCounter, staveGlobalCounter);
   
   // And put this stuff as a whole into the top volume; 
-  FinalizeOutput();
+  FinalizeOutput(root, gdml, check);
   
   return 0;
 } // FstGeoParData::ConstructGeometry()

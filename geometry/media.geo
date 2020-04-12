@@ -21,6 +21,10 @@ hydrogen           1  1.001  1.0  .07
 helium             1   4.00    2.0    0.164e-3
                    0  0  20.  .001
                    0
+// Should be correct?
+liquid-helium      1   4.00    2.0    0.125
+                   0  0  20.  .001
+                   0
 
 beryllium          1   9.01    4.0    1.848
                    0  0  20.  .001

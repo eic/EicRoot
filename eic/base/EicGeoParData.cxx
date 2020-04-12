@@ -329,8 +329,9 @@ const TGeoMedium *EicGeoParData::GetMedium(const char *medium)
 
 // ---------------------------------------------------------------------------------------
 
-TString EicGeoParData::GetGeometryFileName() const
+TString EicGeoParData::GetGeometryFileName(bool root) const
 {
+  const char *suffix = root ? ".root" : ".gdml";
   // If file is given, use it;
   if (!mFileName.IsNull()) return mFileName;
 
@@ -360,13 +361,13 @@ TString EicGeoParData::GetGeometryFileName() const
 
   switch (GetGeometryType()) {
   case EicGeoParData::Undefined:
-    return mDetName->name() + version + ".root";
+    return mDetName->name() + version +         suffix;//".root";
   case EicGeoParData::NoStructure:
-    return mDetName->name() + version + "-ns.root";
+    return mDetName->name() + version + "-ns" + suffix;//.root";
   case EicGeoParData::SimpleStructure:
-    return mDetName->name() + version + "-ss.root";
+    return mDetName->name() + version + "-ss" + suffix;//.root";
   case EicGeoParData::FullStructure:
-    return mDetName->name() + version + "-fs.root";
+    return mDetName->name() + version + "-fs" + suffix;// .root";
   default:
     assert(0);
   } //switch
@@ -374,7 +375,7 @@ TString EicGeoParData::GetGeometryFileName() const
 
 // ---------------------------------------------------------------------------------------
 
-void EicGeoParData::FinalizeOutput() //const
+void EicGeoParData::FinalizeOutput(bool root, bool gdml, bool check) //const
 {  
   if (!mRootGeoManager) return;
 
@@ -412,20 +413,24 @@ void EicGeoParData::FinalizeOutput() //const
 
   // Check overlap (1um accuracy) and export;
   mRootGeoManager->CloseGeometry();
-#if _TODAY_
-  mRootGeoManager->CheckOverlaps(0.0001);
-#endif
+  //#if _TODAY_
+  if (check) mRootGeoManager->CheckOverlaps(0.0001);
+  //#endif
 
-  TFile *outputFile = new TFile(GetGeometryFileName().Data(), "RECREATE"); 
-
-  if (outputFile) {
-    mWrapperVolume->Write();
-
-    // Save geometry (mapping) parameters in the same file; 
-    Write(mDetName->Name() + "GeoParData");
-
-    outputFile->Close();
+  if (root) {
+    TFile *outputFile = new TFile(GetGeometryFileName(true).Data(), "RECREATE"); 
+    
+    if (outputFile) {
+      mWrapperVolume->Write();
+      
+      // Save geometry (mapping) parameters in the same file; 
+      Write(mDetName->Name() + "GeoParData");
+      
+      outputFile->Close();
+    } //if
   } //if
+
+  if (gdml) mRootGeoManager->Export(GetGeometryFileName(false).Data());
 } // EicGeoParData::FinalizeOutput()
 
 // =======================================================================================

@@ -18,7 +18,7 @@ using namespace std;
 
 // ---------------------------------------------------------------------------------------
 
-int GemGeoParData::ConstructGeometry()
+int GemGeoParData::ConstructGeometry(bool root, bool gdml, bool check)
 {
   const char *detName = mDetName->Name().Data();
 
@@ -316,7 +316,7 @@ int GemGeoParData::ConstructGeometry()
   } //for wl
 
   // Place this stuff as a whole into the top volume and write out;
-  FinalizeOutput();
+  FinalizeOutput(root, gdml, check);
 
   return 0;
 } // GemGeoParData::ConstructGeometry()

@@ -250,7 +250,7 @@ class EicGeoParData: public TObject
   const TGeoMatrix* GetTopVolumeTransformation() const { return mTopVolumeTransformation; };
 
   //private:
-  TString GetGeometryFileName() const;
+  TString GetGeometryFileName(bool root = true) const;
 
  public:
   // NB: yes, these methods can not be protected, otherwise CINT complains like 
@@ -260,7 +260,7 @@ class EicGeoParData: public TObject
 
   // In fact every derived class is supposed to have its own ConstructGeometry() call
   // unless everything happens in .C script up to the final FinalizeOutput() call;
-  virtual int ConstructGeometry() { return 0; };
+  virtual int ConstructGeometry(bool root = true, bool gdml = false, bool check = false) { return 0; };
 
   // NB: this is not really the top volume in ROOT TGeo sense (see mRootGeoManager->SetTopVolume()
   // call in EicGeoParData::EicGeoParData() -> there is another wrapper volume on top of it); 
@@ -269,7 +269,7 @@ class EicGeoParData: public TObject
   TGeoManager *GetRootGeoManager()     { return mRootGeoManager; };
 
   // Yes, prefer to put all output operations in one user call;
-  void FinalizeOutput();// const;
+  void FinalizeOutput(bool root = true, bool gdml = false, bool check = false);// const;
 
   //
   // simulation/digitization/reconstruction code calls

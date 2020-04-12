@@ -96,7 +96,7 @@ class FstGeoParData: public MapsGeoParData
     mDiscs.push_back(new FstDisc(disc, transformation));
   };
 
-  int ConstructGeometry();
+  int ConstructGeometry(bool root = true, bool gdml = false, bool check = false);
 
  private:
   std::vector <FstDisc*> mDiscs; // FST (or BST) discs

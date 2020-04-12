@@ -135,7 +135,7 @@ class MuMegasGeoParData: public EicGeoParData
  					radius, sectorNum, transformation));
  };
 
-  int ConstructGeometry();
+  int ConstructGeometry(bool root = true, bool gdml = false, bool check = false);
 
   void PlaceMaterialLayer(const char *detName, const char *namePrefix, unsigned barrelID, 
 			  TGeoVolume *sectorContainer, const char *material, 

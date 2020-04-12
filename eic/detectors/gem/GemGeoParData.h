@@ -166,7 +166,7 @@ class GemGeoParData: public EicGeoParData
   //return wheelID <= mWheels.size() ? mWheels[wheelID] : 0; 
   //};
 
-  int ConstructGeometry();
+  int ConstructGeometry(bool root = true, bool gdml = false, bool check = false);
 
   // Add sort of mounting rings on both sides of each barrel layer; assume they are 
   // the same construction for all discs;
