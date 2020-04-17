@@ -73,13 +73,13 @@ fbst()
       fbst->mWaterPipeExtensionLength      =    4.00;
 
     //
-    //  For now assume ALICE Inner Barrel design, composed in stoves with 
+    //  For now assume ALICE Inner Barrel design, composed in staves with 
     // varying number of Mimosa chips;
     //
 
     MapsMimosaAssembly *ibcell = (MapsMimosaAssembly*)ConfigureAliceCell();
 
-    //   For now consider a single disc design (all the same); add stoves by hand;
+    //   For now consider a single disc design (all the same); add staves by hand;
     // Parameters:
     //     - cell assembly pointer;
     //     - min available radius;

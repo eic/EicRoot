@@ -429,7 +429,7 @@ void EicDetector::ResetSteppingVariables()
 
 Bool_t EicDetector::ProcessHits(FairVolume *v)
 {
-  //printf("Here! -> %s\n", v->GetName());
+  //printf("Here! -> %s %d %d\n", v->GetName(), gMC->IsTrackEntering(), gMC->IsTrackExiting());
 
   // Well, even if SuppressHitProduction flag is set I still may want to record
   // track trajectories in FairMCApplication::Stepping(); however return here
@@ -466,6 +466,7 @@ Bool_t EicDetector::ProcessHits(FairVolume *v)
     
     // step=0.0 simply means "don't bother for this volume";
     if (step) gMC->SetMaxStep(step);
+    //gMC->SetMaxStep(0.1);//step);
   } //if
 
   // Track either just crossed volume boundary or is new born -> record time, length, 
@@ -534,6 +535,13 @@ Bool_t EicDetector::ProcessHits(FairVolume *v)
     fLogger->Fatal(MESSAGE_ORIGIN, "\033[5m\033[31m Sensitive volume with undefined stepping type found (%s)!  \033[0m", 
 		   v->GetName());
 
+  {
+    //TLorentzVector fPosOut;
+    //gMC->TrackPosition(fPosOut);
+    //printf("%7.3f %7.3f %d %d %d %d\n", fPosIn.Vect().Perp(), fPosOut.Vect().Perp(), effectiveSteppingType == qOneStepOneHit, 
+    //	     gMC->IsTrackExiting(), gMC->IsTrackStop(), gMC->IsTrackDisappeared()); 
+    //printf("%7.3f %8.5f\n", fStep, fELoss);
+  }
   if (effectiveSteppingType == qOneStepOneHit || gMC->IsTrackExiting() || gMC->IsTrackStop() || 
       gMC->IsTrackDisappeared() ) {
     TLorentzVector fPosOut, fMomOut;
@@ -541,12 +549,14 @@ Bool_t EicDetector::ProcessHits(FairVolume *v)
     gMC->TrackMomentum(fMomOut);
     
     // In fact neutrals can not reach this point unless they were booked 
-    // for this sensitive volum eexplicitely; keep charge check here though;
+    // for this sensitive volum explicitely; keep charge check here though;
     if (wanted || (gMC->TrackCharge() && fELoss)) {
       std::pair<int, int> parents = EicBlackHole::GetParentIDs();
       
       //printf("track: %3d; pdg: %d; parents: %4d %4d\n", trackID, particle->GetPdgCode(), parents.first, parents.second);
 
+      //     printf("%7.3f %7.3f %d %d %d %d\n", fPosIn.Vect().Perp(), fPosOut.Vect().Perp(), effectiveSteppingType == qOneStepOneHit, 
+      //     gMC->IsTrackExiting(), gMC->IsTrackStop(), gMC->IsTrackDisappeared()); 
       // For now be dumb and record full path; figure out how to deal with sensor IDs later;
       AddMoCaPoint(trackID, parents.first, parents.second, volumeID, 
 		   GetNodeMultiIndex(), fPosIn.Vect(), fPosOut.Vect(), 

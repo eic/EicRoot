@@ -1,6 +1,6 @@
 
 // Meaningless number for now; fine;
-#define _VERSION_     1
+#define _VERSION_     4
 #define _SUBVERSION_  0
 
 // Do not want to always overwrite "official" files; place "test" tag into the file name;
@@ -8,7 +8,7 @@
 
 // All construction elements are smeared (so chip assembly is uniform in both 
 // beam line and asimuthal direction); 
-//#define _NO_STRUCTURE_GEOMETRY_
+#define _NO_STRUCTURE_GEOMETRY_
 // No tricky elements like inclined roof beams; still water pipes, etc are 
 // created (so chip assembly is uniform in beam line direction only);
 //#define _BEAM_LINE_UNIFORM_GEOMETRY_
@@ -85,15 +85,11 @@ vst()
   //  - additional stave slope around beam line direction; [degree];
   //  - layer rotation around beam axis "as a whole"; [degree];
   //
-  vst->AddBarrelLayer(ibcell,   12,  9,   23.4, 12.0, 0.0);
-  vst->AddBarrelLayer(ibcell, 2*12,  9, 2*23.4, 12.0, 0.0);
-
-  vst->AddBarrelLayer(ibcell, 6*12, 14, 6*23.4, 14.0, 0.0);
-  vst->AddBarrelLayer(ibcell, 4*20, 14, 4*39.3, 14.0, 0.0);
+  vst->AddBarrelLayer(ibcell,   18,  9,   36.4, 12.0, 0.0);
+  vst->AddBarrelLayer(ibcell,   30,  9,   59.8, 12.0, 0.0);
 
   vst->AttachSourceFile("vst.C");
   vst->AttachSourceFile("maps-lib.C");
-  vst->AttachSourceFile("../../eic/detectors/maps/VstGeoParData.cxx");
 
   // Specify color preferences; NB: void* interface, sorry;
   SetMapsColors((EicGeoParData*)vst);
@@ -102,7 +98,7 @@ vst()
   // Fine, at this point structure is completely defined -> code it in ROOT;
   //
 
-  vst->ConstructGeometry();
+  vst->ConstructGeometry(true, true, true);
 
   // Yes, always exit;
   exit(0);

@@ -1,0 +1,594 @@
+<?xml version="1.0"?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+  <define>
+    <position name="VstMimosaCore00_0inVstMimosaShell00pos" x="-0.1" y="0" z="0" unit="cm"/>
+    <position name="VstMimosaShell00_0inVstChipAssembly00pos" x="0" y="0" z="-0.23809074277" unit="cm"/>
+    <position name="VstCellFlexLayer00_0inVstChipAssembly00pos" x="0" y="0" z="-0.24659074277" unit="cm"/>
+    <position name="VstColdPlate00_0inVstChipAssembly00pos" x="0" y="0" z="-0.207547301268" unit="cm"/>
+    <position name="VstChipAssembly00_0inVstStave00pos" x="0" y="-12.04" z="0" unit="cm"/>
+    <position name="VstChipAssembly00_1inVstStave00pos" x="0" y="-9.03" z="0" unit="cm"/>
+    <position name="VstChipAssembly00_2inVstStave00pos" x="0" y="-6.02" z="0" unit="cm"/>
+    <position name="VstChipAssembly00_3inVstStave00pos" x="0" y="-3.01" z="0" unit="cm"/>
+    <position name="VstChipAssembly00_4inVstStave00pos" x="0" y="0" z="0" unit="cm"/>
+    <position name="VstChipAssembly00_5inVstStave00pos" x="0" y="3.01" z="0" unit="cm"/>
+    <position name="VstChipAssembly00_6inVstStave00pos" x="0" y="6.02" z="0" unit="cm"/>
+    <position name="VstChipAssembly00_7inVstStave00pos" x="0" y="9.03" z="0" unit="cm"/>
+    <position name="VstChipAssembly00_8inVstStave00pos" x="0" y="12.04" z="0" unit="cm"/>
+    <position name="VstStave00_0inVSTpos" x="0" y="3.87498953782" z="0" unit="cm"/>
+    <rotation name="VstStave00_0inVSTrot" x="90" y="-12" z="0" unit="deg"/>
+    <position name="VstStave00_1inVSTpos" x="1.32532447711" y="3.64129907432" z="0" unit="cm"/>
+    <rotation name="VstStave00_1inVSTrot" x="90" y="-32" z="0" unit="deg"/>
+    <position name="VstStave00_2inVSTpos" x="2.49079526258" y="2.96841420259" z="0" unit="cm"/>
+    <rotation name="VstStave00_2inVSTrot" x="90" y="-52" z="0" unit="deg"/>
+    <position name="VstStave00_3inVSTpos" x="3.35583937915" y="1.93749476891" z="0" unit="cm"/>
+    <rotation name="VstStave00_3inVSTrot" x="90" y="-72" z="0" unit="deg"/>
+    <position name="VstStave00_4inVSTpos" x="3.81611973969" y="0.672884871722" z="0" unit="cm"/>
+    <rotation name="VstStave00_4inVSTrot" x="-90" y="-88" z="180" unit="deg"/>
+    <position name="VstStave00_5inVSTpos" x="3.81611973969" y="-0.672884871722" z="0" unit="cm"/>
+    <rotation name="VstStave00_5inVSTrot" x="-90" y="-68" z="180" unit="deg"/>
+    <position name="VstStave00_6inVSTpos" x="3.35583937915" y="-1.93749476891" z="0" unit="cm"/>
+    <rotation name="VstStave00_6inVSTrot" x="-90" y="-48" z="180" unit="deg"/>
+    <position name="VstStave00_7inVSTpos" x="2.49079526258" y="-2.96841420259" z="0" unit="cm"/>
+    <rotation name="VstStave00_7inVSTrot" x="-90" y="-28" z="180" unit="deg"/>
+    <position name="VstStave00_8inVSTpos" x="1.32532447711" y="-3.64129907432" z="0" unit="cm"/>
+    <rotation name="VstStave00_8inVSTrot" x="-90" y="-8" z="180" unit="deg"/>
+    <position name="VstStave00_9inVSTpos" x="4.74549353423e-16" y="-3.87498953782" z="0" unit="cm"/>
+    <rotation name="VstStave00_9inVSTrot" x="-90" y="12" z="180" unit="deg"/>
+    <position name="VstStave00_10inVSTpos" x="-1.32532447711" y="-3.64129907432" z="0" unit="cm"/>
+    <rotation name="VstStave00_10inVSTrot" x="-90" y="32" z="180" unit="deg"/>
+    <position name="VstStave00_11inVSTpos" x="-2.49079526258" y="-2.96841420259" z="0" unit="cm"/>
+    <rotation name="VstStave00_11inVSTrot" x="-90" y="52" z="180" unit="deg"/>
+    <position name="VstStave00_12inVSTpos" x="-3.35583937915" y="-1.93749476891" z="0" unit="cm"/>
+    <rotation name="VstStave00_12inVSTrot" x="-90" y="72" z="180" unit="deg"/>
+    <position name="VstStave00_13inVSTpos" x="-3.81611973969" y="-0.672884871722" z="0" unit="cm"/>
+    <rotation name="VstStave00_13inVSTrot" x="90" y="88" z="0" unit="deg"/>
+    <position name="VstStave00_14inVSTpos" x="-3.81611973969" y="0.672884871722" z="0" unit="cm"/>
+    <rotation name="VstStave00_14inVSTrot" x="90" y="68" z="0" unit="deg"/>
+    <position name="VstStave00_15inVSTpos" x="-3.35583937915" y="1.93749476891" z="0" unit="cm"/>
+    <rotation name="VstStave00_15inVSTrot" x="90" y="48" z="0" unit="deg"/>
+    <position name="VstStave00_16inVSTpos" x="-2.49079526258" y="2.96841420259" z="0" unit="cm"/>
+    <rotation name="VstStave00_16inVSTrot" x="90" y="28" z="0" unit="deg"/>
+    <position name="VstStave00_17inVSTpos" x="-1.32532447711" y="3.64129907432" z="0" unit="cm"/>
+    <rotation name="VstStave00_17inVSTrot" x="90" y="8" z="0" unit="deg"/>
+    <position name="VstMimosaCore01_0inVstMimosaShell01pos" x="-0.1" y="0" z="0" unit="cm"/>
+    <position name="VstMimosaShell01_0inVstChipAssembly01pos" x="0" y="0" z="-0.23809074277" unit="cm"/>
+    <position name="VstCellFlexLayer01_0inVstChipAssembly01pos" x="0" y="0" z="-0.24659074277" unit="cm"/>
+    <position name="VstColdPlate01_0inVstChipAssembly01pos" x="0" y="0" z="-0.207547301268" unit="cm"/>
+    <position name="VstChipAssembly01_0inVstStave01pos" x="0" y="-12.04" z="0" unit="cm"/>
+    <position name="VstChipAssembly01_1inVstStave01pos" x="0" y="-9.03" z="0" unit="cm"/>
+    <position name="VstChipAssembly01_2inVstStave01pos" x="0" y="-6.02" z="0" unit="cm"/>
+    <position name="VstChipAssembly01_3inVstStave01pos" x="0" y="-3.01" z="0" unit="cm"/>
+    <position name="VstChipAssembly01_4inVstStave01pos" x="0" y="0" z="0" unit="cm"/>
+    <position name="VstChipAssembly01_5inVstStave01pos" x="0" y="3.01" z="0" unit="cm"/>
+    <position name="VstChipAssembly01_6inVstStave01pos" x="0" y="6.02" z="0" unit="cm"/>
+    <position name="VstChipAssembly01_7inVstStave01pos" x="0" y="9.03" z="0" unit="cm"/>
+    <position name="VstChipAssembly01_8inVstStave01pos" x="0" y="12.04" z="0" unit="cm"/>
+    <position name="VstStave01_0inVSTpos" x="0" y="6.21512404316" z="0" unit="cm"/>
+    <rotation name="VstStave01_0inVSTrot" x="90" y="-12" z="0" unit="deg"/>
+    <position name="VstStave01_1inVSTpos" x="1.29219694846" y="6.07930867108" z="0" unit="cm"/>
+    <rotation name="VstStave01_1inVSTrot" x="90" y="-24" z="0" unit="deg"/>
+    <position name="VstStave01_2inVSTpos" x="2.52791868962" y="5.67779833832" z="0" unit="cm"/>
+    <rotation name="VstStave01_2inVSTrot" x="90" y="-36" z="0" unit="deg"/>
+    <position name="VstStave01_3inVSTpos" x="3.65315825374" y="5.02814097307" z="0" unit="cm"/>
+    <rotation name="VstStave01_3inVSTrot" x="90" y="-48" z="0" unit="deg"/>
+    <position name="VstStave01_4inVSTpos" x="4.61873727238" y="4.1587297196" z="0" unit="cm"/>
+    <rotation name="VstStave01_4inVSTrot" x="90" y="-60" z="0" unit="deg"/>
+    <position name="VstStave01_5inVSTpos" x="5.38245530905" y="3.10756202158" z="0" unit="cm"/>
+    <rotation name="VstStave01_5inVSTrot" x="90" y="-72" z="0" unit="deg"/>
+    <position name="VstStave01_6inVSTpos" x="5.91093422083" y="1.92057895149" z="0" unit="cm"/>
+    <rotation name="VstStave01_6inVSTrot" x="90" y="-84" z="0" unit="deg"/>
+    <position name="VstStave01_7inVSTpos" x="6.18107694336" y="0.64965736525" z="0" unit="cm"/>
+    <rotation name="VstStave01_7inVSTrot" x="-90" y="-84" z="180" unit="deg"/>
+    <position name="VstStave01_8inVSTpos" x="6.18107694336" y="-0.64965736525" z="0" unit="cm"/>
+    <rotation name="VstStave01_8inVSTrot" x="-90" y="-72" z="180" unit="deg"/>
+    <position name="VstStave01_9inVSTpos" x="5.91093422083" y="-1.92057895149" z="0" unit="cm"/>
+    <rotation name="VstStave01_9inVSTrot" x="-90" y="-60" z="180" unit="deg"/>
+    <position name="VstStave01_10inVSTpos" x="5.38245530905" y="-3.10756202158" z="0" unit="cm"/>
+    <rotation name="VstStave01_10inVSTrot" x="-90" y="-48" z="180" unit="deg"/>
+    <position name="VstStave01_11inVSTpos" x="4.61873727238" y="-4.1587297196" z="0" unit="cm"/>
+    <rotation name="VstStave01_11inVSTrot" x="-90" y="-36" z="180" unit="deg"/>
+    <position name="VstStave01_12inVSTpos" x="3.65315825374" y="-5.02814097307" z="0" unit="cm"/>
+    <rotation name="VstStave01_12inVSTrot" x="-90" y="-24" z="180" unit="deg"/>
+    <position name="VstStave01_13inVSTpos" x="2.52791868962" y="-5.67779833832" z="0" unit="cm"/>
+    <rotation name="VstStave01_13inVSTrot" x="-90" y="-12" z="180" unit="deg"/>
+    <position name="VstStave01_14inVSTpos" x="1.29219694846" y="-6.07930867108" z="0" unit="cm"/>
+    <rotation name="VstStave01_14inVSTrot" x="-90" y="-0" z="180" unit="deg"/>
+    <position name="VstStave01_15inVSTpos" x="7.61133176576e-16" y="-6.21512404316" z="0" unit="cm"/>
+    <rotation name="VstStave01_15inVSTrot" x="-90" y="12" z="180" unit="deg"/>
+    <position name="VstStave01_16inVSTpos" x="-1.29219694846" y="-6.07930867108" z="0" unit="cm"/>
+    <rotation name="VstStave01_16inVSTrot" x="-90" y="24" z="180" unit="deg"/>
+    <position name="VstStave01_17inVSTpos" x="-2.52791868962" y="-5.67779833832" z="0" unit="cm"/>
+    <rotation name="VstStave01_17inVSTrot" x="-90" y="36" z="180" unit="deg"/>
+    <position name="VstStave01_18inVSTpos" x="-3.65315825374" y="-5.02814097307" z="0" unit="cm"/>
+    <rotation name="VstStave01_18inVSTrot" x="-90" y="48" z="180" unit="deg"/>
+    <position name="VstStave01_19inVSTpos" x="-4.61873727238" y="-4.1587297196" z="0" unit="cm"/>
+    <rotation name="VstStave01_19inVSTrot" x="-90" y="60" z="180" unit="deg"/>
+    <position name="VstStave01_20inVSTpos" x="-5.38245530905" y="-3.10756202158" z="0" unit="cm"/>
+    <rotation name="VstStave01_20inVSTrot" x="-90" y="72" z="180" unit="deg"/>
+    <position name="VstStave01_21inVSTpos" x="-5.91093422083" y="-1.92057895149" z="0" unit="cm"/>
+    <rotation name="VstStave01_21inVSTrot" x="-90" y="84" z="180" unit="deg"/>
+    <position name="VstStave01_22inVSTpos" x="-6.18107694336" y="-0.64965736525" z="0" unit="cm"/>
+    <rotation name="VstStave01_22inVSTrot" x="90" y="84" z="0" unit="deg"/>
+    <position name="VstStave01_23inVSTpos" x="-6.18107694336" y="0.64965736525" z="0" unit="cm"/>
+    <rotation name="VstStave01_23inVSTrot" x="90" y="72" z="0" unit="deg"/>
+    <position name="VstStave01_24inVSTpos" x="-5.91093422083" y="1.92057895149" z="0" unit="cm"/>
+    <rotation name="VstStave01_24inVSTrot" x="90" y="60" z="0" unit="deg"/>
+    <position name="VstStave01_25inVSTpos" x="-5.38245530905" y="3.10756202158" z="0" unit="cm"/>
+    <rotation name="VstStave01_25inVSTrot" x="90" y="48" z="0" unit="deg"/>
+    <position name="VstStave01_26inVSTpos" x="-4.61873727238" y="4.1587297196" z="0" unit="cm"/>
+    <rotation name="VstStave01_26inVSTrot" x="90" y="36" z="0" unit="deg"/>
+    <position name="VstStave01_27inVSTpos" x="-3.65315825374" y="5.02814097307" z="0" unit="cm"/>
+    <rotation name="VstStave01_27inVSTrot" x="90" y="24" z="0" unit="deg"/>
+    <position name="VstStave01_28inVSTpos" x="-2.52791868962" y="5.67779833832" z="0" unit="cm"/>
+    <rotation name="VstStave01_28inVSTrot" x="90" y="12" z="0" unit="deg"/>
+    <position name="VstStave01_29inVSTpos" x="-1.29219694846" y="6.07930867108" z="0" unit="cm"/>
+    <rotation name="VstStave01_29inVSTrot" x="90" y="-0" z="0" unit="deg"/>
+    <position name="VST_0inVstGeantGeoWrapperpos" x="0" y="0" z="0" unit="cm"/>
+  </define>
+  <materials>
+    <element name="NITROGEN_elm" formula="N" Z="7">
+      <atom unit="g/mole" value="14.00674"/>
+    </element>
+    <element name="OXYGEN_elm" formula="O" Z="8">
+      <atom unit="g/mole" value="15.9994"/>
+    </element>
+    <element name="ARGON_elm" formula="AR" Z="18">
+      <atom unit="g/mole" value="39.948"/>
+    </element>
+    <material name="air">
+      <D unit="g/cm3" value="0.001205"/>
+      <fraction n="0.0140000004321" ref="ARGON_elm"/>
+      <fraction n="0.754999995232" ref="NITROGEN_elm"/>
+      <fraction n="0.231000006199" ref="OXYGEN_elm"/>
+    </material>
+    <material name="silicon" Z="14">
+      <D unit="g/cm3" value="2.33"/>
+      <atom unit="g/mole" value="28.086"/>
+    </material>
+    <material name="aluminum" Z="13">
+      <D unit="g/cm3" value="2.7"/>
+      <atom unit="g/mole" value="26.98"/>
+    </material>
+    <element name="CARBON_elm" formula="C" Z="6">
+      <atom unit="g/mole" value="12.0107"/>
+    </element>
+    <element name="HYDROGEN_elm" formula="H" Z="1">
+      <atom unit="g/mole" value="1.00794"/>
+    </element>
+    <material name="MapsKapton">
+      <D unit="g/cm3" value="1.42"/>
+      <fraction n="0.691128671169" ref="CARBON_elm"/>
+      <fraction n="0.0263643823564" ref="HYDROGEN_elm"/>
+      <fraction n="0.0732657834888" ref="NITROGEN_elm"/>
+      <fraction n="0.209241136909" ref="OXYGEN_elm"/>
+    </material>
+    <material name="MapsCarbonFiber" Z="6">
+      <D unit="g/cm3" value="1.63"/>
+      <atom unit="g/mole" value="12.011"/>
+    </material>
+    <material name="water">
+      <D unit="g/cm3" value="1"/>
+      <fraction n="0.111900530756" ref="HYDROGEN_elm"/>
+      <fraction n="0.888099491596" ref="OXYGEN_elm"/>
+    </material>
+  </materials>
+  <solids>
+    <trd name="VstStave000x1" x1="1.75" x2="0" y1="27.09" y2="27.09" z="0.505181485541" lunit="cm"/>
+    <trd name="VstChipAssembly000x1" x1="1.75" x2="0" y1="3.01" y2="3.01" z="0.505181485541" lunit="cm"/>
+    <box name="VstMimosaShell000x1" x="1.5" y="3" z="0.005" lunit="cm"/>
+    <box name="VstMimosaCore000x1" x="1.3" y="3" z="0.0018" lunit="cm"/>
+    <box name="VstCellFlexLayer000x1" x="1.5" y="3.01" z="0.012" lunit="cm"/>
+    <box name="VstColdPlate000x1" x="1.5" y="3.01" z="0.0360868830052" lunit="cm"/>
+    <trd name="VstStave010x1" x1="1.75" x2="0" y1="27.09" y2="27.09" z="0.505181485541" lunit="cm"/>
+    <trd name="VstChipAssembly010x1" x1="1.75" x2="0" y1="3.01" y2="3.01" z="0.505181485541" lunit="cm"/>
+    <box name="VstMimosaShell010x1" x="1.5" y="3" z="0.005" lunit="cm"/>
+    <box name="VstMimosaCore010x1" x="1.3" y="3" z="0.0018" lunit="cm"/>
+    <box name="VstCellFlexLayer010x1" x="1.5" y="3.01" z="0.012" lunit="cm"/>
+    <box name="VstColdPlate010x1" x="1.5" y="3.01" z="0.0360868830052" lunit="cm"/>
+  </solids>
+  <structure>
+    <volume name="VstMimosaCore00">
+      <materialref ref="silicon"/>
+      <solidref ref="VstMimosaCore000x1"/>
+    </volume>
+    <volume name="VstMimosaShell00">
+      <materialref ref="silicon"/>
+      <solidref ref="VstMimosaShell000x1"/>
+      <physvol>
+        <volumeref ref="VstMimosaCore00"/>
+        <positionref ref="VstMimosaCore00_0inVstMimosaShell00pos"/>
+      </physvol>
+    </volume>
+    <volume name="VstCellFlexLayer00">
+      <materialref ref="MapsCarbonFiber"/>
+      <solidref ref="VstCellFlexLayer000x1"/>
+    </volume>
+    <volume name="VstColdPlate00">
+      <materialref ref="MapsCarbonFiber"/>
+      <solidref ref="VstColdPlate000x1"/>
+    </volume>
+    <volume name="VstChipAssembly00">
+      <materialref ref="air"/>
+      <solidref ref="VstChipAssembly000x1"/>
+      <physvol>
+        <volumeref ref="VstMimosaShell00"/>
+        <positionref ref="VstMimosaShell00_0inVstChipAssembly00pos"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstCellFlexLayer00"/>
+        <positionref ref="VstCellFlexLayer00_0inVstChipAssembly00pos"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstColdPlate00"/>
+        <positionref ref="VstColdPlate00_0inVstChipAssembly00pos"/>
+      </physvol>
+    </volume>
+    <volume name="VstStave00">
+      <materialref ref="air"/>
+      <solidref ref="VstStave000x1"/>
+      <physvol>
+        <volumeref ref="VstChipAssembly00"/>
+        <positionref ref="VstChipAssembly00_0inVstStave00pos"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstChipAssembly00"/>
+        <positionref ref="VstChipAssembly00_1inVstStave00pos"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstChipAssembly00"/>
+        <positionref ref="VstChipAssembly00_2inVstStave00pos"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstChipAssembly00"/>
+        <positionref ref="VstChipAssembly00_3inVstStave00pos"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstChipAssembly00"/>
+        <positionref ref="VstChipAssembly00_4inVstStave00pos"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstChipAssembly00"/>
+        <positionref ref="VstChipAssembly00_5inVstStave00pos"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstChipAssembly00"/>
+        <positionref ref="VstChipAssembly00_6inVstStave00pos"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstChipAssembly00"/>
+        <positionref ref="VstChipAssembly00_7inVstStave00pos"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstChipAssembly00"/>
+        <positionref ref="VstChipAssembly00_8inVstStave00pos"/>
+      </physvol>
+    </volume>
+    <volume name="VstMimosaCore01">
+      <materialref ref="silicon"/>
+      <solidref ref="VstMimosaCore010x1"/>
+    </volume>
+    <volume name="VstMimosaShell01">
+      <materialref ref="silicon"/>
+      <solidref ref="VstMimosaShell010x1"/>
+      <physvol>
+        <volumeref ref="VstMimosaCore01"/>
+        <positionref ref="VstMimosaCore01_0inVstMimosaShell01pos"/>
+      </physvol>
+    </volume>
+    <volume name="VstCellFlexLayer01">
+      <materialref ref="MapsCarbonFiber"/>
+      <solidref ref="VstCellFlexLayer010x1"/>
+    </volume>
+    <volume name="VstColdPlate01">
+      <materialref ref="MapsCarbonFiber"/>
+      <solidref ref="VstColdPlate010x1"/>
+    </volume>
+    <volume name="VstChipAssembly01">
+      <materialref ref="air"/>
+      <solidref ref="VstChipAssembly010x1"/>
+      <physvol>
+        <volumeref ref="VstMimosaShell01"/>
+        <positionref ref="VstMimosaShell01_0inVstChipAssembly01pos"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstCellFlexLayer01"/>
+        <positionref ref="VstCellFlexLayer01_0inVstChipAssembly01pos"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstColdPlate01"/>
+        <positionref ref="VstColdPlate01_0inVstChipAssembly01pos"/>
+      </physvol>
+    </volume>
+    <volume name="VstStave01">
+      <materialref ref="air"/>
+      <solidref ref="VstStave010x1"/>
+      <physvol>
+        <volumeref ref="VstChipAssembly01"/>
+        <positionref ref="VstChipAssembly01_0inVstStave01pos"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstChipAssembly01"/>
+        <positionref ref="VstChipAssembly01_1inVstStave01pos"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstChipAssembly01"/>
+        <positionref ref="VstChipAssembly01_2inVstStave01pos"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstChipAssembly01"/>
+        <positionref ref="VstChipAssembly01_3inVstStave01pos"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstChipAssembly01"/>
+        <positionref ref="VstChipAssembly01_4inVstStave01pos"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstChipAssembly01"/>
+        <positionref ref="VstChipAssembly01_5inVstStave01pos"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstChipAssembly01"/>
+        <positionref ref="VstChipAssembly01_6inVstStave01pos"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstChipAssembly01"/>
+        <positionref ref="VstChipAssembly01_7inVstStave01pos"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstChipAssembly01"/>
+        <positionref ref="VstChipAssembly01_8inVstStave01pos"/>
+      </physvol>
+    </volume>
+    <assembly name="VST">
+      <physvol>
+        <volumeref ref="VstStave00"/>
+        <positionref ref="VstStave00_0inVSTpos"/>
+        <rotationref ref="VstStave00_0inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave00"/>
+        <positionref ref="VstStave00_1inVSTpos"/>
+        <rotationref ref="VstStave00_1inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave00"/>
+        <positionref ref="VstStave00_2inVSTpos"/>
+        <rotationref ref="VstStave00_2inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave00"/>
+        <positionref ref="VstStave00_3inVSTpos"/>
+        <rotationref ref="VstStave00_3inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave00"/>
+        <positionref ref="VstStave00_4inVSTpos"/>
+        <rotationref ref="VstStave00_4inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave00"/>
+        <positionref ref="VstStave00_5inVSTpos"/>
+        <rotationref ref="VstStave00_5inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave00"/>
+        <positionref ref="VstStave00_6inVSTpos"/>
+        <rotationref ref="VstStave00_6inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave00"/>
+        <positionref ref="VstStave00_7inVSTpos"/>
+        <rotationref ref="VstStave00_7inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave00"/>
+        <positionref ref="VstStave00_8inVSTpos"/>
+        <rotationref ref="VstStave00_8inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave00"/>
+        <positionref ref="VstStave00_9inVSTpos"/>
+        <rotationref ref="VstStave00_9inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave00"/>
+        <positionref ref="VstStave00_10inVSTpos"/>
+        <rotationref ref="VstStave00_10inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave00"/>
+        <positionref ref="VstStave00_11inVSTpos"/>
+        <rotationref ref="VstStave00_11inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave00"/>
+        <positionref ref="VstStave00_12inVSTpos"/>
+        <rotationref ref="VstStave00_12inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave00"/>
+        <positionref ref="VstStave00_13inVSTpos"/>
+        <rotationref ref="VstStave00_13inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave00"/>
+        <positionref ref="VstStave00_14inVSTpos"/>
+        <rotationref ref="VstStave00_14inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave00"/>
+        <positionref ref="VstStave00_15inVSTpos"/>
+        <rotationref ref="VstStave00_15inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave00"/>
+        <positionref ref="VstStave00_16inVSTpos"/>
+        <rotationref ref="VstStave00_16inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave00"/>
+        <positionref ref="VstStave00_17inVSTpos"/>
+        <rotationref ref="VstStave00_17inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_0inVSTpos"/>
+        <rotationref ref="VstStave01_0inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_1inVSTpos"/>
+        <rotationref ref="VstStave01_1inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_2inVSTpos"/>
+        <rotationref ref="VstStave01_2inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_3inVSTpos"/>
+        <rotationref ref="VstStave01_3inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_4inVSTpos"/>
+        <rotationref ref="VstStave01_4inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_5inVSTpos"/>
+        <rotationref ref="VstStave01_5inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_6inVSTpos"/>
+        <rotationref ref="VstStave01_6inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_7inVSTpos"/>
+        <rotationref ref="VstStave01_7inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_8inVSTpos"/>
+        <rotationref ref="VstStave01_8inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_9inVSTpos"/>
+        <rotationref ref="VstStave01_9inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_10inVSTpos"/>
+        <rotationref ref="VstStave01_10inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_11inVSTpos"/>
+        <rotationref ref="VstStave01_11inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_12inVSTpos"/>
+        <rotationref ref="VstStave01_12inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_13inVSTpos"/>
+        <rotationref ref="VstStave01_13inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_14inVSTpos"/>
+        <rotationref ref="VstStave01_14inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_15inVSTpos"/>
+        <rotationref ref="VstStave01_15inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_16inVSTpos"/>
+        <rotationref ref="VstStave01_16inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_17inVSTpos"/>
+        <rotationref ref="VstStave01_17inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_18inVSTpos"/>
+        <rotationref ref="VstStave01_18inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_19inVSTpos"/>
+        <rotationref ref="VstStave01_19inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_20inVSTpos"/>
+        <rotationref ref="VstStave01_20inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_21inVSTpos"/>
+        <rotationref ref="VstStave01_21inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_22inVSTpos"/>
+        <rotationref ref="VstStave01_22inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_23inVSTpos"/>
+        <rotationref ref="VstStave01_23inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_24inVSTpos"/>
+        <rotationref ref="VstStave01_24inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_25inVSTpos"/>
+        <rotationref ref="VstStave01_25inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_26inVSTpos"/>
+        <rotationref ref="VstStave01_26inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_27inVSTpos"/>
+        <rotationref ref="VstStave01_27inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_28inVSTpos"/>
+        <rotationref ref="VstStave01_28inVSTrot"/>
+      </physvol>
+      <physvol>
+        <volumeref ref="VstStave01"/>
+        <positionref ref="VstStave01_29inVSTpos"/>
+        <rotationref ref="VstStave01_29inVSTrot"/>
+      </physvol>
+    </assembly>
+    <assembly name="VstGeantGeoWrapper">
+      <physvol>
+        <volumeref ref="VST"/>
+        <positionref ref="VST_0inVstGeantGeoWrapperpos"/>
+      </physvol>
+    </assembly>
+  </structure>
+  <setup name="default" version="1.0">
+    <world ref="VstGeantGeoWrapper"/>
+  </setup>
+</gdml>
