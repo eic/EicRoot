@@ -1,27 +1,28 @@
 #
-# FIXME: perhaps find easier way to handle ROOT5/ROOT6 installations; see also 
-# eicroot.cmake; NB: as it stands on 2018/09/25 ROOT6 version compiles but 
-# crashes in digitization.C scripts;
+# cmake -DCMAKE_INSTALL_PREFIX=. -Wno-dev -DG3VMC=/scratch -DEICSMEAR=/scratch -DG4VMC=/scratch ..
 #
-
 #
-# cmake -DCMAKE_INSTALL_PREFIX=. -DCMAKE_C_COMPILER=/DATA00/ayk/local/bin/gcc -DCMAKE_CXX_COMPILER=/DATA00/ayk/local/bin/g++ -Wno-dev -DROOT5=yes -DCAD2ROOT=yes -DELMER=/DATA00/ayk/elmer -DEICSMEAR=/DATA00/ayk/FAIRROOT.FRESH/eic-smear ..
+# -DCMAKE_C_COMPILER=/DATA00/ayk/local/bin/gcc -DCMAKE_CXX_COMPILER=/DATA00/ayk/local/bin/g++ 
+# -DCAD2ROOT=yes -DELMER=/DATA00/ayk/elmer 
 #
-# cmake -DCMAKE_INSTALL_PREFIX=. -Wno-dev -DEICSMEAR=/scratch/eic-smear -DJANA=/scratch/JANA2/Linux_CentOS7-x86_64-gcc4.8.5 ..
+# -DJANA=/scratch/JANA2/Linux_CentOS7-x86_64-gcc4.8.5 ..
 #
-# cmake -DCMAKE_INSTALL_PREFIX=. -Wno-dev -DGEANT3=/scratch -DEICSMEAR=/scratch ..
+#   It is assumed that ROOT, GEANT4, GEANT3, VMC(G4) are pre-installed, and also 
+# that respective thisroot.sh and geant4.sh files are sources, like
 #
-
+# . /scratch/root-6.14.00.binary/bin/thisroot.sh
+# . /scratch/geant4.10.05.p01.build/bin/geant4.sh 
+#
 
 PROJECT(EICROOT)
 
-# Should suffice?;
-cmake_minimum_required(VERSION 2.8.10)
+# Should suffice?; for sure does not work with 2.8.10;
+cmake_minimum_required(VERSION 3.5.2)
 
 SET(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # Very few command line options left;
-SET(VARS EICSMEAR CBMROOT CAD2ROOT OPENCASCADE JANA GEANT3)
+SET(VARS EICSMEAR CBMROOT CAD2ROOT OPENCASCADE JANA G3VMC G4VMC)
 foreach (var ${VARS})
   IF(DEFINED ${var})
     message("-> " ${var} " is defined to " ${${var}})
@@ -31,35 +32,16 @@ foreach (var ${VARS})
   ENDIF()		
 endforeach(var)
 
-##@if (ROOT5)
-##@set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules")
-##@endif (ROOT5)
-# Assume ROOTSYS was setup in the environment;
+# Assume ROOTSYS was set up in the environment;
 list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
 
-#IF(NOT DEFINED ENV{SIMPATH})
-#   MESSAGE(FATAL_ERROR 
-#   "You did not define the environment variable SIMPATH which is needed to find "
-#   "the external packages. Please set this variable and execute cmake once again.") 
-#ENDIF(NOT DEFINED ENV{SIMPATH})
-#STRING(REGEX MATCHALL "[^:]+" PATH $ENV{PATH})
-#SET(SIMPATH $ENV{SIMPATH})
-#message(${PATH})
-
 # Find ROOT;
-#@if (ROOT5)
-#@FIND_PACKAGE(ROOT 5.34.0 REQUIRED COMPONENTS RIO Tree Hist)
-#@else (ROOT5)
 FIND_PACKAGE(ROOT 6.0.0 REQUIRED COMPONENTS RIO Tree Hist)
 #---Define useful ROOT functions and macros (e.g. ROOT_GENERATE_DICTIONARY)
 include(${ROOT_USE_FILE})
-#@endif (ROOT5)
-#message(${ROOT_USE_FILE})
 
 # Keep this original stuff activated for config.sh creation, etc;
-#@if (NOT ROOT5)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules")
-#@endif (ROOT5)
 include(FairMacros)
 include(WriteConfigFile)
 SetBasicVariables()
@@ -69,16 +51,15 @@ SetBasicVariables()
 #find_package(GEANT4DATA)
 #find_package(GEANT4VMC)
 
-#SET(EICLIBDIR ${CMAKE_BINARY_DIR}/lib)
-#SET(LD_LIBRARY_PATH ${EICLIBDIR} $ENV{LD_LIBRARY_PATH})
-#message(${LD_LIBRARY_PATH})
-
 # Basically just a simplified GENERATE_LIBRARY() macro;
 include(eicroot)
 
+# FIXME: a bit too much of the warnings disabled?;
 SET( CMAKE_CXX_FLAGS "-g -Wall -Wno-deprecated-declarations -Wno-parentheses -Wno-comment -Wno-unused -Wno-sign-compare -Wno-reorder -Wno-format -std=c++11 -Wno-narrowing -Wno-address -pthread -fPIC" )
 
-set (GEANT3_INCLUDE_DIR ${GEANT3}/include/TGeant3)
+if (DEFINED G3VMC)
+  set (GEANT3_INCLUDE_DIR ${G3VMC}/include/TGeant3)
+endif()
 
 # FairRoot;
 add_subdirectory(fairtools)
