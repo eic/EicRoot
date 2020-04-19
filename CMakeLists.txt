@@ -18,7 +18,7 @@ cmake_minimum_required(VERSION 2.8.10)
 SET(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # Very few command line options left;
-SET(VARS EICSMEAR CBMROOT CAD2ROOT OPENCASCADE JANA)
+SET(VARS EICSMEAR CBMROOT CAD2ROOT OPENCASCADE JANA GEANT3)
 foreach (var ${VARS})
   IF(DEFINED ${var})
     message("-> " ${var} " is defined to " ${${var}})
@@ -34,13 +34,14 @@ endforeach(var)
 # Assume ROOTSYS was setup in the environment;
 list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
 
-IF(NOT DEFINED ENV{SIMPATH})
-   MESSAGE(FATAL_ERROR 
-   "You did not define the environment variable SIMPATH which is needed to find "
-   "the external packages. Please set this variable and execute cmake once again.") 
-ENDIF(NOT DEFINED ENV{SIMPATH})
-STRING(REGEX MATCHALL "[^:]+" PATH $ENV{PATH})
-SET(SIMPATH $ENV{SIMPATH})
+#IF(NOT DEFINED ENV{SIMPATH})
+#   MESSAGE(FATAL_ERROR 
+#   "You did not define the environment variable SIMPATH which is needed to find "
+#   "the external packages. Please set this variable and execute cmake once again.") 
+#ENDIF(NOT DEFINED ENV{SIMPATH})
+#STRING(REGEX MATCHALL "[^:]+" PATH $ENV{PATH})
+#SET(SIMPATH $ENV{SIMPATH})
+#message(${PATH})
 
 # Find ROOT;
 #@if (ROOT5)
@@ -60,26 +61,21 @@ include(FairMacros)
 include(WriteConfigFile)
 SetBasicVariables()
 
-find_package(GEANT3 REQUIRED)
-find_package(GEANT4)
-find_package(GEANT4DATA)
-find_package(GEANT4VMC)
+#find_package(GEANT3 REQUIRED)
+#find_package(GEANT4)
+#find_package(GEANT4DATA)
+#find_package(GEANT4VMC)
 
-SET(EICLIBDIR ${CMAKE_BINARY_DIR}/lib)
-SET(LD_LIBRARY_PATH ${EICLIBDIR} ${LD_LIBRARY_PATH})
+#SET(EICLIBDIR ${CMAKE_BINARY_DIR}/lib)
+#SET(LD_LIBRARY_PATH ${EICLIBDIR} $ENV{LD_LIBRARY_PATH})
+#message(${LD_LIBRARY_PATH})
 
 # Basically just a simplified GENERATE_LIBRARY() macro;
 include(eicroot)
 
 SET( CMAKE_CXX_FLAGS "-g -Wall -Wno-deprecated-declarations -Wno-parentheses -Wno-comment -Wno-unused -Wno-sign-compare -Wno-reorder -Wno-format -std=c++11 -Wno-narrowing -Wno-address -pthread -fPIC" )
 
-#@@@set (GEANT3_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/external/geant3/TGeant3)
-#+++set (GEANT3_INCLUDE_DIR ${SIMPATH}/include/TGeant3)
-#
-# Put it first for the debugging stage;
-#add_subdirectory(eic/jana)
-#
-#add_subdirectory(external/geant3)
+set (GEANT3_INCLUDE_DIR ${GEANT3}/include/TGeant3)
 
 # FairRoot;
 add_subdirectory(fairtools)
@@ -150,9 +146,9 @@ add_subdirectory(eic/detectors/mumegas)
 add_subdirectory(eic/infrastructure)
 #@@add_subdirectory(eic/htree)
 
-#if (DEFINED JANA)
-#  add_subdirectory(eic/jana)
-#endif()
+if (DEFINED JANA)
+  add_subdirectory(eic/jana)
+endif()
 
 WRITE_CONFIG_FILE(config.sh)
 WRITE_CONFIG_FILE(config.csh)
