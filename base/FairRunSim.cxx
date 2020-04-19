@@ -232,6 +232,7 @@ void FairRunSim::CheckFlukaExec()
 //_____________________________________________________________________________
 void FairRunSim::SetMCConfig()
 {
+  //printf("FairRunSim::SetMCConfig() #1 ...\n");
   /** Private method for setting simulation and/or Geane configuration and cuts*/
 
   TString work = getenv("VMCWORKDIR");
@@ -246,6 +247,9 @@ void FairRunSim::SetMCConfig()
   TString LibFunction;
   TString ConfigMacro;
   TString cuts=fUserCuts;
+
+  //printf("FairRunSim::SetMCConfig() #2 ...\n");
+
   //----------------------------------------------Geant4 Config-----------------------------------------
   if(strcmp(GetName(),"TGeant4") == 0 ) {
     TString g4LibMacro="g4libs.C";
@@ -274,6 +278,7 @@ void FairRunSim::SetMCConfig()
     }
     //----------------------------------------------Geant3 Config-----------------------------------------
   } else if(strcmp(GetName(),"TGeant3") == 0 ) {
+    //printf("FairRunSim::SetMCConfig() #3 ...\n");
     TString g3LibMacro="g3libs.C";
     TString g3Macro="g3Config.C";
     if(fUserConfig.IsNull()) {
@@ -299,6 +304,9 @@ void FairRunSim::SetMCConfig()
       if(AbsPath) { ConfigMacro = fUserConfig; }
       else { ConfigMacro =work_config+fUserConfig; }
     }
+
+    //printf("FairRunSim::SetMCConfig() #4 ...\n");
+
     //----------------------------------------------Fluka Config-----------------------------------------
   } else if(strcmp(GetName(),"TFluka") == 0 ) {
     TString flLibMacro="fllibs.C";
@@ -326,23 +334,32 @@ void FairRunSim::SetMCConfig()
       else { ConfigMacro =work_config+fUserConfig; }
     }
   }
+  //printf("FairRunSim::SetMCConfig() #5 ...\n");
   //----------------------------------------------SetCuts------------------------------------------------
   if (TString(gSystem->FindFile(config_dir.Data(),cuts)) != TString("")) {
     fLogger->Info(MESSAGE_ORIGIN,"---User path for Cuts and Processes  (SetCuts.C) is used : %s", config_dir.Data());
   } else {
     cuts =work_config+ fUserCuts;
   }
+  //printf("FairRunSim::SetMCConfig() #6a ...\n");
   //--------------------------------------Now load the Config and Cuts------------------------------------
   gROOT->LoadMacro(LibMacro.Data());
+  //printf("FairRunSim::SetMCConfig() #6b ...\n");
   gROOT->ProcessLine(LibFunction.Data());
+  //printf("FairRunSim::SetMCConfig() #6c ...\n");
 
   gROOT->LoadMacro(ConfigMacro.Data());
+  //printf("FairRunSim::SetMCConfig() #6d ...\n");
   gROOT->ProcessLine("Config()");
+  //printf("FairRunSim::SetMCConfig() #6e ...\n");
 
   gROOT->LoadMacro(cuts);
+  //printf("FairRunSim::SetMCConfig() #6f ...\n");
   gROOT->ProcessLine("SetCuts()");
+  //printf("FairRunSim::SetMCConfig() #7 ...\n");
 
   fApp->InitMC(ConfigMacro.Data(), cuts.Data());
+  //printf("FairRunSim::SetMCConfig() #8 ...\n");
 }
 
 //_____________________________________________________________________________

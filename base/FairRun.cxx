@@ -11,6 +11,9 @@
 #include "FairEventHeader.h"
 #include "FairFileHeader.h"
 #include <iostream>
+
+bool FairRun::mJanaPluginMode = false;
+
 //_____________________________________________________________________________
 FairRun* FairRun::fRunInstance= 0;
 //_____________________________________________________________________________
@@ -32,7 +35,8 @@ FairRun::FairRun()
    fAna(kFALSE),
    fEvHead(NULL),
    fFileHeader(new FairFileHeader()),
-   fWriteRunInfo(kTRUE)
+   fWriteRunInfo(kTRUE),
+   mEvCurrent(-1)
 {
   if (fRunInstance) {
     Fatal("FairRun", "Singleton instance already exists.");

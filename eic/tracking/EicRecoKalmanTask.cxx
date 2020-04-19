@@ -38,12 +38,6 @@ InitStatus EicRecoKalmanTask::Init()
   // Do it better later; for now deal with the regular Kalman filter only;
   SetDaf(kFALSE);
 
-  // Yes, no need to assign this in reco_complete.C;
-  SetTrackInBranchName(fIdeal->fTracksArrayName);
-
-  // Call original PandaRoot Init();
-  PndRecoKalmanTask::Init();
-
   //Get ROOT Manager;
   FairRootManager* ioman= FairRootManager::Instance();
   if(ioman==0)
@@ -51,6 +45,20 @@ InitStatus EicRecoKalmanTask::Init()
     Error("EicRecoKalmanFit::Init","RootManager not instantiated!");
     return kERROR;
   }
+
+  if (!fIdeal) {
+    // FIXME: this is indeed a terrible hack;
+    TFile *ff = new TFile("ireconstruction.root");
+
+    fIdeal = dynamic_cast<EicIdealTrackingCode*>(ff->Get("EicIdealTrackingCode"));
+    assert(fIdeal);
+  } //if
+
+  // Yes, no need to assign this in reco_complete.C;
+  SetTrackInBranchName(fIdeal->fTracksArrayName);
+
+  // Call original PandaRoot Init();
+  PndRecoKalmanTask::Init();
 
   // Instead of hardcoding hit classes in PndRecoKalmanTask prefer to spool them from 
   // EicIdealTracker class;

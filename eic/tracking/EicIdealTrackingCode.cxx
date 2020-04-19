@@ -43,8 +43,8 @@ EicIdealTrackingCode::EicIdealTrackingCode():
 
 EicIdealTrackingCode::~EicIdealTrackingCode() 
 {  
-  FairRootManager *fManager =FairRootManager::Instance();
-  fManager->Write();
+  //FairRootManager *fManager =FairRootManager::Instance();
+  //fManager->Write();
 } // EicIdealTrackingCode::~EicIdealTrackingCode() 
 
 // -----------------------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ void EicIdealTrackingCode::Register()
 
 // -----------------------------------------------------------------------------------------------
 
-int EicIdealTrackingCode::AddDetectorGroup(char *name)
+int EicIdealTrackingCode::AddDetectorGroup(const char *name)
 {
   EicDetectorGroup group(name); 
 
@@ -278,9 +278,17 @@ void EicIdealTrackingCode::Exec(Option_t * option)
 
 // -----------------------------------------------------------------------------------------------
 
+#include <FairRun.h>
+
 void EicIdealTrackingCode::Finish() 
 {
   std::cout << " Found  "<< fTracks->GetEntriesFast() << " tracks\n";
+
+  FairRun *fRun = FairRun::Instance();
+  
+  // I guess there is no need to save/restore current directory here?;
+  fRun->GetOutputFile()->cd();
+  Write("EicIdealTrackingCode");
 } // EicIdealTrackingCode::Finish()
 
 // -----------------------------------------------------------------------------------------------
@@ -320,5 +328,6 @@ void EicIdealTrackingCode::SmearFWD(TVector3 &vec, const TVector3 &sigma)
 
 // -----------------------------------------------------------------------------------------------
 
+ClassImp(EicDetectorGroup)
 ClassImp(EicIdealTrackingCode)
 

@@ -114,6 +114,9 @@ class FairRun : public TNamed
     //** Get info if RunInfo file is written */
     Bool_t GetWriteRunInfoFile() { return fWriteRunInfo;}
 
+    static void JanaPluginMode(bool what) { mJanaPluginMode = what; };
+    static bool JanaPluginMode( void ) { return mJanaPluginMode; } 
+
   private:
     FairRun(const FairRun& M);
     FairRun& operator= (const  FairRun&) {
@@ -148,6 +151,19 @@ class FairRun : public TNamed
     /** true if RunInfo file should be written*/
     Bool_t                   fWriteRunInfo;  //!
 
-    ClassDef(FairRun ,1)
+    static bool mJanaPluginMode;      // is 'true' if running in Jana plugin mode 
+    int mEvCurrent;                   //! 
+
+ public:
+    // Make default calls in such a way that FairRunSim feels good;
+    virtual void RunCoreStart(Int_t NStart = 0, Int_t NStop = 0) {};//Run(NStart, NStop); };
+    virtual void RunCoreFinish( void ) {};
+    virtual bool RunCoreImportNextEvent( void ) { return false; };
+    virtual void RunCoreProcessNextEvent( void ) {};
+    // FIXME: this call is a clear cludge; need to arrange per-event processor in MC mode; 
+    virtual bool JanaLoopPossible( void ) const { return true; }
+    int GetCurrentEventIndex( void ) const { return mEvCurrent; }
+    
+    ClassDef(FairRun ,2)
 };
 #endif //FAIRRUN_H

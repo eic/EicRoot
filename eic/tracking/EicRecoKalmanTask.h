@@ -13,10 +13,10 @@
 
 class EicRecoKalmanTask:  public PndRecoKalmanTask {
  public:
-  EicRecoKalmanTask() {};
+  //EicRecoKalmanTask() {};
   // May want to set pion hypothesis by default?; otherwise use ideal hypo for now;
   //EicRecoKalmanTask(EicIdealTracker *ideal): PndRecoKalmanTask() { SetParticleHypo(211);};
-  EicRecoKalmanTask(EicIdealTrackingCode *ideal);
+  EicRecoKalmanTask(EicIdealTrackingCode *ideal = 0);
 
   ~EicRecoKalmanTask() {};
 

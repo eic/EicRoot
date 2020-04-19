@@ -17,7 +17,9 @@
 #include "TVector3.h"
 #include "TDatabasePDG.h"
 #include "FairTask.h"
+
 #include <cmath>
+#include <map>
 
 class EicGeoParData;
 class EicTrackingDigiHitProducer;
@@ -28,7 +30,7 @@ class LogicalVolumeLookupTableEntry;
 #include <EicGeoParData.h>
 #include <EicTrackingDigiHit.h>
 
-class EicDetectorGroup {
+class EicDetectorGroup: public TObject {
   // FIXME: do it better later;
   friend class EicIdealTrackingCode;
   friend class EicHtcTask;
@@ -38,10 +40,11 @@ class EicDetectorGroup {
 
  public: 
   //@@@ EicDetectorGroup();
- EicDetectorGroup(char *name = 0): svCounter(0), _fMCPoints(0), _fHits(0),
+ EicDetectorGroup(const char *name = 0): svCounter(0), _fMCPoints(0), _fHits(0),
     mGptr(0), mDigi(0) { dname = name ? new EicDetName(name) : 0; };
   ~EicDetectorGroup() {}; 
 
+  // For now this is the only field needed;
   EicDetName *dname;
 
   SensitiveVolume* GetSensitiveVolume(const EicTrackingDigiHit *hit) const {
@@ -63,11 +66,13 @@ class EicDetectorGroup {
   TClonesArray*  _fHits;         //! Array of event's hits
   Int_t          _fBranchID;     //! Branch ID
 
-  unsigned svCounter;
-  EicGeoParData *mGptr;
-  EicTrackingDigiHitProducer *mDigi;
+  unsigned svCounter;                //!
+  EicGeoParData *mGptr;              //!
+  EicTrackingDigiHitProducer *mDigi; //!
 
-  std::map<LogicalVolumeLookupTableEntry*, SensitiveVolume*> mSensitiveVolumes;
+  std::map<LogicalVolumeLookupTableEntry*, SensitiveVolume*> mSensitiveVolumes; //!
+
+  ClassDef(EicDetectorGroup, 2);
 };
 
 class EicIdealTrackingCode : public FairTask {
@@ -81,7 +86,7 @@ public:
   EicIdealTrackingCode();
   virtual ~EicIdealTrackingCode();  
   
-  int AddDetectorGroup(char *name);
+  int AddDetectorGroup(const char *name);
 
   virtual void Exec(Option_t * option);
   virtual InitStatus Init();              
@@ -112,11 +117,11 @@ protected:
   TClonesArray  *fTrackIds;     //! Array of track IDs (Links)
 
   // Parameters for fake tracking;
-  TVector3 fMomSigma;          // Momentum smearing sigma [GeV]
-  Double_t fDPoP;              // Relative momentum Smearing
-  Bool_t fRelative;            // falg
-  TVector3 fVtxSigma;          // Vertex smearing sigma [cm]
-  Double_t fEfficiency;        // Tracking efficiency - if (0 <= e < 1), some tracks will be discarded
+  TVector3 fMomSigma;          //! Momentum smearing sigma [GeV]
+  Double_t fDPoP;              //! Relative momentum Smearing
+  Bool_t fRelative;            //! falg
+  TVector3 fVtxSigma;          //! Vertex smearing sigma [cm]
+  Double_t fEfficiency;        //! Tracking efficiency - if (0 <= e < 1), some tracks will be discarded
   
   TString fTracksArrayName;     // Branch name where to store the Track candidates
   TDatabasePDG *pdg;            //! Particle DB
@@ -124,7 +129,7 @@ protected:
   EicIdealTrackingCode(const  EicIdealTrackingCode& L);
   EicIdealTrackingCode& operator= (const  EicIdealTrackingCode&) {return *this;}
   
-  ClassDef(EicIdealTrackingCode,1);
+  ClassDef(EicIdealTrackingCode,2);
 };
 
 #endif

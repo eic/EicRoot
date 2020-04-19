@@ -10,13 +10,13 @@ void Config()
   if ( strncmp(gModel->Data(),"TGeo",4) == 0 ) {
      geant3
           = new  TGeant3TGeo("C++ Interface to Geant3");
-      cout << "-I- G3Config: Geant3 with TGeo has been created."
-           << endl;
+     // FIXME: these printouts crash in Jana plugin mode;
+     //@@@cout << "-I- G3Config: Geant3 with TGeo has been created." << endl;
   }else{
      geant3
           = new  TGeant3("C++ Interface to Geant3");
-      cout << "-I- G3Config: Geant3 native has been created."
-             << endl;
+     // FIXME: these printouts crash in Jana plugin mode;
+     //@@@cout << "-I- G3Config: Geant3 native has been created."  << endl;
   }
   // create Cbm Specific Stack
   PndStack *st = new PndStack();

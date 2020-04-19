@@ -277,7 +277,7 @@ int EicTpcDigiHitProducer::HandleHit(const EicMoCaPoint *point)
 
 // -----------------------------------------------------------------------------------------------
 
-int EicTpcDigiHitProducer::exportTpcDigiParameters(char *fileName)
+int EicTpcDigiHitProducer::exportTpcDigiParameters(const char *fileName)
 {
   // Yes, export always happens precisely to the path given via 'fileName' (no VMCWORKDIR
   // expansion like in importTpcDigiParameters());
@@ -298,7 +298,7 @@ int EicTpcDigiHitProducer::exportTpcDigiParameters(char *fileName)
 
 // -----------------------------------------------------------------------------------------------
 
-int EicTpcDigiHitProducer::importTpcDigiParameters(char *fileName)
+int EicTpcDigiHitProducer::importTpcDigiParameters(const char *fileName)
 {
   TString expandedFileName(fileName);
 

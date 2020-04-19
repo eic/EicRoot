@@ -64,7 +64,7 @@ public:
   /// \note As of June'2013 do not allow default value for OneStepOneHit (it is just dangerous, 
   /// since eg. can lead to production of several hits in a silicon layer instead of one); 
   /// so user should better specify this parameter explicitely;
-  EicDetector(const char *Name, char *geometryName, EicDetectorId dType = qDUMMY, 
+  EicDetector(const char *Name, const char *geometryName, EicDetectorId dType = qDUMMY, 
 	      SteppingType stType = qSteppingTypeUndefined, Bool_t Active  = kTRUE);
 
   /*! Default constructor; */

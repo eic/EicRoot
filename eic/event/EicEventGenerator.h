@@ -53,7 +53,7 @@ class EventProMC: public erhic::EventMC
 
   // There is no parser either (but have to create implementation of this 
   // pure virtual member);
-  bool Parse(const std::string&) { assert(0); };
+  bool Parse(const std::string&) { assert(0); return false; };
 
   ClassDef(EventProMC, 1);
 }; 
@@ -73,7 +73,7 @@ class EventEicMC: public erhic::EventMC
 
   // There is no parser either (but have to create implementation of this 
   // pure virtual member);
-  bool Parse(const std::string&) { assert(0); };
+  bool Parse(const std::string&) { assert(0); return false; };
 
   ClassDef(EventEicMC, 1);
 };

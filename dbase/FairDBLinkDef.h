@@ -97,7 +97,8 @@
 
 // #### SQL object
 #pragma link C++ class FairTSQLObject+;
-#pragma link C++ enum  FairDBObjectMemberTypes;
+// Can not compile or what?;
+//?#pragma link C++ enum  FairDBObjectMemberTypes;
 //@W@#pragma link C++ union FairDBObjectMemberValues;
 #pragma link C++ class FairDBObjectMemberValue+;
 #endif

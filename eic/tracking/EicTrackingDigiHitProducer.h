@@ -110,7 +110,7 @@ class EicKfNodeTemplate: public TObject
 	return GetPitch(iq) * rint((value - GetPixelCenterOffset(iq))/GetPitch(iq)) + 
 	  GetPixelCenterOffset(iq);
       default:
-	assert(0);
+	assert(0); return 0.0;
     } //switch
   };
 
@@ -547,8 +547,8 @@ class EicKfNodeTemplateOrth3D: public EicKfNodeTemplate
 
   unsigned GetMdim() const { return 3; };
   double GetSigma(unsigned iq) const { return (iq <= 2 ? mSigma[iq] : 0.0); };
-  double GetPitch(unsigned iq) const { assert(0); };
-  double GetPixelCenterOffset(unsigned iq) const { assert(0); };
+  double GetPitch(unsigned iq) const { assert(0); return 0.0; };
+  double GetPixelCenterOffset(unsigned iq) const { assert(0); return 0.0; };
 
   void FillGranularityArray(bool useCartesian, double spGranularity, 
 			    double aGranularity, double gra[]) const {
@@ -561,7 +561,7 @@ class EicKfNodeTemplateOrth3D: public EicKfNodeTemplate
 			const std::set<double> &yMin, const std::set<double> &yMax, 
 			const std::set<double> &rMin, const std::set<double> &rMax,
 			double min[], double max[]) const {
-    assert(0);
+    assert(0); 
   };
   //void FillSmearingArray(double spSmearing, double aSmearing, double sme[]) const {
   //assert(0);
@@ -653,7 +653,7 @@ class EicKfNodeTemplateAxial3D: public EicKfNodeTemplate
     assert(0);
   };
   double GetSmearingValue(double spSmearing, const EicTrackingDigiHit *hit, unsigned iq) const { 
-    assert(0);
+    assert(0); return 0.0;
   };
   void FillMinMaxArrays(bool useCartesian, const std::set<double> &xMin, const std::set<double> &xMax, 
 			const std::set<double> &yMin, const std::set<double> &yMax,

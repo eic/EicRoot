@@ -369,7 +369,10 @@ TString EicGeoParData::GetGeometryFileName(bool root) const
   case EicGeoParData::FullStructure:
     return mDetName->name() + version + "-fs" + suffix;// .root";
   default:
-    assert(0);
+    {
+      // Make the compiler happy;
+      assert(0); return "";
+    }
   } //switch
 } // EicGeoParData::GetGeometryFileName()
 

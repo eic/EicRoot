@@ -3,13 +3,12 @@
 
 void Config()
 {
- 
-  gMC3= new  TGeant3TGeo("C++ Interface to Geant3");
-  cout << "-I- G3Config: Geant3 with TGeo has been created for Geane."
-       << endl;
+  auto gMC3 = new  TGeant3TGeo("C++ Interface to Geant3");
+  // FIXME: these printouts crash in Jana plugin mode;
+  //cout << "-I- G3Config: Geant3 with TGeo has been created for Geane." << endl;
   // create Cbm Specific Stack
-  PndStack *st = new PndStack(10);
-  gMC3->SetStack( st ) ;
+  //@@@PndStack *st = new PndStack(10);
+  //@@@gMC3->SetStack( st ) ;
 
   // only from geant3 rev. 252 on --------
   // NOPRNT = 1 means no IERR printout
@@ -67,11 +66,11 @@ void Config()
   Float_t gcalpha = 0.999;                            // Optimal value for alpha 
 
 
-  cout<<"Energy straggling area parameter from user set to: "<<gcalpha<<endl;
+  //cout<<"Energy straggling area parameter from user set to: "<<gcalpha<<endl;
   if(gcalpha<0.9) 
     {
       gcalpha=0.9;
-      cout<<"User alpha parameter too low: forced to 0.9"<<endl;
+      //cout<<"User alpha parameter too low: forced to 0.9"<<endl;
     }
     
   // set cuts here 

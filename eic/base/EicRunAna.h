@@ -5,6 +5,7 @@
 //
 
 #include <TString.h>
+#include <TVirtualMC.h>
 
 #include <FairRunAna.h>
 
@@ -41,6 +42,11 @@ class EicRunAna : public FairRunAna
 
   void Init();
   void Run(Int_t NStart = 0, Int_t NStop = 0);
+  void RunCoreStart(Int_t NStart = 0, Int_t NStop = 0);
+  bool RunCoreImportNextEvent( void );
+  void RunCoreProcessNextEvent( void );
+  void RunCoreFinish( void );
+  //int GetCurrentEventIndex( void ) const { return mEvCurrent; }
 
   const std::vector<TString> &GetFriendFiles() { return mFriendFiles; };
 
@@ -64,7 +70,9 @@ class EicRunAna : public FairRunAna
   // so store the file names and intercept AddFriend() call;
   std::vector<TString> mFriendFiles; // friend file names
 
-  ClassDef(EicRunAna, 5)
+  unsigned mEvStart, mEvEnd;         // event range
+
+  ClassDef(EicRunAna, 7)
 };
 
 #endif

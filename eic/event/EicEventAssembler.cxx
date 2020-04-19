@@ -473,7 +473,7 @@ void EicEventAssembler::Exec(Option_t* opt)
 void EicEventAssembler::FinishTask()
 {
   if (mPersistency && mEicRcEventBranch) {
-    mEicRcEventBranch->GetTree()->GetCurrentFile()->cd();
+    //@@@mEicRcEventBranch->GetTree()->GetCurrentFile()->cd();
     mEicRcEventBranch->GetTree()->Write();
   } //if
 

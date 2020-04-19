@@ -56,6 +56,6 @@ set( CXXSOURCES
     EicRootManager.cxx
 )
 
-SET(DEPENDENCIES ${EICSMEAR}/build/libeicsmear.so)
+SET(DEPENDENCIES Base ${EICSMEAR}/build/libeicsmear.so)
 GENERATE_EICROOT_LIBRARY(event eicsmearLinkDef.h)
 

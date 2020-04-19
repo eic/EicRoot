@@ -147,7 +147,18 @@ void EicRunSim::Init()
 
 void EicRunSim::Run(Int_t NEvents, Int_t NotUsed) 
 { 
-  // Attempt to call Init(0 if it has not happened so far;
+  // This is indeed a clear hack;
+  //if (mJanaPluginMode) return;
+
+  RunCoreStart(NEvents, NotUsed);
+
+  // Yes, just exit; change the default behaviour if this ever becomes a problem;
+  exit(0);
+} // EicRunSim::Run()
+
+void EicRunSim::RunCoreStart(Int_t NEvents, Int_t NotUsed) 
+{ 
+  // Attempt to call Init(0 if it has not happened so far);
   if (mInitState == stUndefined) Init();
 
   // If initialization failed, do not do anything;
@@ -224,8 +235,8 @@ void EicRunSim::Run(Int_t NEvents, Int_t NotUsed)
   if (!access(_GPHYSI_DAT_, W_OK)) unlink(_GPHYSI_DAT_);
 
   // Yes, just exit; change the default behaviour if this ever becomes a problem;
-  exit(0);
-} // EicRunSim::Run() 
+  //++exit(0);
+} // EicRunSim::RunCoreStart() 
 
 // ---------------------------------------------------------------------------------------
 

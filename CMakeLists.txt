@@ -7,14 +7,18 @@
 #
 # cmake -DCMAKE_INSTALL_PREFIX=. -DCMAKE_C_COMPILER=/DATA00/ayk/local/bin/gcc -DCMAKE_CXX_COMPILER=/DATA00/ayk/local/bin/g++ -Wno-dev -DROOT5=yes -DCAD2ROOT=yes -DELMER=/DATA00/ayk/elmer -DEICSMEAR=/DATA00/ayk/FAIRROOT.FRESH/eic-smear ..
 #
+# cmake -DCMAKE_INSTALL_PREFIX=. -Wno-dev -DEICSMEAR=/scratch/eic-smear -DJANA=/scratch/JANA2/Linux_CentOS7-x86_64-gcc4.8.5 ..
+#
 
 PROJECT(EICROOT)
 
 # Should suffice?;
 cmake_minimum_required(VERSION 2.8.10)
 
+SET(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 # Very few command line options left;
-SET(VARS EICSMEAR CBMROOT CAD2ROOT OPENCASCADE)
+SET(VARS EICSMEAR CBMROOT CAD2ROOT OPENCASCADE JANA)
 foreach (var ${VARS})
   IF(DEFINED ${var})
     message("-> " ${var} " is defined to " ${${var}})
@@ -24,9 +28,9 @@ foreach (var ${VARS})
   ENDIF()		
 endforeach(var)
 
-if (ROOT5)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules")
-endif (ROOT5)
+##@if (ROOT5)
+##@set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules")
+##@endif (ROOT5)
 # Assume ROOTSYS was setup in the environment;
 list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
 
@@ -39,18 +43,19 @@ STRING(REGEX MATCHALL "[^:]+" PATH $ENV{PATH})
 SET(SIMPATH $ENV{SIMPATH})
 
 # Find ROOT;
-if (ROOT5)
-FIND_PACKAGE(ROOT 5.34.0 REQUIRED COMPONENTS RIO Tree Hist)
-else (ROOT5)
+#@if (ROOT5)
+#@FIND_PACKAGE(ROOT 5.34.0 REQUIRED COMPONENTS RIO Tree Hist)
+#@else (ROOT5)
 FIND_PACKAGE(ROOT 6.0.0 REQUIRED COMPONENTS RIO Tree Hist)
 #---Define useful ROOT functions and macros (e.g. ROOT_GENERATE_DICTIONARY)
 include(${ROOT_USE_FILE})
-endif (ROOT5)
+#@endif (ROOT5)
+#message(${ROOT_USE_FILE})
 
 # Keep this original stuff activated for config.sh creation, etc;
-if (NOT ROOT5)
+#@if (NOT ROOT5)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules")
-endif (ROOT5)
+#@endif (ROOT5)
 include(FairMacros)
 include(WriteConfigFile)
 SetBasicVariables()
@@ -66,10 +71,15 @@ SET(LD_LIBRARY_PATH ${EICLIBDIR} ${LD_LIBRARY_PATH})
 # Basically just a simplified GENERATE_LIBRARY() macro;
 include(eicroot)
 
-SET( CMAKE_CXX_FLAGS "-g -Wall -Wno-deprecated-declarations -Wno-parentheses -Wno-comment -Wno-unused -Wno-sign-compare -Wno-reorder -Wno-format -std=c++11 -Wno-narrowing -Wno-address" )
-#if (NOT ROOT5)
-#SET( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wno-narrowing")
-#endif (ROOT5)
+SET( CMAKE_CXX_FLAGS "-g -Wall -Wno-deprecated-declarations -Wno-parentheses -Wno-comment -Wno-unused -Wno-sign-compare -Wno-reorder -Wno-format -std=c++11 -Wno-narrowing -Wno-address -pthread -fPIC" )
+
+#@@@set (GEANT3_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/external/geant3/TGeant3)
+#+++set (GEANT3_INCLUDE_DIR ${SIMPATH}/include/TGeant3)
+#
+# Put it first for the debugging stage;
+#add_subdirectory(eic/jana)
+#
+#add_subdirectory(external/geant3)
 
 # FairRoot;
 add_subdirectory(fairtools)
@@ -129,7 +139,7 @@ if (DEFINED CAD2ROOT)
   add_subdirectory(eic/cad)
 endif()
 add_subdirectory(eic/tracking)
-add_subdirectory(eic/htc)
+##add_subdirectory(eic/htc)
 add_subdirectory(eic/calorimetry)
 add_subdirectory(eic/detectors/tpc)
 add_subdirectory(eic/detectors/maps)
@@ -139,6 +149,10 @@ add_subdirectory(eic/detectors/gem)
 add_subdirectory(eic/detectors/mumegas)
 add_subdirectory(eic/infrastructure)
 #@@add_subdirectory(eic/htree)
+
+#if (DEFINED JANA)
+#  add_subdirectory(eic/jana)
+#endif()
 
 WRITE_CONFIG_FILE(config.sh)
 WRITE_CONFIG_FILE(config.csh)

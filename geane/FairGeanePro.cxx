@@ -28,11 +28,11 @@ using std::endl;
 // -----   Default constructor   -------------------------------------------
 FairGeanePro::FairGeanePro()
   : TNamed("Geane", "Propagate Tracks"),
-    gMC3((TGeant3*) gMC),
+    //gMC3((TGeant3*) gMC),
     fPropOption(""),
     nepred(1),
     fdbPDG(TDatabasePDG::Instance()),
-    afErtrio(gMC3->fErtrio),
+    //afErtrio(gMC3->fErtrio),
     GeantCode(0),
     ProMode(0),
     VName(""),
@@ -50,10 +50,13 @@ FairGeanePro::FairGeanePro()
     flag(0),
     fApp(FairGeaneApplication::Instance())
 {
+  gMC3 = (TGeant3*)gMC;//),
   if(gMC3==NULL) {
     std::cerr<<"FairGeanePro::TGeant3 has not been initialized! ABORTING!"<<std::endl;
     throw;
   }
+  afErtrio = gMC3->fErtrio;
+  
   //  nepred=1;
   xlf[0] = 0.;
   //  fdbPDG= TDatabasePDG::Instance();

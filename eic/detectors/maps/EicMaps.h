@@ -13,7 +13,7 @@ class EicMaps : public EicDetector {
 public:	
   EicMaps() {};
 
- EicMaps(const char *Name, char *geometryName, EicDetectorId dType, Bool_t Active  = kTRUE):
+ EicMaps(const char *Name, const char *geometryName, EicDetectorId dType, Bool_t Active  = kTRUE):
   // Yes, want to merge all steps in one hit, otherwise 
   // tracking code will get much more hits and screw up all resolutions;
   //EicDetector(Name, geometryName, kFALSE, dType, Active) {};

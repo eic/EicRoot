@@ -170,6 +170,8 @@ class EicRunSim : public FairRunSim
 
   void Init();
   void Run(Int_t NEvents = 0, Int_t NotUsed = 0);
+  void RunCoreStart(Int_t NEvents = 0, Int_t NotUsed = 0);
+  bool JanaLoopPossible( void ) const { return false; }
 
   void SetSeed(unsigned seed)  { mSeed = seed; };
   void SuppressTimerInfo()     { mTimerFlag = false; };

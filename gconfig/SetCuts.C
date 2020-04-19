@@ -6,7 +6,7 @@
 
 void SetCuts()
 {
-  cout << "SetCuts Macro: Setting Processes.." <<endl; //exit(0);
+  //@@@cout << "SetCuts Macro: Setting Processes.." <<endl; //exit(0);
    
   // ------>>>> IMPORTANT!!!!
   // For a correct comparison between GEANE and MC (pull distributions) 
@@ -39,7 +39,7 @@ void SetCuts()
   Double_t cut1 = 1.0E-3;         // GeV --> 1 MeV
   Double_t cutb = 1.0E4;          // GeV --> 10 TeV
   Double_t tofmax = 1.E10;        // seconds
-  cout << "SetCuts Macro: Setting cuts.." <<endl;
+  //@@@cout << "SetCuts Macro: Setting cuts.." <<endl;
   
   gMC->SetCut("CUTGAM",cut1);   /** gammas (GeV)*/
   gMC->SetCut("CUTELE",cut1);   /** electrons (GeV)*/

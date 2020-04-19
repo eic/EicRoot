@@ -54,8 +54,8 @@ class EicTpcDigiHitProducer : public EicTrackingDigiHitProducer
   int HandleHit(const EicMoCaPoint *point);
 
   // May want either to save assigned parameters or import them all at once;
-  int exportTpcDigiParameters(char *fileName);
-  int importTpcDigiParameters(char *fileName);
+  int exportTpcDigiParameters(const char *fileName);
+  int importTpcDigiParameters(const char *fileName);
 
   // May want also to change by hand some of the parameters;
   void setTransverseDispersion(Double_t tDispersion) { 

@@ -42,7 +42,7 @@ using namespace std;
 
 // ---------------------------------------------------------------------------------------
 
-EicDetector::EicDetector(const char *Name, char *geometryName, EicDetectorId dType, 
+EicDetector::EicDetector(const char *Name, const char *geometryName, EicDetectorId dType, 
 	      SteppingType stType, Bool_t Active): FairDetector(Name, Active)
 {
   ResetVars();

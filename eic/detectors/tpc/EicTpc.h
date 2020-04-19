@@ -12,7 +12,7 @@
 class EicTpc : public EicDetector {
 public:	
   EicTpc() {}; 
- EicTpc(char *geometryName, Bool_t Active = kTRUE): 
+ EicTpc(const char *geometryName, Bool_t Active = kTRUE): 
   // NB: want hits for every step;
   EicDetector("TPC", geometryName, qTPC, qOneStepOneHit, Active) {};
   //EicDetector("TPC", geometryName, kTRUE, qTPC, Active) {};

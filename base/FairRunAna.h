@@ -172,6 +172,7 @@ class FairRunAna : public FairRun
       return *this;
     }
 
+ protected:
     FairRunInfo fRunInfo;//!
 
   protected:
