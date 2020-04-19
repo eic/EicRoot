@@ -128,7 +128,7 @@ erhic::VirtualEvent *Poacher::GetNextEvent()
 
     return mEventProMC;
 #else
-    Fatal("Poacher::Poacher()", "ProMC support is not compiled in.");
+    Fatal("Poacher::Poacher()", "ProMC support is not compiled in."); return 0;
 #endif
   } else if (mReaderEicMC) {
 #ifdef _EICMC_
@@ -165,7 +165,7 @@ erhic::VirtualEvent *Poacher::GetNextEvent()
 
     return mEventEicMC;
 #else
-    Fatal("Poacher::Poacher()", "EicMC support is not compiled in.");
+    Fatal("Poacher::Poacher()", "EicMC support is not compiled in."); return 0;
 #endif
   } else if (mFactory) {
     return mFactory->Create(); 
@@ -184,8 +184,9 @@ std::string Poacher::EventName() const
     return EventEicMC::Class()->GetName();
   } else if (mFactory) {
     return mFactory->EventName(); 
-  } else
-    assert(0);
+  } else {
+    assert(0); //return "";
+  } //if
 } // Poacher::EventName()
 
 // =======================================================================================

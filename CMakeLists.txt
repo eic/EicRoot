@@ -9,6 +9,9 @@
 #
 # cmake -DCMAKE_INSTALL_PREFIX=. -Wno-dev -DEICSMEAR=/scratch/eic-smear -DJANA=/scratch/JANA2/Linux_CentOS7-x86_64-gcc4.8.5 ..
 #
+# cmake -DCMAKE_INSTALL_PREFIX=. -Wno-dev -DGEANT3=/scratch -DEICSMEAR=/scratch ..
+#
+
 
 PROJECT(EICROOT)
 

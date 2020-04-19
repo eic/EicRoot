@@ -392,7 +392,7 @@ public:
   ///
   /// Other 3 parameters given to EicDetector::EicDetector(const char *, char *, EicDetectorId, 
   /// SteppingType, Bool_t) are {qDUMMY, qOneStepOneHit, kFALSE};
- EicDummyDetector(const char *Name, char *geometryName): 
+ EicDummyDetector(const char *Name, const char *geometryName): 
   EicDetector(Name, geometryName, qDUMMY, qOneStepOneHit, kFALSE) {};
 
   /// Dummy constructor
