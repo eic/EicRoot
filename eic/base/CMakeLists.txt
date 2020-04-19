@@ -29,8 +29,6 @@ ${CMAKE_SOURCE_DIR}/eic/base
 ${CMAKE_SOURCE_DIR}/eic/calorimetry
 )
 
-#include_directories( ${INCLUDE_DIRECTORIES} )
-
 # List of source files;
 set( CXXSOURCES
 EicLibrary.cxx

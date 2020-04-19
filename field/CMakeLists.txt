@@ -1,15 +1,13 @@
 
 set(INCLUDE_DIRECTORIES
-${ROOT_INCLUDE_DIR} 
-${BASE_INCLUDE_DIRECTORIES} 
+${BASE_INCLUDE_DIRECTORIES}
+
 ${CMAKE_SOURCE_DIR}/field 
 
 ${CMAKE_SOURCE_DIR}/pnddata
 ${CMAKE_SOURCE_DIR}/eic/base
 ${CMAKE_SOURCE_DIR}/eic/field
 )
-
-#include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
 set( CXXSOURCES

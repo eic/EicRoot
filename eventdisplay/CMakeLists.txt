@@ -1,17 +1,13 @@
 
 set(INCLUDE_DIRECTORIES
-${ROOT_INCLUDE_DIR} 
+${BASE_INCLUDE_DIRECTORIES}
+
 ${GEANT3_INCLUDE_DIR}
-${CMAKE_SOURCE_DIR}/fairtools
-${CMAKE_SOURCE_DIR}/geobase 
-${CMAKE_SOURCE_DIR}/parbase 
-${CMAKE_SOURCE_DIR}/base 
+
 ${CMAKE_SOURCE_DIR}/trackbase 
 ${CMAKE_SOURCE_DIR}/geane
 ${CMAKE_SOURCE_DIR}/eventdisplay
 )
-
-#include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
 set( CXXSOURCES

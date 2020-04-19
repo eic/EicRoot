@@ -1,16 +1,7 @@
 
 set(INCLUDE_DIRECTORIES
-${ROOT_INCLUDE_DIR}
-${CMAKE_SOURCE_DIR}/fairtools
-${CMAKE_SOURCE_DIR}/base
-${CMAKE_SOURCE_DIR}/parbase
-${CMAKE_SOURCE_DIR}/dbase
-${CMAKE_SOURCE_DIR}/dbase/dbInterface
-${CMAKE_SOURCE_DIR}/dbase/dbValidation
-${CMAKE_SOURCE_DIR}/dbase/dbUtils
+${BASE_INCLUDE_DIRECTORIES}
 )
-
-#include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
 set( CXXSOURCES

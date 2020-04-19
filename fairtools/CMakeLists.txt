@@ -1,10 +1,7 @@
 
 set(INCLUDE_DIRECTORIES
- ${ROOT_INCLUDE_DIR} 
-  ${PROJECT_SOURCE_DIR}/fairtools
+${BASE_INCLUDE_DIRECTORIES}
 )
-
-#include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
 set( CXXSOURCES

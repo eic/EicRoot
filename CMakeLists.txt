@@ -4,6 +4,8 @@
 #
 # -DCMAKE_C_COMPILER=/DATA00/ayk/local/bin/gcc -DCMAKE_CXX_COMPILER=/DATA00/ayk/local/bin/g++ 
 # -DCAD2ROOT=yes -DELMER=/DATA00/ayk/elmer 
+# -DCAD2ROOT=yes
+# -DHTC=yes
 #
 # -DJANA=/scratch/JANA2/Linux_CentOS7-x86_64-gcc4.8.5 ..
 #
@@ -22,7 +24,7 @@ cmake_minimum_required(VERSION 3.5.2)
 SET(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # Very few command line options left;
-SET(VARS EICSMEAR CBMROOT CAD2ROOT OPENCASCADE JANA G3VMC G4VMC)
+SET(VARS EICSMEAR CBMROOT CAD2ROOT OPENCASCADE JANA G3VMC G4VMC HTC)
 foreach (var ${VARS})
   IF(DEFINED ${var})
     message("-> " ${var} " is defined to " ${${var}})
@@ -92,7 +94,8 @@ add_subdirectory(pid)
 
 # CbmRoot (RICH);
 if (DEFINED CBMROOT)
-  #@@add_subdirectory(cbmdata)
+  add_subdirectory(cbmdata)
+  # FIXME: this stuff requires Boost; 
   #@@add_subdirectory(cbmbase)
   #@@add_subdirectory(rich)
 endif()
@@ -119,7 +122,6 @@ if (DEFINED CAD2ROOT)
   add_subdirectory(eic/cad)
 endif()
 add_subdirectory(eic/tracking)
-##add_subdirectory(eic/htc)
 add_subdirectory(eic/calorimetry)
 add_subdirectory(eic/detectors/tpc)
 add_subdirectory(eic/detectors/maps)
@@ -128,7 +130,10 @@ add_subdirectory(eic/detectors/calorimeter)
 add_subdirectory(eic/detectors/gem)
 add_subdirectory(eic/detectors/mumegas)
 add_subdirectory(eic/infrastructure)
-#@@add_subdirectory(eic/htree)
+if (DEFINED HTC)
+  add_subdirectory(eic/htc)
+  add_subdirectory(eic/htree)
+endif()
 
 if (DEFINED JANA)
   add_subdirectory(eic/jana)

@@ -1,8 +1,8 @@
 
 set(INCLUDE_DIRECTORIES
-${ROOT_INCLUDE_DIR} 
-${GEANT3_INCLUDE_DIR}
 ${BASE_INCLUDE_DIRECTORIES} 
+
+${GEANT3_INCLUDE_DIR}
 ${CMAKE_SOURCE_DIR}/pndbase/PndStdUtils 
 ${CMAKE_SOURCE_DIR}/field 
 ${CMAKE_SOURCE_DIR}/trackbase 
@@ -27,8 +27,6 @@ ${CMAKE_SOURCE_DIR}/GenfitTools/recotasks
 
 ${CMAKE_SOURCE_DIR}/eic/tracking
 )
-
-#include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
 set( CXXSOURCES

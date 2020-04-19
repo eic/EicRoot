@@ -1,8 +1,7 @@
 
 set(INCLUDE_DIRECTORIES
-${ROOT_INCLUDE_DIR} 
-${CLHEP_INCLUDE_DIR}
-${BASE_INCLUDE_DIRECTORIES} 
+${BASE_INCLUDE_DIRECTORIES}
+
 ${CMAKE_SOURCE_DIR}/GenfitTools/trackrep
 ${CMAKE_SOURCE_DIR}/GenfitTools/trackrep/GeaneTrackRep
 ${CMAKE_SOURCE_DIR}/GenfitTools/trackrep/RKTrackRep
@@ -17,13 +16,12 @@ ${CMAKE_SOURCE_DIR}/geane
 ${CMAKE_SOURCE_DIR}/GenfitTools/adapters
 ${CMAKE_SOURCE_DIR}/GenfitTools/recohits
 ${CMAKE_SOURCE_DIR}/GenfitTools/recotasks
+
 ${GEANT3_INCLUDE_DIR}
 
 # Need EicMoCaPoint.h (which has no extra dependencies);
 ${CMAKE_SOURCE_DIR}/eic/base
 )
-
-#include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
 set( CXXSOURCES

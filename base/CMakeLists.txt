@@ -1,13 +1,7 @@
 
 set(INCLUDE_DIRECTORIES
-${ROOT_INCLUDE_DIR} 
-${CMAKE_SOURCE_DIR}/fairtools
-${CMAKE_SOURCE_DIR}/geobase 
-${CMAKE_SOURCE_DIR}/parbase 
-${CMAKE_SOURCE_DIR}/base
+${BASE_INCLUDE_DIRECTORIES}
 )
-
-#include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
 set( CXXSOURCES
@@ -58,6 +52,6 @@ FairRingSorterTask.cxx
 FairAnaSelector.cxx
 )
 
-SET(DEPENDENCIES FairTools ParBase GeoBase Proof GeomPainter Geom VMC EG MathCore Physics Matrix Tree Hist RIO Core)
+SET(DEPENDENCIES FairTools ParBase GeoBase ${ROOT_LIBRARIES} Proof GeomPainter Geom VMC )
 GENERATE_EICROOT_LIBRARY(Base FairLinkDef.h)
 	 

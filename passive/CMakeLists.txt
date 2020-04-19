@@ -1,11 +1,9 @@
 
 set(INCLUDE_DIRECTORIES
-${ROOT_INCLUDE_DIR} 
 ${BASE_INCLUDE_DIRECTORIES} 
+
 ${CMAKE_SOURCE_DIR}/passive
 )
-
-#include_directories( ${INCLUDE_DIRECTORIES} )
 
 # List of source files;
 set( CXXSOURCES
