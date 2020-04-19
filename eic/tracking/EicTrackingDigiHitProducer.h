@@ -555,7 +555,7 @@ class EicKfNodeTemplateOrth3D: public EicKfNodeTemplate
     assert(0);
   };
   double GetSmearingValue(double spSmearing, const EicTrackingDigiHit *hit, unsigned iq) const { 
-    assert(0);
+    assert(0); return 0.0;
   };
   void FillMinMaxArrays(bool useCartesian, const std::set<double> &xMin, const std::set<double> &xMax, 
 			const std::set<double> &yMin, const std::set<double> &yMax, 

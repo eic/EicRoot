@@ -90,7 +90,7 @@ add_subdirectory(base)
 add_subdirectory(trackbase)
 add_subdirectory(eventdisplay)
 add_subdirectory(geane)
-add_subdirectory(generators)
+#add_subdirectory(generators)
 
 # GenFit;
 add_subdirectory(genfit)
