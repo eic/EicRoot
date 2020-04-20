@@ -6,16 +6,13 @@
 
 void digitization()
 {
-  // Load basic libraries;
-  gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");  
-    
   // Create generic analysis run manager; configure it for digitization;
-  EicRunAna *fRun = new EicRunAna();
+  auto fRun = new EicRunAna();
   fRun->SetInputFile ("simulation.root");
   fRun->SetOutputFile("digitization.root");
 
   // Declare and configure a *standard* calorimeter digitization task; 
-  EicCalorimeterDigiHitProducer* calo = new EicCalorimeterDigiHitProducer("FHAC");
+  auto calo = new EicCalorimeterDigiHitProducer("FHAC");
   // Scintillating plates will be used as sensitive volumes; 
   // 12.6 here is the Birk's constant for polystyrene;
   calo->DeclareDigiSensitiveVolume("FhacScintillatorPlate", 12.6);

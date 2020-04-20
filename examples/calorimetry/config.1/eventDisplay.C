@@ -5,11 +5,8 @@
 
 void eventDisplay()
 {
-  // Load basic libraries;
-  gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");
-
   // Create visualization manager; 
-  EicEventManager *fMan = new EicEventManager();
+  auto fMan = new EicEventManager();
   fMan->SetInputFile("simulation.root");
 
   // Want just tracks and calorimeter hits; 

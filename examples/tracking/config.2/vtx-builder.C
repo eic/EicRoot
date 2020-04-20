@@ -6,14 +6,11 @@
 #define _STAVE_NAME_ "VtxStave"
 #define _CHIP_NAME_  "VtxChip"
 
-vtx_builder()
+void vtx_builder()
 {
-  // Load basic libraries;
-  gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");
-
   // Detector name will be "VTX"; should be consistent through 
   // all the simulation.C->digitization.C->reconstruction.C chain;
-  EicGeoParData *vtx = new EicGeoParData("VTX");
+  auto vtx = new EicGeoParData("VTX");
 
   // Hardcode TGeo file name (no versioning, etc);
   vtx->SetFileName("vtx.root");
@@ -47,12 +44,12 @@ vtx_builder()
   double staveSlope              = 10.0;
 
   // Create stave volume; use artificial carbon-like material with X0=10cm; 
-  TGeoBBox *stave = new TGeoBBox(_STAVE_NAME_, staveWidth/2, staveLength/2, staveThickness/2);
-  TGeoVolume *vstave = new TGeoVolume(_STAVE_NAME_, stave, vtx->GetMedium("X0=10cm"));
+  auto stave = new TGeoBBox(_STAVE_NAME_, staveWidth/2, staveLength/2, staveThickness/2);
+  auto vstave = new TGeoVolume(_STAVE_NAME_, stave, vtx->GetMedium("X0=10cm"));
 
   // Create chip volume; 
-  TGeoBBox *chip = new TGeoBBox(_CHIP_NAME_, chipWidth/2, chipLength/2, chipThickness/2);
-  TGeoVolume *vchip = new TGeoVolume(_CHIP_NAME_, chip, vtx->GetMedium("silicon"));
+  auto chip = new TGeoBBox(_CHIP_NAME_, chipWidth/2, chipLength/2, chipThickness/2);
+  auto vchip = new TGeoVolume(_CHIP_NAME_, chip, vtx->GetMedium("silicon"));
 
   // Place chips into stave volume;
   {
@@ -76,7 +73,7 @@ vtx_builder()
     staveNumSum += staveNum[ilayer];
 
   // And then there is a single map needed which encodes GEANT->logical id conversion;
-  EicGeoMap *xmap = vtx->CreateNewMap();
+  auto xmap = vtx->CreateNewMap();
   // Volumes are defined in this order (from innermost to upmost); specify max expected 
   // copy number on every level; innermost volumes are assumed sensitive (in GEANT sense)
   // per default in the simulation.C script;
@@ -105,7 +102,7 @@ vtx_builder()
 	double degAngle = istave*360.0/staveNum[ilayer];
 	double radAngle = degAngle*TMath::Pi()/180.0;
 	
-	TGeoRotation *rw = new TGeoRotation();
+	auto rw = new TGeoRotation();
 	
 	double fullAngle = degAngle + staveSlope;
 	rw->SetAngles(90.0, 0.0 - fullAngle, 180.0,  0.0, 90.0, 90.0 - fullAngle);

@@ -5,17 +5,14 @@
 
 void reconstruction()
 {
-  // Load basic libraries;
-  gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");  
-    
   // Create generic analysis run manager; configure it for calorimeter reconstruction;
-  EicRunAna *fRun = new EicRunAna();
+  auto fRun = new EicRunAna();
   fRun->SetInputFile ("simulation.root");
   fRun->AddFriend    ("digitization.root");
   fRun->SetOutputFile("reconstruction.root");
 
   // Declare *standard* calorimeter reconstruction; 
-  EicCalorimeterReconstruction *calo = new EicCalorimeterReconstruction("CALORIMETER");
+  auto calo = new EicCalorimeterReconstruction("CALORIMETER");
   // 1-st: cluster seed threshold (cells below that can not initiate clustering);
   // 2-d : neighbour search threshold (cells below that can not initiate neighbour
   //       attachment for the cluster they are associated with);

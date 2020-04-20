@@ -7,8 +7,8 @@
 //
 
 // A more real-life digitization scheme will be invoked if this line is uncommented
-// (see digitization.C for more details); ! NB: need to re-run both tpc-builder.C & 
-// simulation.C before running digitization.C !;
+// (see digitization.C for more details); ! NB: if changed, need to re-run both 
+// tpc-builder.C & simulation.C before running digitization.C !;
 #define _USE_BEAST_TPC_DIGITIZER_
 
 // Used volume names;
@@ -16,17 +16,14 @@
 #define _GAS_VOLUME_NAME_ "GasVolume"
 #define _FIELD_CAGE_NAME_ "FieldCage"
 
-tpc_builder()
+void tpc_builder()
 {
-  // Load basic libraries;
-  gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");
-
   // Detector name will be "TPC"; should be consistent through 
   // all the simulation.C->digitization.C->reconstruction.C chain;
 #ifdef _USE_BEAST_TPC_DIGITIZER_
-  TpcGeoParData *tpc = new TpcGeoParData();
+  auto tpc = new TpcGeoParData();
 #else
-  EicGeoParData *tpc = new EicGeoParData("TPC");
+  auto tpc = new EicGeoParData("TPC");
 #endif
 
   // Hardcode TGeo file name (no versioning, etc);
@@ -52,28 +49,28 @@ tpc_builder()
   double fieldCageThickness       =   0.2;
 
   unsigned group = tpc->AddLogicalVolumeGroup(0, 0, 2);
-  EicGeoMap *xmap = tpc->CreateNewMap();
+  auto xmap = tpc->CreateNewMap();
   xmap->AddGeantVolumeLevel(_GAS_VOLUME_NAME_, 2);
   xmap->SetSingleSensorContainerVolume(_GAS_VOLUME_NAME_);
   // Well, GEANT4 mode does not acknowledge max step size in VGM; fix later; 
   tpc->AddStepEnforcedVolume(_GAS_VOLUME_NAME_);
 
   // Inner field cage;
-  TGeoTube *fc = new TGeoTube(_FIELD_CAGE_NAME_,
-			       innerGasVolumeRadius - fieldCageThickness,
-			       innerGasVolumeRadius,
-			       gasVolumeLength/2);
-  TGeoVolume *vfc = new TGeoVolume(_FIELD_CAGE_NAME_, fc, tpc->GetMedium("X0=10cm"));
+  auto fc = new TGeoTube(_FIELD_CAGE_NAME_,
+			 innerGasVolumeRadius - fieldCageThickness,
+			 innerGasVolumeRadius,
+			 gasVolumeLength/2);
+  auto vfc = new TGeoVolume(_FIELD_CAGE_NAME_, fc, tpc->GetMedium("X0=10cm"));
   tpc->GetTopVolume()->AddNode(vfc, 0, new TGeoCombiTrans(0.0, 0.0, 0.0, 0));
 
   // Gas volume definition;
-  TGeoTube *gv = new TGeoTube(_GAS_VOLUME_NAME_,
-			      innerGasVolumeRadius,
-			      outerGasVolumeRadius,
-			      gasVolumeLength/4);
+  auto gv = new TGeoTube(_GAS_VOLUME_NAME_,
+			 innerGasVolumeRadius,
+			 outerGasVolumeRadius,
+			 gasVolumeLength/4);
   // NB: this medium is defined as 1cm max.step (see media.geo); so at eta~0 expect 
   // roughly (rmax-rmin) hits (GEANT steps); fine for demonstration purposes;
-  TGeoVolume *vgv = new TGeoVolume(_GAS_VOLUME_NAME_, gv, tpc->GetMedium("ArCF4iC4H10"));
+  auto vgv = new TGeoVolume(_GAS_VOLUME_NAME_, gv, tpc->GetMedium("ArCF4iC4H10"));
 
   // Gas volumes (upstream & downstream halves);
   for(unsigned ud=0; ud<2; ud++) {
@@ -92,7 +89,7 @@ tpc_builder()
     // if hit resolution depends on drift distance, etc;
     TGeoRotation *rw = 0;
     if (ud) {
-      TGeoRotation *rw = new TGeoRotation();
+      rw = new TGeoRotation();
       rw->RotateY(180); 
     } //if
 

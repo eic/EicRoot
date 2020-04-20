@@ -12,9 +12,6 @@
 
 void calorimeter()
 {
-  // Load basic libraries;
-  gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");
-
   // Internals, in particular all the famous FairRoot dances around media interface, are 
   // of no interest for end user here; just hide them all in this class; there are certain naming 
   // conventions inside EicRoot framework; selected here (more or less arbitrary) detector name will 
@@ -22,7 +19,7 @@ void calorimeter()
   // mapping table block will be called CalorimeterGeoParData (you may want to inspect calorimeter.root 
   // file), raw MC points will be called CalorimeterMoCaPoint, etc.; string ('calorimeter' in this case) 
   // and capital letters ('CALORIMETER' here) writings will be mostly used for printouts;
-  EndcapGeoParData *calo = new EndcapGeoParData("CALORIMETER");
+  auto calo = new EndcapGeoParData("CALORIMETER");
 
   // Create a 7x7 matrix; 25x25mm^2 square cells, 200mm long, enclosed in 200um thick 
   // carbon fiber alveoles; 
@@ -47,19 +44,19 @@ void calorimeter()
 
   // Declare single cell pack volume; volume names are arbitrary, but should be 
   // consistent here and through simulation/digitization/reconstruction sequence;
-  TGeoBBox *alveole = new TGeoBBox("CaloCellAlveole", 
-				   0.1 * cellEnvelopeWidth/2,
-				   0.1 * cellEnvelopeWidth/2,
-				   0.1 * cellEnvelopeLength/2);
+  auto alveole = new TGeoBBox("CaloCellAlveole", 
+			      0.1 * cellEnvelopeWidth/2,
+			      0.1 * cellEnvelopeWidth/2,
+			      0.1 * cellEnvelopeLength/2);
   // Make sure media names are listed in geometry/media.geo;
-  TGeoVolume *valveole = new TGeoVolume("CaloCellAlveole", alveole, calo->GetMedium("CarbonFiber"));
+  auto valveole = new TGeoVolume("CaloCellAlveole", alveole, calo->GetMedium("CarbonFiber"));
 
   // Crystal volume inside this pack;
-  TGeoBBox *crystal = new TGeoBBox("CaloCrystal", 
-				   0.1 * cellFaceSize/2,
-				   0.1 * cellFaceSize/2,
-				   0.1 * cellLength/2);
-  TGeoVolume *vcrystal = new TGeoVolume("CaloCrystal", crystal, calo->GetMedium("pwo"));
+  auto crystal = new TGeoBBox("CaloCrystal", 
+			      0.1 * cellFaceSize/2,
+			      0.1 * cellFaceSize/2,
+			      0.1 * cellLength/2);
+  auto vcrystal = new TGeoVolume("CaloCrystal", crystal, calo->GetMedium("pwo"));
 
   // Place crystal into the alveole;
   valveole->AddNode(vcrystal, 0, new TGeoCombiTrans(0.0, 0.0, 0.0, new TGeoRotation()));
@@ -71,7 +68,7 @@ void calorimeter()
   //
 
   // Crystal (sensitive volume) map; 2 levels deep (crystal itself and its alveole);
-  EicGeoMap *gmapCr = calo->CreateNewMap();
+  auto gmapCr = calo->CreateNewMap();
   // At most 1 crystal per alveole and N*N alveole packs;
   gmapCr->AddGeantVolumeLevel("CaloCrystal",                     1);
   gmapCr->AddGeantVolumeLevel("CaloCellAlveole", cellNum * cellNum);
@@ -79,7 +76,7 @@ void calorimeter()
 
   // Perhaps want to make alveoles GEANT sensitive volumes as well (say, to check 
   // energy losses there) -> create a separate map; 
-  EicGeoMap *gmapAl = calo->CreateNewMap();
+  auto gmapAl = calo->CreateNewMap();
   // N*N alveole packs;
   gmapAl->AddGeantVolumeLevel("CaloCellAlveole", cellNum * cellNum);
   gmapAl->SetSingleSensorContainerVolume("CaloCellAlveole");

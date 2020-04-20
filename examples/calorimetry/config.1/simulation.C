@@ -5,11 +5,8 @@
 
 void simulation(unsigned nEvents = 1000)
 {
-  // Load basic libraries;
-  gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");
-
   // Create simulation run manager; use GEANT4 here;
-  EicRunSim *fRun = new EicRunSim("TGeant4");
+  auto fRun = new EicRunSim("TGeant4");
   fRun->SetOutputFile("simulation.root");
 
   // "CALORIMETER" name here (case-insensitive) should match the respective name 
@@ -17,7 +14,7 @@ void simulation(unsigned nEvents = 1000)
   // create more than one calorimeter this way, and as long as their names differ
   // (and physical locations do not overlap), all the simulation/digitization/reconstruction 
   // scheme will work (clustering scheme will be limited to a given calorimeter though);
-  EicCalorimeter *calo = new EicCalorimeter("CALORIMETER", (char*)"./calorimeter.root", qDUMMY);
+  auto calo = new EicCalorimeter("CALORIMETER", (char*)"./calorimeter.root", qDUMMY);
   // Declare both crystals and alveoles as GEANT sensitive volumes if want to 
   // check energy deposit leak into alveole material; volumes which will actually 
   // participate in clustering algorithm may be selected later in digitization script;
@@ -30,7 +27,7 @@ void simulation(unsigned nEvents = 1000)
     int      PDG = 11;                   // electron
     double  momentum = 1.0, theta = 1.0; // 1 GeV/c @ 1 degree
 
-    EicBoxGenerator *boxGen = new EicBoxGenerator(PDG);
+    auto boxGen = new EicBoxGenerator(PDG);
     boxGen->SetMomentum(momentum);
     boxGen->SetTheta(theta);
 

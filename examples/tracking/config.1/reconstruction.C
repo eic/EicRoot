@@ -7,17 +7,14 @@
 
 void reconstruction()
 {
-  // Load basic libraries;
-  gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");
-
   // Create generic analysis run manager; configure it for track reconstruction;
-  EicRunAna *fRun = new EicRunAna();
+  auto fRun = new EicRunAna();
   fRun->SetInputFile ("simulation.root");
   fRun->AddFriend    ("digitization.root");
   fRun->SetOutputFile("reconstruction.root");
 
   // Call "ideal" hit-to-track associator routine; 
-  EicIdealTrackingCode* idealTracker = new EicIdealTrackingCode();
+  auto idealTracker = new EicIdealTrackingCode();
   // Default in this example is to use "FWDST" detector hits; more than 
   // one custom detector may be added here via AddDetectorGroup() call(s);
   idealTracker->AddDetectorGroup("FWDST");

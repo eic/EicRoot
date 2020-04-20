@@ -2,11 +2,8 @@
 
 void simulation(int nEvents = 2000)
 {
-  // Load basic libraries;
-  gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");
-
   // Create simulation run manager; use GEANT3 for tracking excercises here;
-  EicRunSim *fRun = new EicRunSim("TGeant3");
+  auto fRun = new EicRunSim("TGeant3");
   fRun->SetOutputFile("simulation.root");
 
   // Suppress secondary particle production (work with primary electrons); 
@@ -33,7 +30,7 @@ void simulation(int nEvents = 2000)
     TString evFile = "../pythia.ep.20x250.5Mevents.1.RadCor=0.Q2-0.8..100k-lines.txt";
 
     // An interface to eic-smear (which is able to import PYTHIA, DJANGOH, ... files);
-    EicEventGenerator* evtGen = new EicEventGenerator(evFile.Data());
+    auto evtGen = new EicEventGenerator(evFile.Data());
     // Select primary electrons only; ignore all the rest;
     evtGen->SelectPdgCode(11);
     evtGen->SelectLeadingParticle();

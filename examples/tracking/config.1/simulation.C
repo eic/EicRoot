@@ -5,11 +5,8 @@
 
 void simulation(Int_t nEvents  = 1000)
 {
-  // Load basic libraries;
-  gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");
-
-  // Create the simulation run manager; use GEANT4 transport;
-  EicRunSim *fRun = new EicRunSim("TGeant4");
+  // Create the simulation run manager; 
+  auto fRun = new EicRunSim("TGeant3");
   fRun->SetOutputFile("simulation.root");
 
   // Well, do not need secondaries in this simulation; 
@@ -29,7 +26,7 @@ void simulation(Int_t nEvents  = 1000)
     int PDG = 211;                              // pion
     double pmin = 9.0, pmax = 11.0, theta = 5.0; // [9..11] GeV/c @ 5 degrees
  
-    EicBoxGenerator* boxGen = new EicBoxGenerator(PDG); 
+    auto boxGen = new EicBoxGenerator(PDG); 
     boxGen->SetMomentumRange(pmin, pmax);
     boxGen->SetTheta(theta);
 

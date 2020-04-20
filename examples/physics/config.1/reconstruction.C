@@ -1,16 +1,13 @@
 void reconstruction()
 {
-  // Load basic libraries;
-  gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");  
-    
   // Create generic analysis run manager; configure it for track reconstruction;
-  EicRunAna *fRun = new EicRunAna();
+  auto fRun = new EicRunAna();
   fRun->SetInputFile ("simulation.root");
   fRun->AddFriend    ("digitization.root");
   fRun->SetOutputFile("reconstruction.root");
 
   // Invoke and configure "ideal" PandaRoot tracking code wrapper; 
-  EicIdealTrackingCode* idealTracker = new EicIdealTrackingCode();
+  auto idealTracker = new EicIdealTrackingCode();
   idealTracker->AddDetectorGroup("FST");
   idealTracker->AddDetectorGroup("BST");
   idealTracker->AddDetectorGroup("VST");

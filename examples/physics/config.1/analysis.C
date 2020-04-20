@@ -7,9 +7,6 @@
 
 void analysis()
 {
-  // Load basic libraries;
-  gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");  
-
   // Force some beautification;
   gStyle->SetOptStat(0);
   gStyle->SetPalette(55, 0);
@@ -24,7 +21,7 @@ void analysis()
     xb [ip] = exp(log(_X_MIN_) + ip*_LOGX_BWID_);
   
   // Declare 2D smearing plot;
-  TH2D *xx  = new TH2D("xx",  "",    _X_BNUM_,  xb,  _X_BNUM_,  xb);
+  auto xx  = new TH2D("xx",  "",    _X_BNUM_,  xb,  _X_BNUM_,  xb);
   
   // Input MC & reconstructed event file;
   TString mcInFile  = "simulation.root";
@@ -32,7 +29,7 @@ void analysis()
 
   // Well, a clear hack for now; have to use this wrapper rather
   // than ROOT friend declaration and TTree-based GetEntry() calls;
-  EicRootManager *io = new EicRootManager(mcInFile, 0, rcInFile);
+  auto io = new EicRootManager(mcInFile, 0, rcInFile);
 
   // Loop through all events;
   for(unsigned ev=0; ev<io->GetEicRcTreeEntries(); ev++) {
@@ -68,7 +65,7 @@ void analysis()
   } //for ev
 
   // Plotting part (trivial);
-  TCanvas *c11 = new TCanvas("c11", "c11", 0, 0, 400, 400);
+  auto c11 = new TCanvas("c11", "c11", 0, 0, 400, 400);
   gPad->SetLogx();
   gPad->SetLogy();
   gPad->SetLogz();

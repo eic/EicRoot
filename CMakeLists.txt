@@ -1,9 +1,6 @@
 #
 # cmake -DCMAKE_INSTALL_PREFIX=. -Wno-dev -DG3VMC=/scratch -DEICSMEAR=/scratch -DG4VMC=/scratch ..
 #
-#
-# -DCMAKE_C_COMPILER=/DATA00/ayk/local/bin/gcc -DCMAKE_CXX_COMPILER=/DATA00/ayk/local/bin/g++ 
-# -DCAD2ROOT=yes -DELMER=/DATA00/ayk/elmer 
 # -DCAD2ROOT=yes
 # -DHTC=yes
 #
@@ -14,6 +11,10 @@
 #
 # . /scratch/root-6.14.00.binary/bin/thisroot.sh
 # . /scratch/geant4.10.05.p01.build/bin/geant4.sh 
+#
+#   Legacy and expert stuff;
+# -DCMAKE_C_COMPILER=/DATA00/ayk/local/bin/gcc -DCMAKE_CXX_COMPILER=/DATA00/ayk/local/bin/g++ 
+# -DOPENCASCADE=/DATA00/ayk/oce/install
 #
 
 PROJECT(EICROOT)

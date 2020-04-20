@@ -12,13 +12,10 @@
 
 void tracker()
 {
-  // Load basic libraries;
-  gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");
-
   // Detector name will be "FWDST" (Forward Silicon Tracker); should be consistent through 
   // all the simulation.C->digitization.C->reconstruction.C chain; see calorimetry/calorimeter.C
   // for the rationale behind using EicGeoParDataHelper wrapper class;
-  EicGeoParData *fst = new EicGeoParData("FwdST", 0, 0);
+  auto fst = new EicGeoParData("FwdST", 0, 0);
   fst->SetFileName("fwdst.root");
 
   // So 10x 250x250mm^2 layers of 200um thick silicon, 100mm apart from each other, at an "average"
@@ -35,21 +32,21 @@ void tracker()
   Double_t containerVolumeWidth  = waferWidth                                   + (10 * eic::mm);
 
   // Create a "container" volume;
-  TGeoBBox *container = new TGeoBBox("ContainerVolume", 
-				     containerVolumeWidth/2,
-				     containerVolumeWidth/2,
-				     containerVolumeLength/2);
+  auto container = new TGeoBBox("ContainerVolume", 
+				containerVolumeWidth/2,
+				containerVolumeWidth/2,
+				containerVolumeLength/2);
   // Make sure media names are listed in geometry/media.geo;
-  TGeoVolume *vcontainer = new TGeoVolume("ContainerVolume", container, fst->GetMedium("air"));
+  auto vcontainer = new TGeoVolume("ContainerVolume", container, fst->GetMedium("air"));
 
   // Silicon wafer;
-  TGeoBBox *wafer = new TGeoBBox("SiliconWafer", 
-				 waferWidth/2,
-				 waferWidth/2,
-				 waferThickness/2);
-  TGeoVolume *vwafer = new TGeoVolume("SiliconWafer", wafer, fst->GetMedium("silicon"));
+  auto wafer = new TGeoBBox("SiliconWafer", 
+			    waferWidth/2,
+			    waferWidth/2,
+			    waferThickness/2);
+  auto vwafer = new TGeoVolume("SiliconWafer", wafer, fst->GetMedium("silicon"));
 
-  EicGeoMap *fgmap = fst->CreateNewMap();
+  auto fgmap = fst->CreateNewMap();
   fgmap->AddGeantVolumeLevel("SiliconWafer", waferNum);
   fgmap->SetSingleSensorContainerVolume("SiliconWafer");
 

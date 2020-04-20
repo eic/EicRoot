@@ -1,17 +1,6 @@
 
-//
-//  Example tracker: 10x 200um thick layers of silicon in the hadron beam going direction; 
-//  output file (fwdst.root) can be used as geometry input for 
-//  [simulation.C -> digitization.C -> reconstruction.C] scripts in this directory; 
-//
-//  resolutions are specified at a later stage (see digitization.C); 
-//
-
 void tracker()
 {
-  // Load basic libraries;
-  gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");
-
   // Detector name will be "FWDST" (Forward Silicon Tracker); should be consistent through 
   // all the [simulation.C -> digitization.C -> reconstruction.C] chain; 
   EicGeoParData *fst = new EicGeoParData("FwdST", 0, 0);

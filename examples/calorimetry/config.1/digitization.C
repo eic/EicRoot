@@ -6,17 +6,14 @@
 
 void digitization()
 {
-  // Load basic libraries;
-  gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");  
-    
   // Create generic analysis run manager; configure it for digitization;
-  EicRunAna *fRun = new EicRunAna();
+  auto fRun = new EicRunAna();
   fRun->SetInputFile ("simulation.root");
   fRun->SetOutputFile("digitization.root");
 
   // Declare and configure a *standard* calorimeter digitization task; detector name here 
   // should match calorimeter names in calorimeter.C & simulation.C;
-  EicCalorimeterDigiHitProducer* calo = new EicCalorimeterDigiHitProducer("CALORIMETER");
+  auto calo = new EicCalorimeterDigiHitProducer("CALORIMETER");
 
   // Crystals will be used as sensitive volumes; one can actually add a similar 
   // line to add alveoles to sensitive detector list (here it makes no sense of course);

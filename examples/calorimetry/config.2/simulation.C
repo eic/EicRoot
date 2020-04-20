@@ -5,15 +5,12 @@
 
 void simulation(unsigned nEvents = 1000)
 {
-  // Load basic libraries;
-  gROOT->Macro("$VMCWORKDIR/gconfig/rootlogon.C");
-
   // Create simulation run manager; use GEANT4 here;
-  EicRunSim *fRun = new EicRunSim("TGeant4");
+  auto fRun = new EicRunSim("TGeant4");
   fRun->SetOutputFile("simulation.root");
 
   // *Standard* BeAST forward HCal geometry (full structure);
-  EicCalorimeter *fhac = new EicCalorimeter("FHAC", "HCAL/fhac-v00.0-fs.root", qDUMMY);
+  auto fhac = new EicCalorimeter("FHAC", "HCAL/fhac-v00.0-fs.root", qDUMMY);
   fRun->AddModule(fhac);
 
   // Create and set up (Box) Event Generator;
@@ -21,7 +18,7 @@ void simulation(unsigned nEvents = 1000)
     int      PDG = 211;                   // pion
     double  momentum = 10.0, theta = 5.0; // 10 GeV/c @ 5 degrees
 
-    EicBoxGenerator *boxGen = new EicBoxGenerator(PDG);
+    auto boxGen = new EicBoxGenerator(PDG);
     boxGen->SetMomentum(momentum);
     boxGen->SetTheta(theta);
 
