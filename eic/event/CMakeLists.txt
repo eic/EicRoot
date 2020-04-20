@@ -25,6 +25,7 @@ ${EICSMEAR}/include
 #@${EICMC}/include
 
 ${CMAKE_SOURCE_DIR}/eic/base
+${CMAKE_SOURCE_DIR}/eic/proto
 ${CMAKE_SOURCE_DIR}/eic/event
 ${CMAKE_SOURCE_DIR}/eic/calorimetry
 )
@@ -41,6 +42,6 @@ set( CXXSOURCES
     EicRootManager.cxx
 )
 
-SET(DEPENDENCIES Base ${EICSMEAR}/lib/libeicsmear.so)
+SET(DEPENDENCIES Base proto ${EICSMEAR}/lib/libeicsmear.so)
 GENERATE_EICROOT_LIBRARY(event eicsmearLinkDef.h)
 

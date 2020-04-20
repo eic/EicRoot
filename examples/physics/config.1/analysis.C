@@ -38,8 +38,8 @@ void analysis()
     io->GetEicRcTreeEntry(ev);
 
     // Get pointers to the reconstructed and respective simulated event parts;
-    const EicRcEvent *rcEvent = io->GetEicRcEvent();
-    erhic::EventMC   *mcEvent = rcEvent->GetGenMcEvent();
+    auto rcEvent = io->GetEicRcEvent();
+    auto mcEvent = rcEvent->GetGenMcEvent();
     
     // If record has no reconstructed tracks, nothing to talk about -> skip;
     // in fact expect exactly one track (leading electron); 
@@ -47,11 +47,11 @@ void analysis()
             
     // Use reconstructed quantities to calculate scattered lepton kinematics;
     erhic::LeptonKinematicsComputer rcDis(*rcEvent);
-    erhic::DisKinematics *rcKin = rcDis.Calculate();
+    auto rcKin = rcDis.Calculate();
     
     // Use simulated quantities to calculate scattered lepton kinematics;
     erhic::LeptonKinematicsComputer mcDis(*mcEvent);
-    erhic::DisKinematics *mcKin = mcDis.Calculate();
+    auto mcKin = mcDis.Calculate();
     
     // Fill 2D plot;
     xx->Fill(mcKin->mX,  rcKin->mX);

@@ -25,6 +25,7 @@ ${EICSMEAR}/include
 
 ${CMAKE_SOURCE_DIR}/eic/field
 ${CMAKE_SOURCE_DIR}/eic/event
+${CMAKE_SOURCE_DIR}/eic/proto
 ${CMAKE_SOURCE_DIR}/eic/base
 ${CMAKE_SOURCE_DIR}/eic/calorimetry
 )
@@ -73,9 +74,9 @@ EicAsciiBoxGenerator.cxx
 SET(EXTRA_HEADERS EicUnits.h)
 
 if (DEFINED EICSMEAR) 
-SET(DEPENDENCIES Base Field EventDisplay PndData Passive Eve event)
+SET(DEPENDENCIES Base Field EventDisplay PndData Passive Eve proto event)
 else (DEFINED EICSMEAR)
-SET(DEPENDENCIES Base Field EventDisplay PndData Passive Eve)
+SET(DEPENDENCIES Base Field EventDisplay PndData Passive Eve proto)
 endif (DEFINED EICSMEAR)
 
 GENERATE_EICROOT_LIBRARY(eicbase eicbaseLinkDef.h)

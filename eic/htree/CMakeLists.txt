@@ -8,6 +8,7 @@ ${CMAKE_SOURCE_DIR}/field
 ${CMAKE_SOURCE_DIR}/PndTools/generalTools
 
 ${CMAKE_SOURCE_DIR}/eic/ayk
+${CMAKE_SOURCE_DIR}/eic/proto
 ${CMAKE_SOURCE_DIR}/eic/base
 ${CMAKE_SOURCE_DIR}/eic/field
 ${CMAKE_SOURCE_DIR}/eic/htc

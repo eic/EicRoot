@@ -109,6 +109,7 @@ if (DEFINED EICSMEAR)
 
   add_subdirectory(eic/event) 
 endif()
+add_subdirectory(eic/proto)
 add_subdirectory(eic/base)
 add_subdirectory(eic/field)
 if (DEFINED CAD2ROOT)

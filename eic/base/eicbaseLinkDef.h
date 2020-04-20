@@ -1,5 +1,4 @@
 
-
 #ifdef __CINT__
 
 #pragma link off all globals;
@@ -67,7 +66,6 @@
 
 #pragma link C++ class EicEventManager+;
 
-#pragma link C++ class EicProtoGenerator+;
 #pragma link C++ class EicBoxGenerator+;
 #pragma link C++ class EicAsciiBoxGenerator+;
 

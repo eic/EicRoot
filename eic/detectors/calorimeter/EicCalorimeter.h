@@ -13,7 +13,7 @@ class EicCalorimeter : public EicDetector {
 public:	
   EicCalorimeter() {};
 
- EicCalorimeter(const char *Name, char *geometryName, EicDetectorId dType, Bool_t Active  = kTRUE):
+ EicCalorimeter(const char *Name, const char *geometryName, EicDetectorId dType, Bool_t Active  = kTRUE):
   // Well, use qOneStepOneHit here; this should cost some CPU time, but is perhaps 
   // more "clean"; actually there should not be much of a problem to merge 
   // steps for a calorimeter device;
