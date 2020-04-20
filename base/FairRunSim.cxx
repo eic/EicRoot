@@ -236,15 +236,15 @@ void FairRunSim::SetMCConfig()
   /** Private method for setting simulation and/or Geane configuration and cuts*/
 
   TString work = getenv("VMCWORKDIR");
-  TString Lib_config= getenv("GEANT4VMC_MACRO_DIR");
+  //TString Lib_config= getenv("GEANT4VMC_MACRO_DIR");
   TString work_config=work+"/gconfig/";
   TString config_dir= getenv("CONFIG_DIR");
   Bool_t AbsPath=kFALSE;
   if (!config_dir.EndsWith("/")) { config_dir+="/"; }
-  if (!Lib_config.EndsWith("/")) { Lib_config+="/"; }
+  //if (!Lib_config.EndsWith("/")) { Lib_config+="/"; }
 
-  TString LibMacro;
-  TString LibFunction;
+  //TString LibMacro;
+  //TString LibFunction;
   TString ConfigMacro;
   TString cuts=fUserCuts;
 
@@ -252,7 +252,7 @@ void FairRunSim::SetMCConfig()
 
   //----------------------------------------------Geant4 Config-----------------------------------------
   if(strcmp(GetName(),"TGeant4") == 0 ) {
-    TString g4LibMacro="g4libs.C";
+    //TString g4LibMacro="g4libs.C";
     TString g4Macro;
     if(fUserConfig.IsNull()) {
       g4Macro="g4Config.C";
@@ -262,13 +262,13 @@ void FairRunSim::SetMCConfig()
       g4Macro = fUserConfig;
       fLogger->Info(MESSAGE_ORIGIN,"---------------User config is used : %s ",g4Macro.Data());
     }
-    if (TString(gSystem->FindFile(config_dir.Data(),g4LibMacro)) != TString("")) { //be carfull after this call the string g4LibMacro is empty if not found!!!!
-      fLogger->Info(MESSAGE_ORIGIN,"---User path for Configuration (g4libs.C) is used : %s" ,config_dir.Data());
-    } else {
-      g4LibMacro=Lib_config+"g4libs.C";
-    }
-    LibMacro=g4LibMacro;
-    LibFunction="g4libs()";
+    //if (TString(gSystem->FindFile(config_dir.Data(),g4LibMacro)) != TString("")) { //be carfull after this call the string g4LibMacro is empty if not found!!!!
+    //fLogger->Info(MESSAGE_ORIGIN,"---User path for Configuration (g4libs.C) is used : %s" ,config_dir.Data());
+    //} else {
+    //g4LibMacro=Lib_config+"g4libs.C";
+    //}
+    //LibMacro=g4LibMacro;
+    //LibFunction="g4libs()";
     if (!AbsPath && TString(gSystem->FindFile(config_dir.Data(),g4Macro)) != TString("")) {
       fLogger->Info(MESSAGE_ORIGIN,"---User path for Configuration (g4Config.C) is used : %s" , config_dir.Data());
       ConfigMacro=g4Macro;
@@ -279,7 +279,7 @@ void FairRunSim::SetMCConfig()
     //----------------------------------------------Geant3 Config-----------------------------------------
   } else if(strcmp(GetName(),"TGeant3") == 0 ) {
     //printf("FairRunSim::SetMCConfig() #3 ...\n");
-    TString g3LibMacro="g3libs.C";
+    //TString g3LibMacro="g3libs.C";
     TString g3Macro="g3Config.C";
     if(fUserConfig.IsNull()) {
       g3Macro="g3Config.C";
@@ -290,13 +290,13 @@ void FairRunSim::SetMCConfig()
       g3Macro = fUserConfig;
       fLogger->Info(MESSAGE_ORIGIN,"---------------User config is used :  ", g3Macro.Data());
     }
-    if (TString(gSystem->FindFile(config_dir.Data(),g3LibMacro)) != TString("")) {
-      fLogger->Info(MESSAGE_ORIGIN,"---User path for Configuration (g3libs.C) is used : %s " , config_dir.Data());
-    } else {
-      g3LibMacro=work_config+"g3libs.C";
-    }
-    LibMacro=g3LibMacro;
-    LibFunction="g3libs()";
+    //if (TString(gSystem->FindFile(config_dir.Data(),g3LibMacro)) != TString("")) {
+    // fLogger->Info(MESSAGE_ORIGIN,"---User path for Configuration (g3libs.C) is used : %s " , config_dir.Data());
+    //} else {
+    //g3LibMacro=work_config+"g3libs.C";
+    //}
+    //LibMacro=g3LibMacro;
+    //LibFunction="g3libs()";
     if (!AbsPath && TString(gSystem->FindFile(config_dir.Data(),g3Macro)) != TString("")) {
       fLogger->Info(MESSAGE_ORIGIN,"---User path for Configuration (g3Config.C) is used : %s", config_dir.Data());
       ConfigMacro=g3Macro;
@@ -309,7 +309,7 @@ void FairRunSim::SetMCConfig()
 
     //----------------------------------------------Fluka Config-----------------------------------------
   } else if(strcmp(GetName(),"TFluka") == 0 ) {
-    TString flLibMacro="fllibs.C";
+    //TString flLibMacro="fllibs.C";
     TString flMacro="flConfig.C";
     if(fUserConfig.IsNull()) {
       flMacro="flConfig.C";
@@ -319,13 +319,13 @@ void FairRunSim::SetMCConfig()
       flMacro = fUserConfig;
       fLogger->Info(MESSAGE_ORIGIN,"---------------User config is used : %s " , flMacro.Data());
     }
-    if (TString(gSystem->FindFile(config_dir.Data(), flLibMacro)) != TString("")) {
-      fLogger->Info(MESSAGE_ORIGIN,"---User path for Configuration (fllibs.C) is used : %s", config_dir.Data());
-    } else {
-      flLibMacro=work_config+"fllibs.C";
-    }
-    LibMacro=flLibMacro;
-    LibFunction="fllibs()";
+    //if (TString(gSystem->FindFile(config_dir.Data(), flLibMacro)) != TString("")) {
+    //fLogger->Info(MESSAGE_ORIGIN,"---User path for Configuration (fllibs.C) is used : %s", config_dir.Data());
+    //} else {
+    //flLibMacro=work_config+"fllibs.C";
+    //}
+    //LibMacro=flLibMacro;
+    //LibFunction="fllibs()";
     if (!AbsPath && TString(gSystem->FindFile(config_dir.Data(),flMacro)) != TString("")) {
       fLogger->Info(MESSAGE_ORIGIN, "---User path for Configuration (flConfig.C) is used : %s",  config_dir.Data());
       ConfigMacro=flMacro;
@@ -343,9 +343,9 @@ void FairRunSim::SetMCConfig()
   }
   //printf("FairRunSim::SetMCConfig() #6a ...\n");
   //--------------------------------------Now load the Config and Cuts------------------------------------
-  gROOT->LoadMacro(LibMacro.Data());
+  //gROOT->LoadMacro(LibMacro.Data());
   //printf("FairRunSim::SetMCConfig() #6b ...\n");
-  gROOT->ProcessLine(LibFunction.Data());
+  //gROOT->ProcessLine(LibFunction.Data());
   //printf("FairRunSim::SetMCConfig() #6c ...\n");
 
   gROOT->LoadMacro(ConfigMacro.Data());

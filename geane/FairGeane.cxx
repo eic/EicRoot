@@ -58,8 +58,8 @@ InitStatus FairGeane::Init()
 
   cout <<  "------------------------FairGeane::Init ()------------------------------" << endl;
 
-  TString LibMacro;
-  TString LibFunction;
+  //TString LibMacro;
+  //TString LibFunction;
   TString ConfigMacro;
   TString cuts=fUserCuts;
   if(cuts== TString("")) { cuts="SetCuts.C"; }
@@ -71,7 +71,7 @@ InitStatus FairGeane::Init()
   if (!config_dir.EndsWith("/")) { config_dir+="/"; }
 
 
-  TString geaneLibMacro="g3libs.C";
+  //TString geaneLibMacro="g3libs.C";
   TString geaneMacro;
   if(fUserConfig.IsNull()) {
     geaneMacro="Geane.C";
@@ -81,13 +81,13 @@ InitStatus FairGeane::Init()
     geaneMacro = fUserConfig;
     cout << "---------------User config is used :  " << geaneMacro.Data() <<"-----------------"<< endl;
   }
-  if (TString(gSystem->FindFile(config_dir.Data(),geaneLibMacro)) != TString("")) {
-    cout << "---User path for Configuration (g3libs.C) is used : " <<  config_dir.Data() << endl;
-  } else {
-    geaneLibMacro=work_config+"g3libs.C";
-  }
-  LibMacro=geaneLibMacro;
-  LibFunction="g3libs()";
+  //if (TString(gSystem->FindFile(config_dir.Data(),geaneLibMacro)) != TString("")) {
+  //cout << "---User path for Configuration (g3libs.C) is used : " <<  config_dir.Data() << endl;
+  //} else {
+  //geaneLibMacro=work_config+"g3libs.C";
+  //}
+  //LibMacro=geaneLibMacro;
+  //LibFunction="g3libs()";
 
   if (!AbsPath && TString(gSystem->FindFile(config_dir.Data(),geaneMacro)) != TString("")) {
     cout << "---User path for Configuration (Geane.C) is used : " <<  config_dir.Data() << endl;
@@ -103,14 +103,15 @@ InitStatus FairGeane::Init()
     cuts =work_config+ "SetCuts.C";
   }
 
-  gROOT->LoadMacro(LibMacro.Data());
-  gROOT->ProcessLine(LibFunction.Data());
+  //gROOT->LoadMacro(LibMacro.Data());
+  //gROOT->ProcessLine(LibFunction.Data());
 
   gROOT->LoadMacro(ConfigMacro.Data());
   gROOT->ProcessLine("Config()");
 
-  //gROOT->LoadMacro(cuts);
-  //gROOT->ProcessLine("SetCuts()");
+  // Hmm, these two lines were commented out (Jana issues?); 
+  gROOT->LoadMacro(cuts);
+  gROOT->ProcessLine("SetCuts()");
 
   FairField* field=FairRunAna::Instance()->GetField();
   field->Print();
