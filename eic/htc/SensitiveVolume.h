@@ -31,9 +31,25 @@ class KalmanNodeWrapper {
       //TGeoMatrix *m1 = new TGeoMatrix(), m2;
     //}
     //assert(0);
-    mNodeToMaster = new TGeoHMatrix(kftmpl->mNodeToSensitiveVolume ? 
-    				    (*sv2master) * (*kftmpl->mNodeToSensitiveVolume) : 
-    				    *sv2master);
+    //mNodeToMaster = new TGeoHMatrix(kftmpl->mNodeToSensitiveVolume ? 
+    //				    (*sv2master) * (*kftmpl->mNodeToSensitiveVolume) : 
+    //				    *sv2master);
+    //mNodeToMaster = new TGeoHMatrix(kftmpl->mNodeToSensitiveVolume ? 
+    //				    (*(new TGeoHMatrix(*sv2master))) * (*kftmpl->mNodeToSensitiveVolume) : 
+    //				    *sv2master);
+    //if (kftmpl->mNodeToSensitiveVolume)
+    //mNodeToMaster = new TGeoHMatrix(TGeoHMatrix(*sv2master) * (*kftmpl->mNodeToSensitiveVolume));
+    //else
+    //mNodeToMaster = new TGeoHMatrix(*sv2master);
+
+    mNodeToMaster = kftmpl->mNodeToSensitiveVolume ? 
+      new TGeoHMatrix(TGeoHMatrix(*sv2master) * (*kftmpl->mNodeToSensitiveVolume)) :
+      new TGeoHMatrix(*sv2master);
+    //else
+      
+
+    //(*sv2master) * (*kftmpl->mNodeToSensitiveVolume) : 
+    //				    *sv2master);
 #else
     mNodeToMaster = new TGeoHMatrix(kftmpl->mNodeToSensitiveVolume ? 
     				    (*kftmpl->mNodeToSensitiveVolume) * (*sv2master) : 
