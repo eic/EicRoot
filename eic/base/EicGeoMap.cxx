@@ -20,12 +20,15 @@ int EicGeoMap::CalculateBitPattern()
 
     if (!lptr->mMaxEntryNum) continue;
 
+    //printf("--> %d\n", lptr->mMaxEntryNum);
     EicBitMask<UGeantIndex_t> *mask = lptr->mBitMask = new EicBitMask<UGeantIndex_t>(lptr->mMaxEntryNum);
 
     // Setting shift on "empty" (ignored) levels will not hurt;
     mask->SetShift(accu);
     accu += mask->GetBitNum();
   } //for lv
+
+  //printf("%d\n", accu);
 
   if (accu > _GEANT_INDEX_BIT_NUM_) {
     printf("-E- EicGeoMap::CalculateBitPattern(): bit pattern can not handle more "

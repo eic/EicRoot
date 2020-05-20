@@ -263,7 +263,7 @@ FairLogLevel FairLogger::ConvertToLogLevel(const char* levelc) const
   if (level == "DEBUG2") { return DEBUG2; }
   if (level == "DEBUG3") { return DEBUG3; }
   if (level == "DEBUG4") { return DEBUG4; }
-  LOG(ERROR)<<"Log level \""<<level<<"\" not supported. Use default level \"INFO\"."<<FairLogger::endl;
+  FAIRLOG(ERROR)<<"Log level \""<<level<<"\" not supported. Use default level \"INFO\"."<<FairLogger::endl;
   return INFO;
 }
 
@@ -277,7 +277,7 @@ FairLogVerbosityLevel FairLogger::ConvertToLogVerbosityLevel(const char* vlevelc
   if (vlevel == "HIGH") { return verbosityHIGH; }
   if (vlevel == "MEDIUM") { return verbosityMEDIUM; }
   if (vlevel == "LOW") { return verbosityLOW; }
-  LOG(ERROR)<<"Verbosity level \""<<vlevel<<"\" not supported. Use default level \"LOW\"."<<FairLogger::endl;
+  FAIRLOG(ERROR)<<"Verbosity level \""<<vlevel<<"\" not supported. Use default level \"LOW\"."<<FairLogger::endl;
   return verbosityLOW;
 }
 

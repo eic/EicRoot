@@ -25,7 +25,7 @@ void vtx_builder()
   // Layer installation radii, number of staves per layer; 
   double     radius[_LAYER_NUM_] = { 4.0, 6.0, 8.0, 10.0};
   unsigned staveNum[_LAYER_NUM_] = {  26,  39,  52,   65};
-  unsigned staveNumMax = staveNum[_LAYER_NUM_-1], staveNumSum;
+  unsigned staveNumMax = staveNum[_LAYER_NUM_-1], staveNumSum = 0;
 
   // Silicon chip size;
   double chipWidth               =  1.000;
@@ -86,7 +86,8 @@ void vtx_builder()
     // Loop through all the staves in this layer;
     for(unsigned istave=0; istave<staveNum[ilayer]; istave++) {
       // Loop through all chips in this stave and add mapping table entry for each of them;
-      for(int ichip=0; ichip<chipsPerStave; ichip++) { 
+      //for(int ichip=0; ichip<chipsPerStave; ichip++) { 
+      for(unsigned ichip=0; ichip<chipsPerStave; ichip++) { 
 	// So GEANT indices (copy numbers) [chip,stave] are mapped onto 3D logical 
 	// indices [layer,stave,chip]; 
 	UInt_t geant[2] = {ichip, staveCounter}, logical[3] = {ilayer, istave, ichip};

@@ -13,10 +13,10 @@
 #define CONVERTTOSTRING(s)      IMP_CONVERTTOSTRING(s)
 #define MESSAGE_ORIGIN          __FILE__, CONVERTTOSTRING(__LINE__), __FUNCTION__
 
-#define LOG(level)        \
+#define FAIRLOG(level)        \
   !(gLogger->IsLogNeeded(level)) ? gLogger->GetNullStream(level) : gLogger->GetOutputStream(level, MESSAGE_ORIGIN)
 
-#define LOG_IF(level, condition) \
+#define FAIRLOG_IF(level, condition) \
   !(condition) ? gLogger->GetNullStream(level) : LOG(level)
 
 #include "Rtypes.h"

@@ -13,7 +13,7 @@ MACRO (WRITE_CONFIG_FILE filename)
   # Start with the existing LD_LIBRARY_PATH; add whatever needed; remove duplicates;
   SET( LD_LIBRARY_PATH ${CMAKE_BINARY_DIR}/lib:$ENV{LD_LIBRARY_PATH} )
   if (DEFINED G3VMC)
-    SET( LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:${G3VMC}/lib64 )
+    SET( LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:${G3VMC}/lib64:${G3VMC}/lib )
   endif()
   if (DEFINED G4VMC)
     SET( LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:${G4VMC}/lib64 )

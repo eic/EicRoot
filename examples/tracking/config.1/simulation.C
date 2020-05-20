@@ -5,7 +5,7 @@
 
 void simulation(Int_t nEvents  = 1000)
 {
-  // Create the simulation run manager; 
+  // Create the simulation run manager; either "TGeant3" or "TGeant4";
   auto fRun = new EicRunSim("TGeant3");
   fRun->SetOutputFile("simulation.root");
 

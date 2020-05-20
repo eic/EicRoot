@@ -1,21 +1,39 @@
+# ----------------------------------------------------------------------------------------------
 #
-# cmake -DCMAKE_INSTALL_PREFIX=. -Wno-dev -DG3VMC=/scratch -DEICSMEAR=/scratch -DG4VMC=/scratch ..
+#    A minimal installation in the current 'build' directory; be aware that either GEANT3-VMC
+#  or GEANT4-VMC are needed to actually run any simulation scripts;
+#
+# cmake -DCMAKE_INSTALL_PREFIX=. -Wno-dev ..
+#
+#  cmake options:
 #
 # -DCAD2ROOT=yes
 # -DHTC=yes
 #
-# -DJANA=/scratch/JANA2/Linux_CentOS7-x86_64-gcc4.8.5 ..
+# -DG3VMC=<path-to-geant3-vmc-installation>
+# -DG4VMC=<path-to-geant4-vmc-installation>
+# -DEICSMEAR=<path-to-eic-smear-installation>
+# -DJANA=<path-to-jana-installation>
+#
+# ----------------------------------------------------------------------------------------------
 #
 #   It is assumed that ROOT, GEANT4, GEANT3, VMC(G4) are pre-installed, and also 
-# that respective thisroot.sh and geant4.sh files are sources, like
+# that respective thisroot.sh and geant4.sh files are sourced, like
 #
-# . /scratch/root-6.14.00.binary/bin/thisroot.sh
+# . /scratch/root-6.20.04.install/bin/thisroot.sh
 # . /scratch/geant4.10.05.p01.build/bin/geant4.sh 
 #
-#   Legacy and expert stuff;
+# ----------------------------------------------------------------------------------------------
+#
+#   Legacy, examples and expert stuff;
+#
 # -DCMAKE_C_COMPILER=/DATA00/ayk/local/bin/gcc -DCMAKE_CXX_COMPILER=/DATA00/ayk/local/bin/g++ 
 # -DOPENCASCADE=/DATA00/ayk/oce/install
+# -DJANA=/scratch/JANA2/Linux_CentOS7-x86_64-gcc4.8.5 ..
 #
+# cmake -DCMAKE_INSTALL_PREFIX=. -Wno-dev -DG3VMC=/scratch -DEICSMEAR=/scratch -DG4VMC=/scratch ..
+#
+# ----------------------------------------------------------------------------------------------
 
 PROJECT(EICROOT)
 
