@@ -1,9 +1,12 @@
-# EicRoot
 
-  EIC detector simulation software based on the FairRoot framework.
+  EicRoot is a light-weight GEANT detector simulation software suite based on the FairRoot framework.
 
-Docker container
-================
+  This README helps experts who are familiar with the older EicRoot Docker container (r940)
+to re-create the same working environment.
+
+
+EicRoot in a Docker container
+=============================
 
   Connection to the container instance through SSH connection will be shown.
 
@@ -20,13 +23,12 @@ Docker container
 
   Use an additional key like '-v <my-scratch-directory>:/scratch:z' to the 'docker run' command below.
 
-  <my-scratch-directory> will be accessible as /scratch in the container.
+  '<my-scratch-directory>' will be accessible as /scratch in the container.
 
   Now run the container:
 
 ```
 docker run -it -p 127.0.0.1:5555:22 -t ayk1964/eicroot-yr:v04
-  
 ```
 
   This command also gives root access to the running container. Ctrl-D in this window 
@@ -37,6 +39,12 @@ stops the container (and terminates all the connected SSH processes).
 ```
 ssh -Y eic@127.0.0.1 -p 5555 # pwd 'test'
 
+```
+
+  Now once you are in the running container virtual machine, execute the following 
+example sequence of commands:
+
+```
 # Set up the environment;
 cd /container/app
 . root-v6.14.00.binary/bin/thisroot.sh
@@ -81,7 +89,7 @@ install G4 VMC, like version geant4_vmc.4.0.p1 .
 
 In order to use GEANT3 one has to intall a recent G3 VMC (like geant3+_vmc.2.7).
 
-In order to use eic-smear (for instance to import either ASCII or ROOT files with 
+In order to use eic-smear (for instance be able to import either ASCII or ROOT files with 
 the simulated events) one has to install this package, obviously.
 
 Dockerfile contains enough information for an expert to install these packages.
@@ -89,8 +97,10 @@ Dockerfile contains enough information for an expert to install these packages.
 Important: different to the older EicRoot r940 Docker container it is assumed that the 
 environmet setup steps are performed "by hand", like
  
+```
 . root-v6.14.00.binary/bin/thisroot.sh
 . geant4.10.05.p01.build/bin/geant4.sh
+```
 
 Compiling
 ---------
