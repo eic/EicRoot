@@ -20,11 +20,12 @@ EicRoot in a Docker container
 it first like shown below ('eic' user in the container has UID and GUI 11111)
 
 ```
-    mkdir <my-scratch-directory>
+    mkdir <my-scratch-directory> # no brackets in the actual command of course
     chown 11111.11111 <my-scratch-directory> # this is currently required under Linux
 ```
 
-, and use an additional key like '-v <my-scratch-directory>:/scratch:z' to the 'docker run' command below. '<my-scratch-directory>' will be accessible as /scratch in the container.
+, and use an additional key like '-v <my-scratch-directory>:/scratch:z' to the 'docker run' command below. 
+'my-scratch-directory' will be accessible as /scratch in the container.
 
   Now run the container:
 
@@ -112,4 +113,4 @@ See EicRoot CMakeLists.txt file and the Dockerfile.
 
 More detailed instructions will follow soon.
 
-Also /container/app/EicRoot/Dockerfile will be uploaded to a public repository soon. 
+Also /container/app/EicRoot/Dockerfile will be uploaded to a public repository. 
