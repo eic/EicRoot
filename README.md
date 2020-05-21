@@ -2,7 +2,9 @@
   EicRoot is a light-weight GEANT detector simulation software suite based on the FairRoot framework.
 
   This README helps experts who are familiar with the older EicRoot Docker container (r940)
-to re-create the same working environment.
+to re-create the same working environment under the newer software version. Certain changes to 
+the scripts may become needed, since the suite now uses ROOT6 with a more strict syntax
+rules compared to the previous version, which only worked stable with ROOT5.
 
 
 EicRoot in a Docker container
@@ -14,16 +16,15 @@ EicRoot in a Docker container
 
   Choose a free port on your computer (5555 in the below example).
 
-  In order to mount a local directory <my-scratch-directory> from inside the container:
+  In order to mount a local directory <my-scratch-directory> from inside the container, create
+it first like shown below ('eic' user in the container has UID and GUI 11111)
 
 ```
     mkdir <my-scratch-directory>
     chown 11111.11111 <my-scratch-directory> # this is currently required under Linux
 ```
 
-  Use an additional key like '-v <my-scratch-directory>:/scratch:z' to the 'docker run' command below.
-
-  '<my-scratch-directory>' will be accessible as /scratch in the container.
+, and use an additional key like '-v <my-scratch-directory>:/scratch:z' to the 'docker run' command below. '<my-scratch-directory>' will be accessible as /scratch in the container.
 
   Now run the container:
 
@@ -32,7 +33,7 @@ docker run -it -p 127.0.0.1:5555:22 -t ayk1964/eicroot-yr:v04
 ```
 
   This command also gives root access to the running container. Ctrl-D in this window 
-stops the container (and terminates all the connected SSH processes).
+stops the container (and terminates all the connected SSH processes!).
 
   Open a different terminal on your local host system, and connect to the container:
 
@@ -55,7 +56,7 @@ cd /container/app
 cd EicRoot/examples/tracking/config.1
 
 # From this point on the situation is similar to what is was in the old eicroot:r940;
-# ignore eic-smear-related warnings and Error in <TList::Clear>, those will be 
+# ignore eic-smear-related warnings and 'Error in <TList::Clear>'. Those will be 
 # cleaned up in the nearest future;
 root -l tracker.C
 root -l simulation.C
@@ -75,24 +76,26 @@ Local installation
 ==================
 
   One needs a reasonable base installation (like an older CERN CC7), with additional 
-packages described in the Dockerfile. 
+packages described in the /container/app/EicRoot/Dockerfile. Partial success was reported with the Ubuntu-based 
+'escalate' container. Stay tuned.
 
 
 Pre-requisites
 --------------
 
-Any modern ROOT version (6.14.00 as included in the Docker container certainly works; 
-6.20.04 was shown to work either).
+Any modern ROOT version (6.14.00 as included in the Docker container introduced 
+earlier certainly works; 6.20.04 under CC7 base installation was shown to work either).
 
-GEANT4 version geant4.10.05.p01 is known to work. In order to use it one needs to 
+GEANT4 version geant4.10.05.p01 is known to work. In order to use it, one needs to 
 install G4 VMC, like version geant4_vmc.4.0.p1 .
 
-In order to use GEANT3 one has to intall a recent G3 VMC (like geant3+_vmc.2.7).
+In order to use GEANT3 one has to install a recent G3 VMC (like geant3+_vmc.2.7).
 
 In order to use eic-smear (for instance be able to import either ASCII or ROOT files with 
 the simulated events) one has to install this package, obviously.
 
-Dockerfile contains enough information for an expert to install these packages.
+/container/app/EicRoot/Dockerfile in the Docker image contains enough information for an 
+expert to install these packages. 
 
 Important: different to the older EicRoot r940 Docker container it is assumed that the 
 environmet setup steps are performed "by hand", like
@@ -102,8 +105,11 @@ environmet setup steps are performed "by hand", like
 . geant4.10.05.p01.build/bin/geant4.sh
 ```
 
-Compiling
----------
+Compiling EicRoot
+-----------------
 
-See CMakeLists.txt file. More detailed instructions will follow soon.
+See EicRoot CMakeLists.txt file and the Dockerfile. 
 
+More detailed instructions will follow soon.
+
+Also /container/app/EicRoot/Dockerfile will be uploaded to a public repository soon. 
