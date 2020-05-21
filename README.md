@@ -16,21 +16,22 @@ EicRoot in a Docker container
 
   Choose a free port on your computer (5555 in the below example).
 
-  In order to mount a local directory <my-scratch-directory> from inside the container, create
-it first like shown below ('eic' user in the container has UID and GUI 11111)
+  In order to mount a local directory 'full-path-to-my-scratch-directory;' from inside the 
+container, create it first like shown below ('eic' user in the container has UID and GUI 11111)
 
 ```
-    mkdir <my-scratch-directory> # no brackets in the actual command of course
-    chown 11111.11111 <my-scratch-directory> # this is currently required under Linux
+    mkdir full-path-to-my-scratch-directory 
+    chown 11111.11111 full-path-to-my-scratch-directory # this is currently required under Linux
 ```
 
-, and use an additional key like '-v <my-scratch-directory>:/scratch:z' to the 'docker run' command below. 
-'my-scratch-directory' will be accessible as /scratch in the container.
+, and use an additional key like '-v full-path-to-my-scratch-directory:/scratch:z' to the 
+'docker run' command below. 'full-path-to-my-scratch-directory' will be accessible as /scratch 
+in the container.
 
   Now run the container:
 
 ```
-docker run -it -p 127.0.0.1:5555:22 -t ayk1964/eicroot-yr:v04
+docker run -it -p 127.0.0.1:5555:22 -t ayk1964/eicroot-yr:v06
 ```
 
   This command also gives root access to the running container. Ctrl-D in this window 
